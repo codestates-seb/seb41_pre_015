@@ -1,6 +1,6 @@
 package com.preproject.backend.answer.entity;
 
-import com.preproject.backend.answer.audit.Auditable;
+import com.preproject.backend.audit.Auditable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
