@@ -21,10 +21,6 @@ public class QuestionDto {
 		@NotBlank(message = "내용은 공백이 아니어야 합니다.")
 		private String content;
 
-		private int score;
-
-		private Question.QuestionStatus questionStatus;
-
 		//Private List<Tag> tags;
 
 	}
@@ -34,7 +30,7 @@ public class QuestionDto {
 	@Setter
 	@AllArgsConstructor
 	public static class Patch {
-		private Long Id;
+		private Long id;
 		@NotBlank(message = "제목은 공백이 아니어야 합니다.")
 		private String title;
 
@@ -46,12 +42,15 @@ public class QuestionDto {
 	@Getter
 	@AllArgsConstructor
 	public static class Response {
-		private Long Id;
+		private Long id;
 		private String title;
 		private String content;
-		private Question.QuestionStatus questionStatus;
 		private LocalDateTime createdAt;
 		private LocalDateTime modifiedAt;
+		private Question.QuestionStatus questionStatus;
 
+		public String getQuestionStatus() {
+			return questionStatus.getStatus();
+		}
 	}
 }
