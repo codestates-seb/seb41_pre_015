@@ -3,22 +3,21 @@ package com.preproject.backend.answer.dto;
 import com.preproject.backend.answer.entity.Answer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
+
+import javax.validation.constraints.NotBlank;
 
 public class AnswerDto {
     @Getter
-    @AllArgsConstructor
     public static class Post {
+        @NotBlank(message = "내용은 공백이 아니어야 합니다.")
         private String content;
-
-        public Post() {
-        }
     }
 
     @Getter
     @AllArgsConstructor
     public static class Patch {
         private Long id;
+        @NotBlank(message = "내용은 공백이 아니어야 합니다.")
         private String content;
         private Answer.AnswerStatus answerStatus;
 
