@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import slogo from '../images/small-logo.png';
+import slogo from '../../images/small-logo.png';
 import { FcGoogle } from 'react-icons/fc';
 import { BsGithub } from 'react-icons/bs';
 import { AiFillFacebook } from 'react-icons/ai';

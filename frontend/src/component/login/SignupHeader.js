@@ -1,4 +1,4 @@
-import logo from '../images/logo-stackoverflow.png';
+import logo from '../../images/logo-stackoverflow.png';
 import styled from 'styled-components';
 import { BsSearch } from 'react-icons/bs';
 
@@ -37,15 +37,16 @@ const Sheader = styled.div`
   height: 100%;
 `;
 
-const SmypageButton = styled.button`
-  background-color: gray;
+const SLoginButton = styled.button`
+  background-color: #e1ecf4;
   margin: 0 10px;
   cursor: pointer;
   padding: 10px 3px;
   color: white;
   font-weight: 550;
   border-radius: 5px;
-  border-color: gray;
+  color: #39739d;
+  border-color: #39739d;
   border-width: 1px;
 `;
 const SLogoutButton = styled.button`
@@ -59,7 +60,7 @@ const SLogoutButton = styled.button`
   border-width: 1px;
 `;
 
-const LoginHeader = () => {
+const SignupHeader = () => {
   return (
     <Sheader className="header-container">
       <SLogo src={logo} alt="logo" />
@@ -67,10 +68,10 @@ const LoginHeader = () => {
         <BsSearch></BsSearch>
         <Sinput placeholder="search"></Sinput>
       </Sform>
-      <SmypageButton>My page</SmypageButton>
-      <SLogoutButton>Log out</SLogoutButton>
+      <SLoginButton>Log in</SLoginButton>
+      <SLogoutButton>Sign up</SLogoutButton>
     </Sheader>
   );
 };
 
-export default LoginHeader;
+export default SignupHeader;
