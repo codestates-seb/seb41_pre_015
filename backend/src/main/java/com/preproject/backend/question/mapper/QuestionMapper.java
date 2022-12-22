@@ -1,5 +1,7 @@
 package com.preproject.backend.question.mapper;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -13,4 +15,6 @@ public interface QuestionMapper {
 	Question questionPatchDtoToQuestion(QuestionDto.Patch questionPatchDto);
 
 	QuestionDto.Response questionToQuestionResponseDto(Question question);
+
+	List<QuestionDto.Response> questionToQuestionResponseDtos(List<Question> questions);
 }
