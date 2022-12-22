@@ -59,7 +59,7 @@ const SLogoutButton = styled.button`
   border-width: 1px;
 `;
 
-const Header = () => {
+const LoginHeader = () => {
   return (
     <Sheader className="header-container">
       <SLogo src={logo} alt="logo" />
@@ -73,4 +73,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default LoginHeader;
