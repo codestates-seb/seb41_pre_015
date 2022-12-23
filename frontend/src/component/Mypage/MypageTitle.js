@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 /* eslint-disable jsx-a11y/alt-text */
 // import React from 'react';
+=======
+>>>>>>> d453e27082a089ed9b5c0bfae3306b3259e698e3
 import styled from 'styled-components';
 
 const MypageTitle = () => {
@@ -7,6 +10,7 @@ const MypageTitle = () => {
     <MypageHeaderContainer>
       <div className="mypage_header">
         <div className="user_profile_img">
+<<<<<<< HEAD
           <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FekfshA%2FbtqUnKjFURC%2FAK2XK3NwkQZCHjNKBOPz00%2Fimg.jpg" />
         </div>
         <div className="user_profile_info">
@@ -14,6 +18,16 @@ const MypageTitle = () => {
             <h2 className="userName" style={{ fontWeight: 'bold' }}>
               이지은 (Lee ji eun)
             </h2>
+=======
+          <img
+            src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FekfshA%2FbtqUnKjFURC%2FAK2XK3NwkQZCHjNKBOPz00%2Fimg.jpg"
+            alt=" "
+          />
+        </div>
+        <div className="user_profile_info">
+          <div>
+            <h1 className="userName">이지은 (Lee ji eun)</h1>
+>>>>>>> d453e27082a089ed9b5c0bfae3306b3259e698e3
           </div>
           <ul className="user_profile_memo">
             <li>Member for 4 months </li>
