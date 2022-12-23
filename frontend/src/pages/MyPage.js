@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import MypageMain from '../component/MypageMain'
-import MypageTitle from '../component/MypageTitle'
-import MypageStats from '../component/MypageStats'
+import MypageMain from '../component/Mypage/MypageMain'
+import MypageTitle from '../component/Mypage/MypageTitle'
+import MypageStats from '../component/Mypage/MypageStats'
 
 const MyPage = () => {
     return (
