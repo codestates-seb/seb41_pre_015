@@ -85,7 +85,9 @@ public class QuestionController {
 
 	// 하나의 질문 삭제
 	@DeleteMapping("/{question-id}")
-	public ResponseEntity deleteQuestion(@PathVariable("question-id") long id) {
+	public ResponseEntity deleteQuestion(@PathVariable("question-id") Long id) {
+
+		questionService.deleteQuestion(id);
 
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
@@ -94,6 +96,8 @@ public class QuestionController {
 	@DeleteMapping
 	public ResponseEntity deleteQuestions(Question question) {
 
+		questionService.deleteQuestions(question);
+		
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }
