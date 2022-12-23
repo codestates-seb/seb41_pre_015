@@ -1,4 +1,4 @@
-import logo from '../images/logo-stackoverflow.png';
+import logo from '../../images/logo-stackoverflow.png';
 import styled from 'styled-components';
 import { BsSearch } from 'react-icons/bs';
 
