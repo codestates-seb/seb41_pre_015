@@ -1,5 +1,5 @@
-import LoginForm from '../component/LoginForm';
-import SignupHeader from '../component/SignupHeader';
+import LoginForm from '../component/login/LoginForm';
+import SignupHeader from '../component/login/SignupHeader';
 
 const LoginPage = () => {
   return (
