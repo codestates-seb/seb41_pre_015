@@ -1,6 +1,5 @@
-package com.preproject.backend.answer.dto;
+package com.preproject.backend.comment.dto;
 
-import com.preproject.backend.answer.entity.Answer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -8,44 +7,42 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 
-public class AnswerDto {
+public class QuestionCommentDto {
+
     @Getter
     public static class Post {
-        @NotBlank(message = "내용은 공백이 아니어야 합니다.")
+        @NotBlank
         private String content;
 
         @Positive
         @NotBlank
-        private long memberId;
+        private long questionId;
 
         @Positive
         @NotBlank
-        private long questionId;
+        private long memberId;
     }
 
     @Getter
     @AllArgsConstructor
     public static class Patch {
-        private Long id;
+        private long id;
+
         @NotBlank(message = "내용은 공백이 아니어야 합니다.")
         private String content;
-        private Answer.AnswerStatus answerStatus;
 
-        public void setId(Long id) {
+        public void setId(long id) {
             this.id = id;
         }
-
     }
 
     @Getter
     @AllArgsConstructor
     public static class Response {
         private long id;
-        private long memberId;
         private long questionId;
+        private long memberId;
         private String content;
-        private int score;
-        private Answer.AnswerStatus answerStatus;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
     }
