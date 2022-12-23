@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 public class AnswerDto {
     @Getter
@@ -34,5 +35,7 @@ public class AnswerDto {
         private String content;
         private int score;
         private Answer.AnswerStatus answerStatus;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
     }
 }

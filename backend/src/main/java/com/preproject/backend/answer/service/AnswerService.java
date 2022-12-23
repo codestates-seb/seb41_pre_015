@@ -10,9 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-/**
- * exception 패키지 필요
- */
 @Service
 public class AnswerService {
 
@@ -39,11 +36,14 @@ public class AnswerService {
     }
 
     public Page<Answer> findAnswers(int page, int size) {
-        return answerRepository.findAll(PageRequest.of(page,size));
+        return answerRepository.findAll(PageRequest.of(page,size,
+                Sort.by("id").descending()));
     }
 
     public void deleteAnswer(long id) {
-        answerRepository.deleteById(id);
+        Answer verifiedAnswer = findVerifiedAnswer(id);
+
+        answerRepository.delete(verifiedAnswer);
     }
 
 
@@ -52,7 +52,7 @@ public class AnswerService {
                 answerRepository.findById(id);
         Answer verifiedAnswer =
                 optionalAnswer.orElseThrow(() ->
-                        new RuntimeException("Answer Not Found"));
+                        new RuntimeException("Answer Not Found")); //리펙토링 필요
         return verifiedAnswer;
     }
 }
