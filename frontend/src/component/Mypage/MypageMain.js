@@ -140,7 +140,7 @@ const MypageMainContainer = styled.div`
         }
 
         .ans_que_group {
-            margin: 20px 0px 0px 20px;
+            margin: 20px 0px 0px 50px;
         }
 
         .user_about_box {
@@ -150,7 +150,7 @@ const MypageMainContainer = styled.div`
             align-items: center;
             border: 1px solid gray;
             border-radius: 10px;
-            width: 750px;
+            width: 700px;
             height: 200px;
         }
 
@@ -190,7 +190,7 @@ const MypageMainContainer = styled.div`
             display: flex;
             flex-direction: column;
             background-color: aliceblue;
-            width: 380px;
+            width: 350px;
             height: 150px;
             justify-content: center;
             align-items: center;
@@ -205,18 +205,18 @@ const MypageMainContainer = styled.div`
 
         .user_question_box,
         .user_question_group {
-            margin-left: 40px;
+            margin-left: 20px;
         }
 
         .ans {
             margin-right: 20px;
         }
         .b1 {
-            margin-left: 75px;
+            margin-left: 50px;
         }
 
         .user_bookmark {
-            margin: 40px 0px 0px 30px;
+            margin: 40px 0px 0px 50px;
         }
     }
 `

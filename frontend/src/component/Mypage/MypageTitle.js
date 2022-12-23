@@ -10,7 +10,9 @@ const MypageTitle = () => {
                 </div>
                 <div className="user_profile_info">
                     <div>
-                        <h1 className="userName">이지은 (Lee ji eun)</h1>
+                        <h2 className="userName" style={{ fontWeight: 'bold' }}>
+                            이지은 (Lee ji eun)
+                        </h2>
                     </div>
                     <ul className="user_profile_memo">
                         <li>Member for 4 months </li>
