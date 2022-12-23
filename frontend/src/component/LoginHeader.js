@@ -35,6 +35,13 @@ const Sheader = styled.div`
   justify-content: center;
   margin: 10px 20px;
   height: 100%;
+
+  /* display: flex;
+  flex-direction: row;
+  max-width: 100%;
+  align-items: center;
+  justify-content: center;
+  width: 100%; */
 `;
 
 const SmypageButton = styled.button`
