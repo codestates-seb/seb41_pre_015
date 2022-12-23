@@ -1,7 +1,5 @@
 package com.preproject.backend.question.entity;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -43,12 +41,9 @@ public class Question extends Auditable {
 	@Column(nullable = false)
 	private QuestionStatus questionStatus = QuestionStatus.UNRESOLVED;
 
-	private LocalDateTime createdAt = LocalDateTime.now();
-	private LocalDateTime modifiedAt = LocalDateTime.now();
-
 	// 질문 ~ 회원
 	@ManyToOne
-	@JoinColumn(name = "member-id")
+	@JoinColumn(name = "member_id")
 	Member member;
 
 	public enum QuestionStatus {
