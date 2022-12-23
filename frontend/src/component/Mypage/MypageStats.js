@@ -17,7 +17,7 @@ export default MypageStats
 const MypagestatsContainer = styled.div`
     .user_stats_box {
         background-color: white;
-        border: 1px solid grey;
+        border: 1px solid gray;
         border-radius: 5px;
         width: 300px;
         height: 150px;

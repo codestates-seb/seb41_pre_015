@@ -43,7 +43,7 @@ const MypageContainer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin: 40px 0px 0px 20px;
+    margin: 40px 0px 0px 50px;
 
     .MypagebottomContainer {
         margin-top: 40px;
