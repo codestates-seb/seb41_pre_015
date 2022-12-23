@@ -2,10 +2,14 @@ package com.preproject.backend.member.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.preproject.backend.member.entity.Member;
 
+import com.preproject.backend.validator.NotOnlySpace;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,17 +19,24 @@ public class MemberDto {
 	@Getter
 	@AllArgsConstructor
 	public static class Post {
-		//TODO 이름 검증 정규식
-		@NotBlank
+
+		@NotNull
+		@Size(max = 12)
+		@Pattern(regexp = "^[a-zA-Zㄱ-힣]+$",
+				message = "최소 1자 이상이어야 하며, 특수문자 및 공백은 포함될 수 없습니다.")
 		private String name;
 
 		@Email
 		@NotBlank
 		private String email;
 
-		//TODO 비밀번호 정규식
-		@NotBlank
-		@Size(max = 16)
+
+		@NotNull
+		@Pattern(regexp ="^(?=.*\\d)(?=.*[a-zA-Z])(?=.*[~!@#$%^&*])[\\da-zA-Z~!@#$%^&*]+$",
+		message = "영문자와 숫자로 구성되며 최소 하나 이상의 특수문자(~!@#$%^&*)가 포함되어야합니다. "+
+				"공백은 포함될 수 없습니다")
+		@Size(min = 8, max = 16,
+		message = "최소 8자 이상, 최대 16자 이하여야 합니다.")
 		private String password;
 	}
 
@@ -35,14 +46,20 @@ public class MemberDto {
 		@Setter
 		private Long id;
 
-		//TODO 이름 검증 정규식
+		@Size(max = 12)
+		@Pattern(regexp = "^[a-zA-Zㄱ-힣]+$",
+				message = "최소 1자 이상이어야 하며, 특수문자 및 공백은 포함될 수 없습니다.")
 		private String name;
 
-		//TODO 비밀번호 정규식
-		@Size(max = 16)
+		@Pattern(regexp ="^(?=.*\\d)(?=.*[a-zA-Z])(?=.*[~!@#$%^&*])[\\da-zA-Z~!@#$%^&*]+$",
+				message = "영문자와 숫자로 구성되며 최소 하나 이상의 특수문자(~!@#$%^&*)가 포함되어야합니다. "+
+						"공백은 포함될 수 없습니다")
+		@Size(min = 8, max = 16,
+				message = "최소 8자 이상, 최대 16자 이하여야 합니다.")
 		private String password;
 
 		@Size(max = 255)
+		@NotOnlySpace
 		private String aboutMe;
 
 		private Member.MemberStatus status;
