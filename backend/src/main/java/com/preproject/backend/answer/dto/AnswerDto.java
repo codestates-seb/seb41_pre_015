@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 
 public class AnswerDto {
@@ -12,6 +13,14 @@ public class AnswerDto {
     public static class Post {
         @NotBlank(message = "내용은 공백이 아니어야 합니다.")
         private String content;
+
+        @Positive
+        @NotBlank
+        private long memberId;
+
+        @Positive
+        @NotBlank
+        private long questionId;
     }
 
     @Getter
@@ -31,7 +40,9 @@ public class AnswerDto {
     @Getter
     @AllArgsConstructor
     public static class Response {
-        private Long id;
+        private long id;
+        private long memberId;
+        private long questionId;
         private String content;
         private int score;
         private Answer.AnswerStatus answerStatus;
