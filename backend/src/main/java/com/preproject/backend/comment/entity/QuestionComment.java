@@ -1,6 +1,9 @@
 package com.preproject.backend.comment.entity;
 
+import com.preproject.backend.answer.entity.Answer;
 import com.preproject.backend.audit.Auditable;
+import com.preproject.backend.member.entity.Member;
+import com.preproject.backend.question.entity.Question;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-public class Comment extends Auditable {
+public class QuestionComment extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,7 +23,11 @@ public class Comment extends Auditable {
     @Column(length = 255, nullable = false)
     private String content;
 
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
-    private LocalDateTime modifiedAt = LocalDateTime.now();
+    @ManyToOne
+    @JoinColumn(name = "question_id")
+    private Question question;
 }
