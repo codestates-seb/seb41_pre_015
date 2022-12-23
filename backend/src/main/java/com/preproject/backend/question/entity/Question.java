@@ -1,7 +1,5 @@
 package com.preproject.backend.question.entity;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -9,8 +7,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import com.preproject.backend.audit.Auditable;
+import com.preproject.backend.member.entity.Member;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,8 +41,10 @@ public class Question extends Auditable {
 	@Column(nullable = false)
 	private QuestionStatus questionStatus = QuestionStatus.UNRESOLVED;
 
-	private LocalDateTime createdAt = LocalDateTime.now();
-	private LocalDateTime modifiedAt = LocalDateTime.now();
+	// 질문 ~ 회원
+	@ManyToOne
+	@JoinColumn(name = "member_id")
+	Member member;
 
 	public enum QuestionStatus {
 		RESOLVED("채택 완료"),
