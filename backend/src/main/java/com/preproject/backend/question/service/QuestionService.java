@@ -7,12 +7,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.preproject.backend.question.entity.Question;
 import com.preproject.backend.question.repository.QuestionRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
+@Transactional
 @Service
 @Slf4j
 public class QuestionService {
@@ -49,20 +51,22 @@ public class QuestionService {
 	}
 
 	// *** 하나의 질문 조회 ***
+	@Transactional(readOnly = true)
 	public Question findQuestion(Long id) {
 		return findVerifiedQuestionByQuery(id);
 	}
 
 	// *** 전체 질문 조회 (Paging) ***
+	@Transactional(readOnly = true)
 	public Page<Question> findQuestions(int page, int size) {
 		return questionRepository.findAll(PageRequest.of(page, size,
 			Sort.by("id").descending()));
 	}
 
 	// *** 질문 검색 기능 ***
-	public Question searchQuestion() {
-		return null;
-	}
+/*	public List<Question> searchQuestion(String searchKeyword, Pageable pageable) {
+		return questionRepository.findByTitleContaining(searchKeyword, pageable);
+	}*/
 
 	// *** 질문 필터 검색 (검색과 같은지?) ***
 	public Question filterQuestion() {
@@ -86,6 +90,8 @@ public class QuestionService {
 
 	// *** 질문 채택 ***
 	public Question selectQuestion() {
+		// 유효한 질문인지 검증
+
 		return null;
 	}
 
@@ -98,13 +104,13 @@ public class QuestionService {
 		questionRepository.delete(findQuestion);
 	}
 
-	// 전체 질문 삭제
+	// *** 전체 질문 삭제 ***
 	public void deleteQuestions(Question question) {
 		questionRepository.deleteAll();
 		log.info("모든 질문이 삭제 되었습니다.");
 	}
 
-	// 유효한 질문인지 검증
+	// *** 유효한 질문인지 검증 ***
 	private Question findVerifiedQuestionByQuery(Long id) {
 		Optional<Question> optionalQuestion = questionRepository.findById(id);
 		Question findQuestion =

@@ -9,8 +9,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import com.preproject.backend.audit.Auditable;
+import com.preproject.backend.member.entity.Member;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -42,6 +45,11 @@ public class Question extends Auditable {
 
 	private LocalDateTime createdAt = LocalDateTime.now();
 	private LocalDateTime modifiedAt = LocalDateTime.now();
+
+	// 질문 ~ 회원
+	@ManyToOne
+	@JoinColumn(name = "member-id")
+	Member member;
 
 	public enum QuestionStatus {
 		RESOLVED("채택 완료"),
