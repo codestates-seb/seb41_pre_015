@@ -1,10 +1,12 @@
 package com.preproject.backend.question.entity;
 
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
+
 
 import com.preproject.backend.audit.Auditable;
 import com.preproject.backend.comment.entity.QuestionComment;
@@ -37,9 +39,6 @@ public class Question extends Auditable {
 	@Enumerated(value = EnumType.STRING)
 	@Column(nullable = false)
 	private QuestionStatus questionStatus = QuestionStatus.UNRESOLVED;
-
-	private LocalDateTime createdAt = LocalDateTime.now();
-	private LocalDateTime modifiedAt = LocalDateTime.now();
 
 	// 질문 ~ 회원
 	@ManyToOne
