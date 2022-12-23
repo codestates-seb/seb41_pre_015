@@ -1,43 +1,61 @@
 package com.preproject.backend.member.service;
 
+import com.preproject.backend.exception.BusinessLogicException;
+import com.preproject.backend.exception.ExceptionCode;
+import com.preproject.backend.member.entity.Member;
+import com.preproject.backend.member.repository.MemberRepository;
+import com.preproject.backend.utils.CustomBeanUtils;
 import org.springframework.stereotype.Service;
 
-import com.preproject.backend.member.dto.MemberDto;
-import com.preproject.backend.member.entity.Member;
+import java.util.Optional;
 
 @Service
 public class MemberService {
-	public Member createMember(Member member) {
-		//TODO
-		// 비지니스 로직 작성
-		// member 객체 DB에 저장 후 저장된 member 반환
-		// 이미 저장된 member 확인 시 throw Exception
-		return member;
-	}
+    private final MemberRepository memberRepository;
+    private final CustomBeanUtils<Member> customBeanUtils;
 
-	public Member updateMember(Member member) {
-		//TODO
-		// 비지니스 로직 작성
-		// id로 DB에서 member 조회 후 member 객체 수정, DB에 저장하고 저장된 member 반환
-		// 조회 시 해당 member 없으면 throw Exception
-		return member;
-	}
+    public MemberService(MemberRepository memberRepository, CustomBeanUtils customBeanUtils) {
+        this.memberRepository = memberRepository;
+        this.customBeanUtils = customBeanUtils;
+    }
 
-	public Member findMember(long id) {
-		//TODO
-		// 비지니스 로직 작성
-		// id로 DB에서 member 조회 후 조회된 member 반환
-		// 조회 시 해당 member 없으면 throw Exception
-		Member member =
-				new Member("hgd@gmail.com", "홍길동", "010-1234-5678");
-		member.setId(id);
-		return member;
-	}
+    public Member createMember(Member member) {
 
-	public void deleteMember(long id) {
-		//TODO
-		// 비지니스 로직 작성
-		// id로 DB에서 member 조회 후 삭제
-		// 조회 시 해당 member 없으면 throw Exception
-	}
+        checkDuplicatedMember(member);
+
+        return memberRepository.save(member);
+
+    }
+
+    public Member updateMember(Member member) {
+
+        Member findMember = checkVerifiedMember(member.getId());
+        Member updatedMember = customBeanUtils.copyNonNullProperties(member, findMember);
+
+        return memberRepository.save(updatedMember);
+    }
+
+    public Member findMember(long id) {
+        Member findMember = checkVerifiedMember(id);
+
+        return findMember;
+    }
+
+    public void deleteMember(long id) {
+        Member findMember = checkVerifiedMember(id);
+        memberRepository.delete(findMember);
+    }
+
+    private void checkDuplicatedMember(Member member) {
+        Optional<Member> byEmail = memberRepository.findByEmail(member.getEmail());
+        if (byEmail.isPresent()) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_ALREADY_EXISTS);
+        }
+    }
+
+    private Member checkVerifiedMember(Long id) {
+        Optional<Member> byId = memberRepository.findById(id);
+        Member member = byId.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        return member;
+    }
 }
