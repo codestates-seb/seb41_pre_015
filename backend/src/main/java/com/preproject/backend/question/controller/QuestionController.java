@@ -40,7 +40,7 @@ public class QuestionController {
 		this.questionService = questionService;
 	}
 
-	// 질문 등록
+	// *** 질문 등록 ***
 	@PostMapping
 	public ResponseEntity postQuestion(@Valid @RequestBody QuestionDto.Post postDto) {
 
@@ -51,7 +51,7 @@ public class QuestionController {
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 
-	// 질문 수정
+	// *** 질문 수정 ***
 	@PatchMapping("/{question-id}")
 	public ResponseEntity patchQuestion(@PathVariable("question-id") Long id,
 		@Valid @RequestBody QuestionDto.Patch patchDto) {
@@ -62,7 +62,7 @@ public class QuestionController {
 		return new ResponseEntity<>(mapper.questionToQuestionResponseDto(question), HttpStatus.OK);
 	}
 
-	// 하나의 질문 조회
+	// *** 하나의 질문 조회 ***
 	@GetMapping("/{question-id}")
 	public ResponseEntity getQuestion(@PathVariable("question-id") Long id) {
 		Question question = questionService.findQuestion(id);
@@ -70,7 +70,7 @@ public class QuestionController {
 		return new ResponseEntity<>(mapper.questionToQuestionResponseDto(question), HttpStatus.OK);
 	}
 
-	// 전체 질문 조회
+	// *** 전체 질문 조회 ***
 	@GetMapping
 	public ResponseEntity getQuestions(@Positive @RequestParam int page,
 		@Positive @RequestParam int size) {
@@ -83,7 +83,13 @@ public class QuestionController {
 			HttpStatus.OK);
 	}
 
-	// 하나의 질문 삭제
+/*	// *** 질문 검색 ***
+	@GetMapping
+	public ResponseEntity<List<Question>> searchQuestions(@RequestParam String title, @RequestParam Pageable pageable) {
+		Page<Question> pageQuestions = questionService.fin
+	}*/
+
+	// *** 하나의 질문 삭제 ***
 	@DeleteMapping("/{question-id}")
 	public ResponseEntity deleteQuestion(@PathVariable("question-id") Long id) {
 
@@ -92,12 +98,12 @@ public class QuestionController {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
-	// 전체 질문 삭제
+	// *** 전체 질문 삭제 ***
 	@DeleteMapping
 	public ResponseEntity deleteQuestions(Question question) {
 
 		questionService.deleteQuestions(question);
-		
+
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

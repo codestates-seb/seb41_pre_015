@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class QuestionDto {
-	// PostDto
+	// *** PostDto ***
 	@Getter
 	@AllArgsConstructor
 	public static class Post {
@@ -25,7 +25,7 @@ public class QuestionDto {
 
 	}
 
-	// PatchDto
+	// *** PatchDto ***
 	@Getter
 	@Setter
 	@AllArgsConstructor
@@ -38,7 +38,7 @@ public class QuestionDto {
 		private String content;
 	}
 
-	// ResponseDto
+	// *** ResponseDto ***
 	@Getter
 	@AllArgsConstructor
 	public static class Response {
