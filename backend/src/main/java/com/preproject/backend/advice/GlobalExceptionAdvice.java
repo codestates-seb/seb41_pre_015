@@ -1,7 +1,9 @@
 package com.preproject.backend.advice;
 
 import com.preproject.backend.dto.ErrorResponse;
+import com.preproject.backend.exception.BusinessLogicException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,6 +18,13 @@ import javax.validation.ConstraintViolationException;
 
 @RestControllerAdvice
 public class GlobalExceptionAdvice {
+
+    @ExceptionHandler
+    public ResponseEntity handleBusinessLogicException(BusinessLogicException e) {
+        ErrorResponse response = ErrorResponse.of(e);
+        return new ResponseEntity(response, HttpStatus.valueOf(response.getStatus()));
+    }
+
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {

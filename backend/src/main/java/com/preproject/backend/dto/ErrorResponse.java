@@ -1,5 +1,7 @@
 package com.preproject.backend.dto;
 
+import com.preproject.backend.exception.BusinessLogicException;
+import com.preproject.backend.exception.ExceptionCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +41,11 @@ public class ErrorResponse {
         this.fieldBindingErrors = fieldBindingErrors;
         this.constraintViolationErrors = constraintViolationErrors;
         this.status = HttpStatus.BAD_REQUEST.value();
+    }
+
+    public static ErrorResponse of(BusinessLogicException e) {
+        ExceptionCode exceptionCode = e.getExceptionCode();
+        return new ErrorResponse(exceptionCode.getStatus(), exceptionCode.getMessage());
     }
 
     public static ErrorResponse of(MethodArgumentNotValidException e) {
