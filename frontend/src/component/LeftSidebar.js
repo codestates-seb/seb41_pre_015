@@ -16,7 +16,7 @@ const LeftSidebar = () => {
                             <div className="link">
                                 <div className="link-tag">
                                     <Public className="public" />
-                                    <div>Questions</div>
+                                    <a className="a">Questions</a>
                                 </div>
                                 <div className="tags">
                                     <div>Tags</div>
@@ -112,14 +112,14 @@ const LeftSidebarContainer = styled.div`
 
     .a {
         text-decoration: none;
-        color: rgba(0, 0, 0, 0.5);
+        color: gray;
         &hover {
             color: #000;
         }
     }
 
     .sidebar-option > p {
-        color: rgba(0, 0, 0, 0.5);
+        color: gray;
         font-size: 14px;
     }
 
@@ -145,12 +145,12 @@ const LeftSidebarContainer = styled.div`
     .tags {
         display: flex;
         flex-direction: column;
-        color: rgba(0, 0, 0, 0.5);
+        color: gray;
         margin: 0px 29px;
     }
 
     .public {
-        color: rgba(0, 0, 0, 0.5);
+        color: gray;
         font-size: 18px;
         margin-right: 4px;
     }
