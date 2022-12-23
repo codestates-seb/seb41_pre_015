@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+// import React from 'react'
+=======
+>>>>>>> d453e27082a089ed9b5c0bfae3306b3259e698e3
 import styled from 'styled-components';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -131,7 +135,11 @@ const MypageMainContainer = styled.div`
     }
 
     .ans_que_group {
+<<<<<<< HEAD
+      margin: 20px 0px 0px 50px;
+=======
       margin: 20px 0px 0px 20px;
+>>>>>>> d453e27082a089ed9b5c0bfae3306b3259e698e3
     }
 
     .user_about_box {
@@ -141,7 +149,11 @@ const MypageMainContainer = styled.div`
       align-items: center;
       border: 1px solid gray;
       border-radius: 10px;
+<<<<<<< HEAD
+      width: 700px;
+=======
       width: 750px;
+>>>>>>> d453e27082a089ed9b5c0bfae3306b3259e698e3
       height: 200px;
     }
 
@@ -181,7 +193,11 @@ const MypageMainContainer = styled.div`
       display: flex;
       flex-direction: column;
       background-color: aliceblue;
+<<<<<<< HEAD
+      width: 350px;
+=======
       width: 380px;
+>>>>>>> d453e27082a089ed9b5c0bfae3306b3259e698e3
       height: 150px;
       justify-content: center;
       align-items: center;
@@ -196,18 +212,30 @@ const MypageMainContainer = styled.div`
 
     .user_question_box,
     .user_question_group {
+<<<<<<< HEAD
+      margin-left: 20px;
+=======
       margin-left: 40px;
+>>>>>>> d453e27082a089ed9b5c0bfae3306b3259e698e3
     }
 
     .ans {
       margin-right: 20px;
     }
     .b1 {
+<<<<<<< HEAD
+      margin-left: 50px;
+    }
+
+    .user_bookmark {
+      margin: 40px 0px 0px 50px;
+=======
       margin-left: 75px;
     }
 
     .user_bookmark {
       margin: 40px 0px 0px 30px;
+>>>>>>> d453e27082a089ed9b5c0bfae3306b3259e698e3
     }
   }
 `;
