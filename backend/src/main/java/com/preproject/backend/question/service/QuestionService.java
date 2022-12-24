@@ -9,6 +9,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.preproject.backend.exception.BusinessLogicException;
+import com.preproject.backend.exception.ExceptionCode;
 import com.preproject.backend.question.entity.Question;
 import com.preproject.backend.question.repository.QuestionRepository;
 
@@ -27,12 +29,13 @@ public class QuestionService {
 
 	// *** 질문 등록 ***
 	public Question createQuestion(Question question) {
+
 		// + 유효한 멤버인지 검증(memberId)
+		questionRepository.findById(question.getMember().getId())
+			.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
-		// 중복 질문, 내용 여부 검증할 것 없이 바로 저장
-		Question savedQuestion = questionRepository.save(question);
-
-		return savedQuestion;
+		// 질문 저장
+		return questionRepository.save(question);
 	}
 
 	// *** 질문 수정 ***
@@ -64,8 +67,8 @@ public class QuestionService {
 	}
 
 	// *** 질문 검색 기능 ***
-/*	public List<Question> searchQuestion(String searchKeyword, Pageable pageable) {
-		return questionRepository.findByTitleContaining(searchKeyword, pageable);
+/*	public List<Question> searchQuestion(int page, int size, String keyword) {
+		return questionRepository.findByKeyword(keyword);
 	}*/
 
 	// *** 질문 필터 검색 (검색과 같은지?) ***
