@@ -1,6 +1,10 @@
 package com.preproject.backend.question.dto;
 
+import java.time.LocalDateTime;
+
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import com.preproject.backend.question.entity.Question;
 
@@ -19,7 +23,8 @@ public class QuestionDto {
 		@NotBlank(message = "내용은 공백이 아니어야 합니다.")
 		private String content;
 
-		@NotBlank
+		@Positive
+		@NotNull
 		private Long memberId;
 
 		//Private List<Tag> tags;
@@ -46,8 +51,9 @@ public class QuestionDto {
 		private Long id;
 		private String title;
 		private String content;
-
 		private Question.QuestionStatus questionStatus;
+		private LocalDateTime createdAt;
+		private LocalDateTime modifiedAt;
 
 		public String getQuestionStatus() {
 			return questionStatus.getStatus();
