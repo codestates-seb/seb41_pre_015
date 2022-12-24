@@ -4,14 +4,23 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 
-public class CommentDto {
+public class QuestionCommentDto {
 
     @Getter
     public static class Post {
         @NotBlank
         private String content;
+
+        @Positive
+        @NotBlank
+        private long questionId;
+
+        @Positive
+        @NotBlank
+        private long memberId;
     }
 
     @Getter
@@ -31,6 +40,8 @@ public class CommentDto {
     @AllArgsConstructor
     public static class Response {
         private long id;
+        private long questionId;
+        private long memberId;
         private String content;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
