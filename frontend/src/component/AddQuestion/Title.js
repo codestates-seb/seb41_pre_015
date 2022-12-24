@@ -10,6 +10,7 @@ const SbackGround = styled.div`
   border-top: 3px solid #d2d2d2;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   .Title-container {
     width: 90%;
     height: 20%;
