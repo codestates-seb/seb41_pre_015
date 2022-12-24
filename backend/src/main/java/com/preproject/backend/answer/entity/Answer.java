@@ -35,6 +35,7 @@ public class Answer extends Auditable {
     @Column(nullable = false)
     private AnswerStatus answerStatus =  AnswerStatus.UNACCEPTED;
 
+
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;

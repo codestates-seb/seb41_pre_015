@@ -4,18 +4,31 @@ import com.preproject.backend.exception.BusinessLogicException;
 import com.preproject.backend.exception.ExceptionCode;
 import com.preproject.backend.member.entity.Member;
 import com.preproject.backend.member.repository.MemberRepository;
+import com.preproject.backend.question.entity.Question;
+import com.preproject.backend.question.repository.QuestionRepository;
 import com.preproject.backend.utils.CustomBeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
+@Transactional
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
+
+    private final QuestionRepository questionRepository;
     private final CustomBeanUtils<Member> customBeanUtils;
 
-    public MemberService(MemberRepository memberRepository, CustomBeanUtils customBeanUtils) {
+    public MemberService(MemberRepository memberRepository, QuestionRepository questionRepository, CustomBeanUtils<Member> customBeanUtils) {
         this.memberRepository = memberRepository;
+        this.questionRepository = questionRepository;
         this.customBeanUtils = customBeanUtils;
     }
 
@@ -39,6 +52,22 @@ public class MemberService {
         Member findMember = checkVerifiedMember(id);
 
         return findMember;
+    }
+/* 회원이 등록한 질문을 역순으로 정렬 후 pagenation하여 반환*/
+    public Page<Question> findQuestionsOfMember(long id,
+                                                int page,
+                                                int size) {
+        Member findMember = checkVerifiedMember(id);
+        List<Question> questions = findMember.getQuestions();
+        Collections.sort(questions, (quest1, quest2) -> {
+            return quest2.getId().compareTo(quest1.getId());
+        });
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+        int start = (int) pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()), size);
+
+        return new PageImpl<>(questions.subList(start, end), pageRequest, size);
     }
 
     public void deleteMember(long id) {
