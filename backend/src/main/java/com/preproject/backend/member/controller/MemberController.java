@@ -1,9 +1,12 @@
 package com.preproject.backend.member.controller;
 
+import com.preproject.backend.dto.MultiResponseDto;
 import com.preproject.backend.member.dto.MemberDto;
 import com.preproject.backend.member.entity.Member;
 import com.preproject.backend.member.mapper.MemberMapper;
 import com.preproject.backend.member.service.MemberService;
+import com.preproject.backend.question.entity.Question;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 @RestController
 @RequestMapping("/members")
@@ -68,6 +72,19 @@ public class MemberController {
 
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @GetMapping("/{member-id}/questions")
+    public ResponseEntity getQuestionsOfMember(@Positive @RequestParam("page") int page,
+                                               @Positive @RequestParam("size") int size,
+                                               @Positive @PathVariable("member-id") long id) {
+
+        Page<Question> questionPageOfMember = memberService.findQuestionsOfMember(id, page - 1, size);
+        List<Question> content = questionPageOfMember.getContent();
+
+        return new ResponseEntity(new MultiResponseDto<>(content, questionPageOfMember), HttpStatus.OK);
+    }
+
+
     @DeleteMapping("/{member-id}")
     public ResponseEntity deleteMember(@Positive @PathVariable("member-id") Long id) {
 
