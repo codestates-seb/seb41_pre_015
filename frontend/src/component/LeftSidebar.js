@@ -76,6 +76,7 @@ export default LeftSidebar;
 const LeftSidebarContainer = styled.div`
   width: 200px;
   padding-left: 30px;
+  margin-right: 50px; /* 실제 배치 시에 고려해야할 부분! - 내 화면에만 맞춘 것일 뿐이므로 ~~ */
 
   @media (max-width: 640px) {
     .sidebar {
@@ -123,6 +124,7 @@ const LeftSidebarContainer = styled.div`
   .a {
     text-decoration: none;
     color: gray;
+    margin-bottom: 5px;
     &hover {
       color: #000;
     }
