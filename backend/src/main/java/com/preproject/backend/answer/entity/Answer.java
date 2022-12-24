@@ -1,6 +1,8 @@
 package com.preproject.backend.answer.entity;
 
 import com.preproject.backend.audit.Auditable;
+import com.preproject.backend.comment.entity.AnswerComment;
+import com.preproject.backend.comment.entity.QuestionComment;
 import com.preproject.backend.member.entity.Member;
 import com.preproject.backend.question.entity.Question;
 import lombok.Getter;
@@ -10,6 +12,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @NoArgsConstructor
@@ -31,8 +35,6 @@ public class Answer extends Auditable {
     @Column(nullable = false)
     private AnswerStatus answerStatus =  AnswerStatus.UNACCEPTED;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
-    private LocalDateTime modifiedAt = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "member_id")
@@ -41,6 +43,10 @@ public class Answer extends Auditable {
     @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;
+
+    // 답변 ~ 코멘트 (양방향)
+    @OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE)
+    private List<AnswerComment> comments = new ArrayList<>();
 
     public enum AnswerStatus {
         ACCEPTED("채택"),

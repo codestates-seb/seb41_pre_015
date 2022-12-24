@@ -1,22 +1,23 @@
-// import React from 'react'
+/* eslint-disable import/namespace */
+// import React from 'react';
 import styled from 'styled-components';
 
-import MypageMain from '../component/Mypage/MypageMain';
 import MypageTitle from '../component/Mypage/MypageTitle';
 import MypageStats from '../component/Mypage/MypageStats';
+import MypageEditList from '../component/Mypage/MypageEditList';
 
-const MyPage = () => {
+const MypageEdit = () => {
   return (
-    <MypageContainer>
+    <MypageEditContainer>
       <div className="MypageContainer">
         <MypageTitle />
         <HorizonLine />
         <div style={{ display: 'flex' }} className="MypagebottomContainer">
           {<MypageStats />}
-          {<MypageMain />}
+          {<MypageEditList />}
         </div>
       </div>
-    </MypageContainer>
+    </MypageEditContainer>
   );
 };
 
@@ -34,9 +35,9 @@ const HorizonLine = () => {
   );
 };
 
-export default MyPage;
+export default MypageEdit;
 
-const MypageContainer = styled.div`
+const MypageEditContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
