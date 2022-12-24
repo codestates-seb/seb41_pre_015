@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       <div>
-        <div style={{ display: 'flex' }}>
+        <div>
           <MainPage></MainPage>
         </div>
       </div>
