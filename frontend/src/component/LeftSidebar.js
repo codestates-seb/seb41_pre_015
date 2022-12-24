@@ -3,6 +3,8 @@
 // import React from 'react';
 import { Public, Stars, Work, Info } from '@mui/icons-material';
 import styled from 'styled-components';
+import PersonPinIcon from '@mui/icons-material/PersonPin';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 
 const LeftSidebar = () => {
   return (
@@ -20,15 +22,21 @@ const LeftSidebar = () => {
                   <Public className="public" />
                   <a className="a">Questions</a>
                 </div>
-                <div className="tags">
-                  <div>Tags</div>
-                  <div>Users</div>
-                  <a
+                <div className="link-tag">
+                  <div className="a">
+                    <PersonPinIcon />
+                    MyPage
+                  </div>
+                  {/* <a
                     className="a"
                     href="https://www.codestates.com/?utm_source=naver&utm_medium=cpc&utm_campaign=%EB%B8%8C%EB%9E%9C%EB%93%9C%EA%B2%80%EC%83%89pc&utm_content=%ED%99%88%EB%A7%81%ED%81%AC&utm_term=%EC%BD%94%EB%93%9C%EC%8A%A4%ED%85%8C%EC%9D%B4%EC%B8%A0&ad_campaign=cmp-a001-04-000000004953107&ad_campaign_type=4&NaPm=ct%3Dlc07fpb4%7Cci%3D0Am0003akUjxAJnRs0Xn%7Ctr%3Dbrnd%7Chk%3D1178f1eeea53e08076562d8fe5bd436b3c0b03d7"
                   >
                     Companies
-                  </a>
+                  </a> */}
+                </div>
+                <div className="a">
+                  <LocalOfferIcon />
+                  Tags
                 </div>
               </div>
             </div>
@@ -68,6 +76,7 @@ export default LeftSidebar;
 const LeftSidebarContainer = styled.div`
   width: 200px;
   padding-left: 30px;
+  margin-right: 50px; /* 실제 배치 시에 고려해야할 부분! - 내 화면에만 맞춘 것일 뿐이므로 ~~ */
 
   @media (max-width: 640px) {
     .sidebar {
@@ -115,6 +124,7 @@ const LeftSidebarContainer = styled.div`
   .a {
     text-decoration: none;
     color: gray;
+    margin-bottom: 5px;
     &hover {
       color: #000;
     }
