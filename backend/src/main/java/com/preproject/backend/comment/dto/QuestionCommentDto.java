@@ -15,11 +15,9 @@ public class QuestionCommentDto {
         private String content;
 
         @Positive
-        @NotBlank
         private long questionId;
 
         @Positive
-        @NotBlank
         private long memberId;
     }
 

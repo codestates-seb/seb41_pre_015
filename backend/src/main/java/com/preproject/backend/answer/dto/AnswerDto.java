@@ -15,11 +15,9 @@ public class AnswerDto {
         private String content;
 
         @Positive
-        @NotBlank
         private long memberId;
 
         @Positive
-        @NotBlank
         private long questionId;
     }
 
