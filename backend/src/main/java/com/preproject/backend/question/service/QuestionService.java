@@ -3,17 +3,14 @@ package com.preproject.backend.question.service;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import com.preproject.backend.member.entity.Member;
-import com.preproject.backend.member.repository.MemberRepository;
-import com.preproject.backend.member.service.MemberService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.preproject.backend.exception.BusinessLogicException;
-import com.preproject.backend.exception.ExceptionCode;
+import com.preproject.backend.member.service.MemberService;
 import com.preproject.backend.question.entity.Question;
 import com.preproject.backend.question.repository.QuestionRepository;
 
@@ -71,9 +68,13 @@ public class QuestionService {
 	}
 
 	// *** 질문 검색 기능 ***
-/*	public List<Question> searchQuestion(int page, int size, String keyword) {
-		return questionRepository.findByKeyword(keyword);
-	}*/
+	public Page<Question> searchQuestion(String keyword, int page, int size) {
+		
+		Pageable pageable = PageRequest.of(page, size);
+		Page<Question> searchedQuestion = questionRepository.findByKeyword(keyword, pageable);
+
+		return searchedQuestion;
+	}
 
 	// *** 질문 필터 검색 (검색과 같은지?) ***
 	public Question filterQuestion() {
