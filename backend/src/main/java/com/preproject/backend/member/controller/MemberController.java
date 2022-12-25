@@ -1,5 +1,8 @@
 package com.preproject.backend.member.controller;
 
+import com.preproject.backend.answer.dto.AnswerDto;
+import com.preproject.backend.answer.entity.Answer;
+import com.preproject.backend.answer.mapper.AnswerMapper;
 import com.preproject.backend.dto.MultiResponseDto;
 import com.preproject.backend.member.dto.MemberDto;
 import com.preproject.backend.member.entity.Member;
@@ -34,11 +37,13 @@ public class MemberController {
     private final MemberService memberService;
     private final MemberMapper memberMapper;
     private final QuestionMapper questionMapper;
+    private final AnswerMapper answerMapper;
 
-    public MemberController(MemberService memberService, MemberMapper memberMapper, QuestionMapper questionMapper) {
+    public MemberController(MemberService memberService, MemberMapper memberMapper, QuestionMapper questionMapper, AnswerMapper answerMapper) {
         this.memberService = memberService;
-        this.memberMapper= memberMapper;
+        this.memberMapper = memberMapper;
         this.questionMapper = questionMapper;
+        this.answerMapper = answerMapper;
     }
 
     @PostMapping
@@ -87,6 +92,17 @@ public class MemberController {
         List<QuestionDto.Response> responses = questionMapper.questionToQuestionResponseDtos(content);
 
         return new ResponseEntity(new MultiResponseDto<>(responses, questionPageOfMember), HttpStatus.OK);
+    }
+
+    @GetMapping("/{member-id}/answers")
+    public ResponseEntity getAnswersOfMember(@Positive @RequestParam("page") int page,
+                                             @Positive @RequestParam("size") int size,
+                                             @Positive @PathVariable("member-id") long id) {
+        Page<Answer> answerPageOfMember = memberService.findAnswersOfMember(id, page - 1, size);
+        List<Answer> content = answerPageOfMember.getContent();
+        List<AnswerDto.Response> responses = answerMapper.answerToAnswerResponseDtos(content);
+
+        return new ResponseEntity(new MultiResponseDto<>(responses, answerPageOfMember), HttpStatus.OK);
     }
 
 
