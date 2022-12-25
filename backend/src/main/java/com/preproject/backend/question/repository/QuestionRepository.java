@@ -13,7 +13,6 @@ import com.preproject.backend.question.entity.Question;
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 	@Query("SELECT q FROM Question q WHERE q.title LIKE %:keyword% OR q.content LIKE %:keyword%")
 	Page<Question> findByKeyword(@Param("keyword") String keyword, Pageable pageable);
-	
 }
 
 

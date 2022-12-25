@@ -94,7 +94,6 @@ public class QuestionController {
 
 		return new ResponseEntity<>(
 			new MultiResponseDto<>(questions, pageQuestions), HttpStatus.OK);
-		
 	}
 
 	// *** 하나의 질문 삭제 ***
