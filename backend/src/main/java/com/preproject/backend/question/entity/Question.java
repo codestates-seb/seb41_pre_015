@@ -43,11 +43,18 @@ public class Question extends Auditable {
 	// 질문 ~ 회원
 	@ManyToOne
 	@JoinColumn(name = "member_id")
-	Member member;
+	private Member member;
 
 	// 질문 ~ 코멘트 (양방향)
 	@OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
 	private List<QuestionComment> questionComments = new ArrayList<>();
+
+	public void setMember(Member member) {
+		this.member = member;
+		if (!this.member.getQuestions().contains(this)) {
+			this.member.addQuestion(this);
+		}
+	}
 
 	public enum QuestionStatus {
 		RESOLVED("채택 완료"),

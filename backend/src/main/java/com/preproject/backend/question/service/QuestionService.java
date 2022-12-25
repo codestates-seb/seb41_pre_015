@@ -3,6 +3,9 @@ package com.preproject.backend.question.service;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import com.preproject.backend.member.entity.Member;
+import com.preproject.backend.member.repository.MemberRepository;
+import com.preproject.backend.member.service.MemberService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -21,18 +24,19 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class QuestionService {
 	//Repository DI
-	public final QuestionRepository questionRepository;
+	private final QuestionRepository questionRepository;
+	private final MemberService memberService;
 
-	public QuestionService(QuestionRepository questionRepository) {
+	public QuestionService(QuestionRepository questionRepository, MemberService memberService) {
 		this.questionRepository = questionRepository;
+		this.memberService = memberService;
 	}
 
 	// *** 질문 등록 ***
 	public Question createQuestion(Question question) {
 
 		// + 유효한 멤버인지 검증(memberId)
-		questionRepository.findById(question.getMember().getId())
-			.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+		memberService.checkVerifiedMember(question.getMember().getId());
 
 		// 질문 저장
 		return questionRepository.save(question);

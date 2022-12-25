@@ -49,6 +49,7 @@ public class QuestionDto {
 	@AllArgsConstructor
 	public static class Response {
 		private Long id;
+		private Long memberId;
 		private String title;
 		private String content;
 		private Question.QuestionStatus questionStatus;
