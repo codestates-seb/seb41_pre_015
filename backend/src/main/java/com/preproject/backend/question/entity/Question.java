@@ -51,7 +51,7 @@ public class Question extends Auditable {
 	// 질문 ~ 회원
 	@ManyToOne
 	@JoinColumn(name = "member_id")
-	@JsonIgnore //JPA 참조순환으로 인한 어노테이션 추가
+	@JsonIgnore //JPA 무한 참조순환으로 인한 어노테이션 추가
 	private Member member;
 
 	// 질문 ~ 코멘트 (양방향)

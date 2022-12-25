@@ -69,6 +69,7 @@ public class QuestionService {
 
 	// *** 질문 검색 기능 ***
 	public Page<Question> searchQuestion(String keyword, int page, int size) {
+		
 		Pageable pageable = PageRequest.of(page, size);
 		Page<Question> searchedQuestion = questionRepository.findByKeyword(keyword, pageable);
 
