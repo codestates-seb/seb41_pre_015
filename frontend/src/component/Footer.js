@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const SbackGround = styled.div`
   background-color: #323232;
   display: flex;
-  height: 50vh;
+  height: 30%;
   padding: 20px;
   color: #b4b4b4;
   padding: 32px;
