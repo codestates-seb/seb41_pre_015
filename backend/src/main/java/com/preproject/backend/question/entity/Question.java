@@ -1,21 +1,13 @@
 package com.preproject.backend.question.entity;
 
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.preproject.backend.audit.Auditable;
 import com.preproject.backend.comment.entity.QuestionComment;
 import com.preproject.backend.member.entity.Member;
@@ -51,12 +43,18 @@ public class Question extends Auditable {
 	// 질문 ~ 회원
 	@ManyToOne
 	@JoinColumn(name = "member_id")
-	@JsonIgnore //JPA 무한 참조순환으로 인한 어노테이션 추가
-		Member member;
+	private Member member;
 
 	// 질문 ~ 코멘트 (양방향)
 	@OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
 	private List<QuestionComment> questionComments = new ArrayList<>();
+
+	public void setMember(Member member) {
+		this.member = member;
+		if (!this.member.getQuestions().contains(this)) {
+			this.member.addQuestion(this);
+		}
+	}
 
 	public enum QuestionStatus {
 		RESOLVED("채택 완료"),

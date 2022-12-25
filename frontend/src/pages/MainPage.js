@@ -8,12 +8,14 @@ import RightSidebar from '../component/RightSidebar';
 import MainQuestions from '../component/MainQuesTions';
 
 const TopQuestionTitle = styled.div`
-  width: 600px;
+  /* width: 600px; */
+  width: 100%;
   height: 110px;
   border: 1px solid black;
   display: grid;
   margin-left: 10px;
   margin-bottom: 10px;
+  border-width: 0.2px;
 `;
 
 const AskQuestionContainer = styled.div`
@@ -27,7 +29,7 @@ const AskQuestionContainer = styled.div`
 `;
 
 const AskQuestion = styled.button`
-  width: 100px;
+  width: 140px;
   height: 30px;
   background-color: #0a95ff;
   border-radius: 2px;
@@ -52,7 +54,8 @@ const QuestionTitleBottomButtonTag = styled.button`
 `;
 
 const QuestionList = styled.div`
-  width: 600px;
+  /* width: 600px; */
+  width: 100%;
   height: 130px;
   border: 1px solid black;
   display: flex;
@@ -116,21 +119,27 @@ const MainPage = () => {
   return (
     <>
       <LoginHeader />
-      <LeftSidebar />
-      <TopQuestionTitle>
-        <AskQuestionContainer>
-          <div>자주 묻는 질문</div>
-          <AskQuestion>Ask Question</AskQuestion>
-        </AskQuestionContainer>
-        <FilterButtonContainer>
-          <FilterButton>Interesting</FilterButton>
-          <FilterButton>Bountied</FilterButton>
-          <FilterButton>Hot</FilterButton>
-          <FilterButton>Week</FilterButton>
-          <FilterButton>Month</FilterButton>
-        </FilterButtonContainer>
-      </TopQuestionTitle>
-      <QuestionList />
+      <div style={{ display: 'flex' }}>
+        <LeftSidebar />
+        <div>
+          <TopQuestionTitle>
+            <AskQuestionContainer>
+              <div style={{ margin: '10px' }}>Top Questions</div>
+              <AskQuestion>Ask Question</AskQuestion>
+            </AskQuestionContainer>
+            <FilterButtonContainer>
+              <FilterButton>Interesting</FilterButton>
+              <FilterButton>Bountied</FilterButton>
+              <FilterButton>Hot</FilterButton>
+              <FilterButton>Week</FilterButton>
+              <FilterButton>Month</FilterButton>
+            </FilterButtonContainer>
+          </TopQuestionTitle>
+          {/* <QuestionList>
+          </QuestionList> */}
+          <MainQuestions></MainQuestions>
+        </div>
+      </div>
     </>
   );
 };

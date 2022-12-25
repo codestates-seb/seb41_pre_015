@@ -1,9 +1,17 @@
 package com.preproject.backend.member.controller;
 
+import com.preproject.backend.answer.dto.AnswerDto;
+import com.preproject.backend.answer.entity.Answer;
+import com.preproject.backend.answer.mapper.AnswerMapper;
+import com.preproject.backend.dto.MultiResponseDto;
 import com.preproject.backend.member.dto.MemberDto;
 import com.preproject.backend.member.entity.Member;
 import com.preproject.backend.member.mapper.MemberMapper;
 import com.preproject.backend.member.service.MemberService;
+import com.preproject.backend.question.dto.QuestionDto;
+import com.preproject.backend.question.entity.Question;
+import com.preproject.backend.question.mapper.QuestionMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -19,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 @RestController
 @RequestMapping("/members")
@@ -26,18 +35,22 @@ import javax.validation.constraints.Positive;
 public class MemberController {
 
     private final MemberService memberService;
-    private final MemberMapper mapper;
+    private final MemberMapper memberMapper;
+    private final QuestionMapper questionMapper;
+    private final AnswerMapper answerMapper;
 
-    public MemberController(MemberService memberService, MemberMapper mapper) {
+    public MemberController(MemberService memberService, MemberMapper memberMapper, QuestionMapper questionMapper, AnswerMapper answerMapper) {
         this.memberService = memberService;
-        this.mapper = mapper;
+        this.memberMapper = memberMapper;
+        this.questionMapper = questionMapper;
+        this.answerMapper = answerMapper;
     }
 
     @PostMapping
     public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post memberPost) {
 
-        Member member = memberService.createMember(mapper.memberPostToMember(memberPost));
-        MemberDto.Response response = mapper.memberToMemberResponse(member);
+        Member member = memberService.createMember(memberMapper.memberPostToMember(memberPost));
+        MemberDto.Response response = memberMapper.memberToMemberResponse(member);
 
         return new ResponseEntity(response, HttpStatus.CREATED);
     }
@@ -47,8 +60,8 @@ public class MemberController {
                                       @Positive @PathVariable("member-id") Long id) {
 
         memberPatch.setId(id);
-        Member member = memberService.updateMember(mapper.memberPatchToMember(memberPatch));
-        MemberDto.Response response = mapper.memberToMemberResponse(member);
+        Member member = memberService.updateMember(memberMapper.memberPatchToMember(memberPatch));
+        MemberDto.Response response = memberMapper.memberToMemberResponse(member);
 
         return new ResponseEntity(response, HttpStatus.OK);
     }
@@ -57,7 +70,7 @@ public class MemberController {
     public ResponseEntity getMember(@Positive @PathVariable("member-id") Long id) {
 
         Member member = memberService.findMember(id);
-        MemberDto.Response response = mapper.memberToMemberResponse(member);
+        MemberDto.Response response = memberMapper.memberToMemberResponse(member);
 
         return new ResponseEntity(response, HttpStatus.OK);
     }
@@ -68,6 +81,31 @@ public class MemberController {
 
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @GetMapping("/{member-id}/questions")
+    public ResponseEntity getQuestionsOfMember(@Positive @RequestParam("page") int page,
+                                               @Positive @RequestParam("size") int size,
+                                               @Positive @PathVariable("member-id") long id) {
+
+        Page<Question> questionPageOfMember = memberService.findQuestionsOfMember(id, page - 1, size);
+        List<Question> content = questionPageOfMember.getContent();
+        List<QuestionDto.Response> responses = questionMapper.questionToQuestionResponseDtos(content);
+
+        return new ResponseEntity(new MultiResponseDto<>(responses, questionPageOfMember), HttpStatus.OK);
+    }
+
+    @GetMapping("/{member-id}/answers")
+    public ResponseEntity getAnswersOfMember(@Positive @RequestParam("page") int page,
+                                             @Positive @RequestParam("size") int size,
+                                             @Positive @PathVariable("member-id") long id) {
+        Page<Answer> answerPageOfMember = memberService.findAnswersOfMember(id, page - 1, size);
+        List<Answer> content = answerPageOfMember.getContent();
+        List<AnswerDto.Response> responses = answerMapper.answerToAnswerResponseDtos(content);
+
+        return new ResponseEntity(new MultiResponseDto<>(responses, answerPageOfMember), HttpStatus.OK);
+    }
+
+
     @DeleteMapping("/{member-id}")
     public ResponseEntity deleteMember(@Positive @PathVariable("member-id") Long id) {
 
