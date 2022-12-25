@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,9 +68,12 @@ public class QuestionService {
 	}
 
 	// *** 질문 검색 기능 ***
-/*	public List<Question> searchQuestion(int page, int size, String keyword) {
-		return questionRepository.findByKeyword(keyword);
-	}*/
+	public Page<Question> searchQuestion(String keyword, int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		Page<Question> searchedQuestion = questionRepository.findByKeyword(keyword, pageable);
+
+		return searchedQuestion;
+	}
 
 	// *** 질문 필터 검색 (검색과 같은지?) ***
 	public Question filterQuestion() {

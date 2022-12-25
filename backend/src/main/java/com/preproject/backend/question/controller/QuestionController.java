@@ -83,11 +83,18 @@ public class QuestionController {
 			HttpStatus.OK);
 	}
 
-/*	// *** 질문 검색 ***
-	@GetMapping
-	public ResponseEntity<List<Question>> searchQuestions(@RequestParam String title, @RequestParam Pageable pageable) {
-		Page<Question> pageQuestions = questionService.fin
-	}*/
+	// *** 질문 검색 ***
+	@GetMapping("/search")
+	public ResponseEntity searchQuestions(@RequestParam(name = "keyword") String keyword,
+		@RequestParam(name = "page") @Positive int page,
+		@RequestParam(name = "size") int size) {
+
+		Page<Question> pageQuestions = questionService.searchQuestion(keyword, page - 1, size);
+		List<Question> questions = pageQuestions.getContent();
+
+		return new ResponseEntity<>(
+			new MultiResponseDto<>(questions, pageQuestions), HttpStatus.OK);
+	}
 
 	// *** 하나의 질문 삭제 ***
 	@DeleteMapping("/{question-id}")
