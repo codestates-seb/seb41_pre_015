@@ -2,7 +2,9 @@ package com.preproject.backend.question.mapper;
 
 import com.preproject.backend.member.entity.Member;
 import com.preproject.backend.question.dto.QuestionDto;
+import com.preproject.backend.question.dto.QuestionVoteDto;
 import com.preproject.backend.question.entity.Question;
+import com.preproject.backend.question.entity.QuestionVote;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
@@ -25,6 +27,8 @@ public interface QuestionMapper {
 //
 //        return question;
 //    }
+
+    QuestionVote questionVoteDtoToQuestionVote(QuestionVoteDto requestBody);
 
     Question questionPatchDtoToQuestion(QuestionDto.Patch questionPatchDto);
 

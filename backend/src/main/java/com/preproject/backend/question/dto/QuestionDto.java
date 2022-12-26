@@ -52,6 +52,7 @@ public class QuestionDto {
 		private Long memberId;
 		private String title;
 		private String content;
+		private int score;
 		private Question.QuestionStatus questionStatus;
 		private LocalDateTime createdAt;
 		private LocalDateTime modifiedAt;

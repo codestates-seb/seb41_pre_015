@@ -2,6 +2,8 @@ package com.preproject.backend.answer.service;
 
 import com.preproject.backend.answer.entity.Answer;
 import com.preproject.backend.answer.repository.AnswerRepository;
+import com.preproject.backend.exception.BusinessLogicException;
+import com.preproject.backend.exception.ExceptionCode;
 import com.preproject.backend.utils.CustomBeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -47,13 +49,12 @@ public class AnswerService {
         answerRepository.delete(verifiedAnswer);
     }
 
-
     public Answer findVerifiedAnswer(long id) {
         Optional<Answer> optionalAnswer =
                 answerRepository.findById(id);
         Answer verifiedAnswer =
                 optionalAnswer.orElseThrow(() ->
-                        new RuntimeException("Answer Not Found")); //리펙토링 필요
+                        new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
         return verifiedAnswer;
     }
 }

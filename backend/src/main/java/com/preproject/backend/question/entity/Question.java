@@ -49,6 +49,9 @@ public class Question extends Auditable {
 	@OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
 	private List<QuestionComment> questionComments = new ArrayList<>();
 
+	@OneToMany(mappedBy = "question")
+	private List<QuestionVote> questionVoteList = new ArrayList<>();
+
 	public void setMember(Member member) {
 		this.member = member;
 		if (!this.member.getQuestions().contains(this)) {
