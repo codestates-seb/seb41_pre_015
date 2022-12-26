@@ -7,7 +7,6 @@ import LeftSidebar from '../component/LeftSidebar';
 import RightSidebar from '../component/RightSidebar';
 import MainQuestions from '../component/MainQuesTions';
 // import Footer from '../component/Footer';
-import { fontCalc } from '../component/responsive';
 
 const TopQuestionMain = styled.div`
   /* 전체 100%에서 왼쪽 -250 오른쪽 -200 */
@@ -39,7 +38,6 @@ const AskQuestionContainer = styled.div`
   justify-content: space-between;
   div {
     /* font-size: 30px; */
-    /* font-size: ${(props) => props.fontCalc(15)}; */
   }
 `;
 
@@ -51,7 +49,6 @@ const AskQuestion = styled.button`
   border-radius: 2px;
   border-color: #0078ff;
   margin: 10px;
-  /* font-size: ${(props) => props.fontCalc(1)}; */
 `;
 const FilterButtonContainer = styled.div`
   width: 100%;
@@ -64,7 +61,6 @@ const FilterButtonContainer = styled.div`
 const FilterButton = styled.button`
   height: 30px;
   margin-right: 3px;
-  /* font-size: ${(props) => props.fontCalc(10)}; */
 `;
 const QuestionTitleBottomButtonTag = styled.button`
   height: 30px;
@@ -142,16 +138,16 @@ const MainPage = () => {
 
         <TopQuestionMain>
           <TopQuestionTitle>
-            <AskQuestionContainer fontCalc={fontCalc}>
+            <AskQuestionContainer>
               <div style={{ margin: '5px' }}>Top Questions</div>
-              <AskQuestion fontCalc={fontCalc}>Ask Question</AskQuestion>
+              <AskQuestion>Ask Question</AskQuestion>
             </AskQuestionContainer>
             <FilterButtonContainer>
-              <FilterButton fontCalc={fontCalc}>Interesting</FilterButton>
-              <FilterButton fontCalc={fontCalc}>Bountied</FilterButton>
-              <FilterButton fontCalc={fontCalc}>Hot</FilterButton>
-              <FilterButton fontCalc={fontCalc}>Week</FilterButton>
-              <FilterButton fontCalc={fontCalc}>Month</FilterButton>
+              <FilterButton>Interesting</FilterButton>
+              <FilterButton>Bountied</FilterButton>
+              <FilterButton>Hot</FilterButton>
+              <FilterButton>Week</FilterButton>
+              <FilterButton>Month</FilterButton>
             </FilterButtonContainer>
           </TopQuestionTitle>
           {/* <QuestionList>
