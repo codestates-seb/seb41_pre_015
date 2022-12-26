@@ -3,7 +3,9 @@ package com.preproject.backend.question.mapper;
 import java.util.List;
 
 import com.preproject.backend.question.dto.QuestionDto;
+import com.preproject.backend.question.dto.QuestionVoteDto;
 import com.preproject.backend.question.entity.Question;
+import com.preproject.backend.question.entity.QuestionVote;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -50,9 +52,10 @@ public interface QuestionMapper {
 
 		List<Answer> answers = question.getQuestionAnswers();
 		questionResponseDto.setAnswer(answersToAnswerResponseDtos(answers));
-
 		return questionResponseDto;
 	}
+
+  QuestionVote questionVoteDtoToQuestionVote(QuestionVoteDto requestBody);
 
 	List<QuestionDto.Response> questionToQuestionResponseDtos(List<Question> questions);
 

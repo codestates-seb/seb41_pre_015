@@ -44,6 +44,9 @@ public class Answer extends Auditable {
     @JoinColumn(name = "question_id")
     private Question question;
 
+    @OneToMany(mappedBy = "answer")
+    private List<AnswerVote> answerVoteList = new ArrayList<>();
+
     // 답변 ~ 코멘트 (양방향)
     @OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE)
     private List<AnswerComment> comments = new ArrayList<>();

@@ -5,10 +5,10 @@ import static org.springframework.http.HttpStatus.*;
 import lombok.Getter;
 
 public enum ExceptionCode {
-	MEMBER_NOT_FOUND(NOT_FOUND.value(), "Member Not Found"),
-	MEMBER_ALREADY_EXISTS(CONFLICT.value(), "Member Already Exists"),
-
-	QUESTION_NOT_FOUND(NOT_FOUND.value(), "Question Not Found");
+    MEMBER_NOT_FOUND(NOT_FOUND.value(), "Member Not Found"),
+    MEMBER_ALREADY_EXISTS(CONFLICT.value(), "Member Already Exists"),
+    QUESTION_NOT_FOUND(NOT_FOUND.value(), "Question Not Found"),
+    ANSWER_NOT_FOUND(NOT_FOUND.value(), "Answer Not Found");
 
 	@Getter
 	private int status;
