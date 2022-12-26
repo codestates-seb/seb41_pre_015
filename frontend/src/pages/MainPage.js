@@ -7,15 +7,17 @@ import LeftSidebar from '../component/LeftSidebar';
 import RightSidebar from '../component/RightSidebar';
 import MainQuestions from '../component/MainQuesTions';
 
+const TopQuestionMain = styled.div`
+  width: 100%;
+  height: 200%;
+  padding-right: 20px;
+`;
 const TopQuestionTitle = styled.div`
-  /* width: 600px; */
   width: 100%;
   height: 110px;
   border: 1px solid black;
-  display: grid;
-  margin-left: 10px;
   margin-bottom: 10px;
-  border-width: 0.2px;
+  border-width: 0.3px;
 `;
 
 const AskQuestionContainer = styled.div`
@@ -29,7 +31,8 @@ const AskQuestionContainer = styled.div`
 `;
 
 const AskQuestion = styled.button`
-  width: 140px;
+  /* width: 140px; */
+  width: 35%;
   height: 30px;
   background-color: #0a95ff;
   border-radius: 2px;
@@ -54,7 +57,6 @@ const QuestionTitleBottomButtonTag = styled.button`
 `;
 
 const QuestionList = styled.div`
-  /* width: 600px; */
   width: 100%;
   height: 130px;
   border: 1px solid black;
@@ -64,9 +66,8 @@ const QuestionList = styled.div`
 
 // 내용 좌측
 const QuestionContentLeft = styled.div`
-  width: 100px;
+  width: 100%;
   height: 131.9px;
-  /* background-color: pink; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -75,7 +76,7 @@ const QuestionContentLeft = styled.div`
 `;
 // 내용 우측
 const TagContainer = styled.div`
-  height: 60px;
+  height: 60%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -84,28 +85,26 @@ const TagContainer = styled.div`
 const QuestionContentMiddle = styled.div`
   text-align: center;
   font-size: 15px;
-  /* background-color: red; */
   width: 340px;
 `;
 
 const Tag = styled.button`
-  width: 20;
+  width: 20%;
   height: 20px;
   background-color: #d0e2f0;
   margin-left: 10px;
 `;
 // 작성자
 const QuestionImg = styled.div`
-  width: 150px;
+  width: 150%;
   height: 130px;
-  /* background-color: yellowgreen; */
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
 const ProfileImg = styled.img`
-  width: 20px;
+  width: 20%;
   height: 20px;
 `;
 
@@ -121,10 +120,11 @@ const MainPage = () => {
       <LoginHeader />
       <div style={{ display: 'flex' }}>
         <LeftSidebar />
-        <div>
+
+        <TopQuestionMain>
           <TopQuestionTitle>
             <AskQuestionContainer>
-              <div style={{ margin: '10px' }}>Top Questions</div>
+              <div style={{ margin: '5px' }}>Top Questions</div>
               <AskQuestion>Ask Question</AskQuestion>
             </AskQuestionContainer>
             <FilterButtonContainer>
@@ -135,10 +135,9 @@ const MainPage = () => {
               <FilterButton>Month</FilterButton>
             </FilterButtonContainer>
           </TopQuestionTitle>
-          {/* <QuestionList>
-          </QuestionList> */}
           <MainQuestions></MainQuestions>
-        </div>
+        </TopQuestionMain>
+        <RightSidebar />
       </div>
     </>
   );

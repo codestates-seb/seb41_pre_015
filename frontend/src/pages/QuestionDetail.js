@@ -10,13 +10,7 @@ import { TiArrowSortedUp, TiArrowSortedDown } from 'react-icons/ti';
 const TopQuestionTitle = styled.div`
   width: 60%;
   height: 100px;
-  /* border: 1px solid black; */
-  /* display: flex; */
-  /* margin-left: 30px; */
   margin-right: 30px;
-  /* padding: 30px; */
-  /* margin-bottom: 10px; */
-  /* border-width: 0.2px; */
   align-items: start;
   padding-left: 10px;
   padding-right: 10px;
@@ -26,7 +20,6 @@ const TopQuestionTitle = styled.div`
 const AskQuestionContainer = styled.div`
   width: 100%;
   height: 80px;
-  /* display: flex; */
   justify-content: space-between;
   border-bottom: 2px solid black;
   div {
@@ -45,10 +38,7 @@ const AskQuestion = styled.button`
   font-size: 5px;
 `;
 const QuestionInform = styled.div`
-  /* width: 100px; */
   height: 40px;
-  /* background-color: orange; */
-  /* margin: 10px; */
   display: flex;
 `;
 const QuestionDetailTitle = styled.div`
@@ -67,7 +57,6 @@ const QuestionContentText = styled.div`
   font-size: 15px;
   background-color: #ffff;
   border: 1px solid black;
-  /* border-radius: 5px; */
   /* background-color: olive; */
 `;
 
@@ -93,25 +82,19 @@ const AnswerContent = styled.div`
   width: 100%;
   height: 160px;
   /* background-color: purple; */
-  /* display: flex; */
   margin-top: 20px;
   padding-left: 10px;
   padding-right: 10px;
-  /* justify-content: space-between; */
 `;
 
 const AnswerContentTitle = styled.div`
   width: 100%;
-  /* height: 200px; */
   /* background-color: pink; */
-  /* display: flex; */
 `;
 const AnswerContentInput = styled.input`
   width: 100%;
   height: 120px;
   border: 1px solid black;
-  /* border-radius: 5px; */
-  /* border-color: #b4e5ff; */
 `;
 
 const AnswerQuestion = styled.button`

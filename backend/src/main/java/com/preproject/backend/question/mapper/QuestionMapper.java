@@ -2,6 +2,8 @@ package com.preproject.backend.question.mapper;
 
 import java.util.List;
 
+import com.preproject.backend.question.dto.QuestionDto;
+import com.preproject.backend.question.entity.Question;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
