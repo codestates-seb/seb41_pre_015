@@ -16,7 +16,7 @@ const QuestionList = styled.div`
 
 // 내용 좌측
 const QuestionContentLeft = styled.div`
-  width: 100px;
+  /* width: 50%; */
   height: 131.9px;
   /* background-color: pink; */
   display: flex;
@@ -27,7 +27,7 @@ const QuestionContentLeft = styled.div`
 `;
 // 내용 우측
 const TagContainer = styled.div`
-  height: 60px;
+  height: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -41,7 +41,7 @@ const QuestionContentMiddle = styled.div`
 `;
 
 const Tag = styled.button`
-  width: 80px;
+  width: 100%;
   height: 30px;
   background-color: #d0e2f0;
   margin-left: 10px;
@@ -50,17 +50,18 @@ const Tag = styled.button`
 `;
 // 작성자
 const QuestionImg = styled.div`
-  width: 150px;
+  width: 50%;
   height: 130px;
   /* background-color: yellowgreen; */
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: end;
 `;
 
 const ProfileImg = styled.img`
-  width: 20px;
+  /* width: 20%; */
   height: 20px;
+  margin: 10px;
 `;
 
 // 우측
@@ -82,7 +83,9 @@ const MainQuestions = () => {
           </div>
         </QuestionContentLeft>
         <QuestionContentMiddle>
-          <div>IActionResult not returning string response as string</div>
+          <div style={{ padding: '25px' }}>
+            IActionResult not returning string response as string
+          </div>
           <TagContainer>
             <Tag>node.js</Tag>
             <Tag>react.js</Tag>
@@ -91,7 +94,7 @@ const MainQuestions = () => {
         </QuestionContentMiddle>
         <QuestionImg>
           <ProfileImg src={logo} alt="logo"></ProfileImg>
-          <div>User name</div>
+          <div style={{ margin: '10px' }}>User name</div>
         </QuestionImg>
       </QuestionList>
       {/* {리스트 2} */}
@@ -104,7 +107,9 @@ const MainQuestions = () => {
           </div>
         </QuestionContentLeft>
         <QuestionContentMiddle>
-          <div>IActionResult not returning string response as string</div>
+          <div style={{ padding: '25px' }}>
+            IActionResult not returning string response as string
+          </div>
           <TagContainer>
             <Tag>node.js</Tag>
             <Tag>react.js</Tag>
@@ -113,7 +118,7 @@ const MainQuestions = () => {
         </QuestionContentMiddle>
         <QuestionImg>
           <ProfileImg src={logo} alt="logo"></ProfileImg>
-          <div>User name</div>
+          <div style={{ margin: '10px' }}>User name</div>
         </QuestionImg>
       </QuestionList>
       {/* {리스트 3} */}
@@ -126,16 +131,18 @@ const MainQuestions = () => {
           </div>
         </QuestionContentLeft>
         <QuestionContentMiddle>
-          <div>IActionResult not returning string response as string</div>
+          <div style={{ padding: '25px' }}>
+            IActionResult not returning string response as string
+          </div>
           <TagContainer>
-            <Tag>node.js</Tag>
-            <Tag>react.js</Tag>
-            <Tag>C ++</Tag>
+            <Tag>Tag</Tag>
+            <Tag>Tag</Tag>
+            <Tag>Tag</Tag>
           </TagContainer>
         </QuestionContentMiddle>
         <QuestionImg>
           <ProfileImg src={logo} alt="logo"></ProfileImg>
-          <div>User name</div>
+          <div style={{ margin: '10px' }}>User name</div>
         </QuestionImg>
       </QuestionList>
     </>
