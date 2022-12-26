@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.preproject.backend.dto.MultiResponseDto;
-import com.preproject.backend.question.entity.dto.QuestionDto;
+import com.preproject.backend.question.dto.QuestionDto;
 import com.preproject.backend.question.entity.Question;
 import com.preproject.backend.question.mapper.QuestionMapper;
 import com.preproject.backend.question.service.QuestionService;
