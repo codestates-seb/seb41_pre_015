@@ -29,7 +29,7 @@ const TopQuestionTitle = styled.div`
   /* display: grid; */
   /* margin-left: 10px; */
   margin-bottom: 10px;
-  border-width: 0.2px;
+  border-width: 0.3px;
 `;
 
 const AskQuestionContainer = styled.div`
