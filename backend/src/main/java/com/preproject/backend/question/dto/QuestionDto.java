@@ -1,15 +1,18 @@
 package com.preproject.backend.question.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import com.preproject.backend.answer.dto.AnswerDto;
 import com.preproject.backend.question.entity.Question;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 public class QuestionDto {
@@ -46,6 +49,8 @@ public class QuestionDto {
 
 	// *** ResponseDto ***
 	@Getter
+	@Setter
+	@NoArgsConstructor
 	@AllArgsConstructor
 	public static class Response {
 		private Long id;
@@ -56,6 +61,8 @@ public class QuestionDto {
 		private Question.QuestionStatus questionStatus;
 		private LocalDateTime createdAt;
 		private LocalDateTime modifiedAt;
+
+		private List<AnswerDto.Response> answer;
 
 		public String getQuestionStatus() {
 			return questionStatus.getStatus();

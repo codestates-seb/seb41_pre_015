@@ -1,19 +1,17 @@
 package com.preproject.backend.question.service;
 
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import com.preproject.backend.member.entity.Member;
-import com.preproject.backend.member.repository.MemberRepository;
-import com.preproject.backend.member.service.MemberService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.preproject.backend.exception.BusinessLogicException;
 import com.preproject.backend.exception.ExceptionCode;
+import com.preproject.backend.member.service.MemberService;
 import com.preproject.backend.question.entity.Question;
 import com.preproject.backend.question.repository.QuestionRepository;
 
@@ -71,9 +69,13 @@ public class QuestionService {
 	}
 
 	// *** 질문 검색 기능 ***
-/*	public List<Question> searchQuestion(int page, int size, String keyword) {
-		return questionRepository.findByKeyword(keyword);
-	}*/
+	public Page<Question> searchQuestion(String keyword, int page, int size) {
+
+		Pageable pageable = PageRequest.of(page, size);
+		Page<Question> searchedQuestion = questionRepository.findByKeyword(keyword, pageable);
+
+		return searchedQuestion;
+	}
 
 	// *** 질문 필터 검색 (검색과 같은지?) ***
 	public Question filterQuestion() {
@@ -90,22 +92,29 @@ public class QuestionService {
 		return null;
 	}
 
-	// *** 특정 질문 북마크로 저장 ***
+/*	// *** 특정 질문 북마크로 저장 ***
 	public Question saveQuestion() {
 		return null;
-	}
+	}*/
 
-	// *** 질문 채택 ***
+
+/*	// *** 질문 채택 ***
 	public Question selectQuestion() {
-		// 유효한 질문인지 검증
+
+		// 채택한 답변이 존재하면 (status가 ACCEPTED)
+
+		// Question Status도 RESOLVED 로 set
+		// * Answer Service 에서 작성?
 
 		return null;
-	}
+	}*/
 
 	// *** 하나의 질문 삭제 ***
 	public void deleteQuestion(Long id) {
 		// 유효한 질문인지 검증
 		Question findQuestion = findVerifiedQuestionByQuery(id);
+
+		//TODO : 현재 로그인한 아이디 = 작성자 아이디 일치할 시 질문 삭제
 
 		// 질문 삭제
 		questionRepository.delete(findQuestion);
@@ -121,8 +130,7 @@ public class QuestionService {
 	private Question findVerifiedQuestionByQuery(Long id) {
 		Optional<Question> optionalQuestion = questionRepository.findById(id);
 		Question findQuestion =
-			optionalQuestion.orElseThrow(() -> new NoSuchElementException()); //exception code 줄 것
-
+			optionalQuestion.orElseThrow(() -> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
 		return findQuestion;
 	}
 }

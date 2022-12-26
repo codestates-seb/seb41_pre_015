@@ -9,19 +9,58 @@ const SbackGround = styled.div`
   height: 100vh;
   display: flex;
   justify-content: center;
+  img {
+    margin-bottom: 20px;
+  }
+  .Login-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 80%;
+    flex-grow: 1;
+    text-align: left;
+    .LoginInputForm {
+      margin-top: 20px;
+      background-color: white;
+      flex-grow: 0.7;
+      display: flex;
+      flex-direction: column;
+      width: 20%;
+      justify-content: center;
+      padding: 0 30px;
+      border-radius: 5px;
+      .InputBox {
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: column;
+        .Email-input {
+          border-radius: 5px;
+          border-color: #b4e5ff;
+          line-height: 25px;
+        }
+        .Password.input {
+          border-radius: 5px;
+          border-color: #b4e5ff;
+          line-height: 25px;
+        }
+      }
+    }
+    .help-comment {
+      margin-top: 30px;
+      font-size: small;
+    }
+    .Login-button {
+      background-color: #0a95ff;
+      line-height: 30px;
+      border-color: #5ad2ff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  }
 `;
-const SsmallLogo = styled.img`
-  margin-bottom: 20px;
-`;
-const SLoginItem = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  height: 80%;
-  flex-grow: 1;
-  text-align: left;
-`;
+
 const SAauthLogin = styled.button`
   display: flex;
   align-items: center;
@@ -42,55 +81,13 @@ const SFacebookLogin = styled(SAauthLogin)`
   background-color: #385499;
   color: white;
 `;
-const SLoginInputForm = styled.div`
-  margin-top: 20px;
-  background-color: white;
-  flex-grow: 0.7;
-  display: flex;
-  flex-direction: column;
-  width: 16%;
-  justify-content: center;
-  padding: 0 30px;
-  border-radius: 5px;
-`;
-const SEmailInputBox = styled.div`
-  margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
-`;
-const SPasswordInputBox = styled.div`
-  margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
-`;
-const SLoginButton = styled.button`
-  background-color: #0a95ff;
-  line-height: 30px;
-  border-color: #5ad2ff;
-  color: white;
-  border-radius: 5px;
-`;
-const SEmailInput = styled.input`
-  border-radius: 5px;
-  border-color: #b4e5ff;
-  line-height: 25px;
-`;
-const SPasswordInput = styled.input`
-  border-radius: 5px;
-  border-color: #b4e5ff;
-  line-height: 25px;
-`;
-const SHelpSentence = styled.div`
-  margin-top: 30px;
-  font-size: small;
-`;
 
 const LoginForm = () => {
   return (
     <div>
       <SbackGround>
-        <SLoginItem>
-          <SsmallLogo src={slogo} alt="small-logo"></SsmallLogo>
+        <div className="Login-item">
+          <img src={slogo} alt="small-logo"></img>
           <SGoogleLogin>
             <FcGoogle size="20" /> &nbsp;&nbsp;Log in with Google
           </SGoogleLogin>
@@ -101,21 +98,23 @@ const LoginForm = () => {
             <AiFillFacebook size="20" />
             &nbsp;&nbsp;Log in with Facebook
           </SFacebookLogin>
-          <SLoginInputForm>
-            <SEmailInputBox>
+          <form className="LoginInputForm">
+            <div className="InputBox">
               <div>Email</div>
-              <SEmailInput></SEmailInput>
-            </SEmailInputBox>
-            <SPasswordInputBox>
+              <input className="Email-input"></input>
+            </div>
+            <div className="InputBox">
               <div>Password</div>
-              <SPasswordInput type="password"></SPasswordInput>
-            </SPasswordInputBox>
-            <SLoginButton>Log in</SLoginButton>
-          </SLoginInputForm>
-          <SHelpSentence>
+              <input className="Password-input" type="password"></input>
+            </div>
+            <button className="Login-button" type="submit">
+              Log in
+            </button>
+          </form>
+          <div className="help-comment">
             Don’t have an account? <a href=" ">Sign up</a>
-          </SHelpSentence>
-        </SLoginItem>
+          </div>
+        </div>
       </SbackGround>
     </div>
   );
