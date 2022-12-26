@@ -9,16 +9,10 @@ import MainQuestions from '../component/MainQuesTions';
 // import Footer from '../component/Footer';
 
 const TopQuestionMain = styled.div`
-  /* 전체 100%에서 왼쪽 -250 오른쪽 -200 */
-  width: calc(100% - 250px - 200px);
+  width: 100%;
+  height: 200%;
   /* padding-left: 10px; */
   padding-right: 20px;
-
-  /* 반응형 */
-  @media (max-width: 640px) {
-    width: calc(100% - 200px);
-    padding-left: 20px;
-  }
 `;
 const TopQuestionTitle = styled.div`
   /* width: 600px; */
@@ -37,7 +31,7 @@ const AskQuestionContainer = styled.div`
   display: flex;
   justify-content: space-between;
   div {
-    /* font-size: 30px; */
+    font-size: 30px;
   }
 `;
 
@@ -112,7 +106,6 @@ const Tag = styled.button`
 const QuestionImg = styled.div`
   width: 150%;
   height: 130px;
-  /* background-color: yellowgreen; */
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,6 +1,5 @@
 package com.preproject.backend.question.mapper;
 
-import com.preproject.backend.member.entity.Member;
 import com.preproject.backend.question.dto.QuestionDto;
 import com.preproject.backend.question.entity.Question;
 import org.mapstruct.Mapper;
