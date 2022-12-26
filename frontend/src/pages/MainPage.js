@@ -39,7 +39,7 @@ const AskQuestionContainer = styled.div`
   justify-content: space-between;
   div {
     /* font-size: 30px; */
-    font-size: ${(props) => props.fontCalc(15)};
+    /* font-size: ${(props) => props.fontCalc(15)}; */
   }
 `;
 
@@ -51,7 +51,7 @@ const AskQuestion = styled.button`
   border-radius: 2px;
   border-color: #0078ff;
   margin: 10px;
-  font-size: ${(props) => props.fontCalc(1)};
+  /* font-size: ${(props) => props.fontCalc(1)}; */
 `;
 const FilterButtonContainer = styled.div`
   width: 100%;
@@ -64,7 +64,7 @@ const FilterButtonContainer = styled.div`
 const FilterButton = styled.button`
   height: 30px;
   margin-right: 3px;
-  font-size: ${(props) => props.fontCalc(10)};
+  /* font-size: ${(props) => props.fontCalc(10)}; */
 `;
 const QuestionTitleBottomButtonTag = styled.button`
   height: 30px;
