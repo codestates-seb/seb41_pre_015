@@ -8,7 +8,7 @@ import com.preproject.backend.member.dto.MemberDto;
 import com.preproject.backend.member.entity.Member;
 import com.preproject.backend.member.mapper.MemberMapper;
 import com.preproject.backend.member.service.MemberService;
-import com.preproject.backend.question.entity.dto.QuestionDto;
+import com.preproject.backend.question.dto.QuestionDto;
 import com.preproject.backend.question.entity.Question;
 import com.preproject.backend.question.mapper.QuestionMapper;
 import org.springframework.data.domain.Page;

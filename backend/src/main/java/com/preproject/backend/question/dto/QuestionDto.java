@@ -1,4 +1,4 @@
-package com.preproject.backend.question.entity.dto;
+package com.preproject.backend.question.dto;
 
 import java.time.LocalDateTime;
 
