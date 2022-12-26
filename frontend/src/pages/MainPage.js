@@ -6,21 +6,16 @@ import LoginHeader from '../component/LoginHeader';
 import LeftSidebar from '../component/LeftSidebar';
 import RightSidebar from '../component/RightSidebar';
 import MainQuestions from '../component/MainQuesTions';
-// import Footer from '../component/Footer';
 
 const TopQuestionMain = styled.div`
   width: 100%;
   height: 200%;
-  /* padding-left: 10px; */
   padding-right: 20px;
 `;
 const TopQuestionTitle = styled.div`
-  /* width: 600px; */
   width: 100%;
   height: 110px;
   border: 1px solid black;
-  /* display: grid; */
-  /* margin-left: 10px; */
   margin-bottom: 10px;
   border-width: 0.3px;
 `;
@@ -62,7 +57,6 @@ const QuestionTitleBottomButtonTag = styled.button`
 `;
 
 const QuestionList = styled.div`
-  /* width: 600px; */
   width: 100%;
   height: 130px;
   border: 1px solid black;
@@ -74,7 +68,6 @@ const QuestionList = styled.div`
 const QuestionContentLeft = styled.div`
   width: 100%;
   height: 131.9px;
-  /* background-color: pink; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -92,7 +85,6 @@ const TagContainer = styled.div`
 const QuestionContentMiddle = styled.div`
   text-align: center;
   font-size: 15px;
-  /* background-color: red; */
   width: 340px;
 `;
 
@@ -143,8 +135,6 @@ const MainPage = () => {
               <FilterButton>Month</FilterButton>
             </FilterButtonContainer>
           </TopQuestionTitle>
-          {/* <QuestionList>
-          </QuestionList> */}
           <MainQuestions></MainQuestions>
         </TopQuestionMain>
         <RightSidebar />
