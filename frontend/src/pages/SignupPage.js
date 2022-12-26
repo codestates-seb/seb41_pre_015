@@ -45,9 +45,9 @@ const SSignupInputForm = styled.div`
   display: flex;
   flex-direction: column;
   text-align: left;
-  width: 65%;
+  width: 80%;
   border-radius: 5px;
-  height: 70%;
+  height: 80%;
   padding: 27px;
   margin-top: 20px;
 `;
@@ -87,7 +87,7 @@ const SignupPage = () => {
       <SbackGround>
         <SSignupContainer>
           <SExplainOption>
-            <h1>Join the Stack Overflow community</h1>
+            <h2>Join the Stack Overflow community</h2>
             <div>
               <RiQuestionnaireFill size="20" color="#0a95ff" /> &nbsp;&nbsp;Get
               unstuck — ask a question
