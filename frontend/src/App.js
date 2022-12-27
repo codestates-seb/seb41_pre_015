@@ -1,23 +1,29 @@
 // import React from 'react';
 // import MyPage from './pages/MyPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import MainPage from './pages/MainPage';
+import SignupPage from './pages/SignupPage';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
+import MyPage from './pages/MyPage';
+import AddQuestionPage from './pages/AddQuestionPage';
 import QuestionDetail from './pages/QuestionDetail';
-import Footer from './component/Footer';
-// import MainQuestions from './component/MainQuesTions';
-
-// 라우터
-import { Route, Routes } from 'react-router-dom';
+import MypageEdit from './pages/MypageEdit';
 
 function App() {
   return (
     <>
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/questiondetail" element={<QuestionDetail />} />
-      </Routes>
-      <Footer />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/main" element={<MainPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/addquestion" element={<AddQuestionPage />} />
+          <Route path="/questions" element={<QuestionDetail />} />
+          <Route path="/editmypage" element={<MypageEdit />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }

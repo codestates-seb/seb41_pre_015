@@ -1,6 +1,7 @@
 import logo from '../../images/logo-stackoverflow.png';
 import styled from 'styled-components';
 import { BsSearch } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 
 const SLogo = styled.img`
   width: 150px;
@@ -49,7 +50,17 @@ const SLoginButton = styled.button`
   border-color: #39739d;
   border-width: 1px;
 `;
-const SLogoutButton = styled.button`
+// const SLogoutButton = styled.button`
+//   background-color: #0a95ff;
+//   padding: 10px 3px;
+//   cursor: pointer;
+//   color: white;
+//   font-weight: 550;
+//   border-radius: 5px;
+//   border-color: #0078ff;
+//   border-width: 1px;
+// `;
+const SLink = styled(Link)`
   background-color: #0a95ff;
   padding: 10px 3px;
   cursor: pointer;
@@ -58,6 +69,7 @@ const SLogoutButton = styled.button`
   border-radius: 5px;
   border-color: #0078ff;
   border-width: 1px;
+  text-decoration: none;
 `;
 
 const SignupHeader = () => {
@@ -69,7 +81,7 @@ const SignupHeader = () => {
         <Sinput placeholder="search"></Sinput>
       </Sform>
       <SLoginButton>Log in</SLoginButton>
-      <SLogoutButton>Sign up</SLogoutButton>
+      <SLink to="/signup">Sign up</SLink>
     </Sheader>
   );
 };
