@@ -1,7 +1,9 @@
 package com.preproject.backend.question.service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -108,6 +110,15 @@ public class QuestionService {
 			if(a.getAnswerStatus().equals(Answer.AnswerStatus.ACCEPTED))
 				findQuestion.setQuestionStatus(Question.QuestionStatus.RESOLVED);
 		}
+
+		// 2개의 답변 채택 불가능하도록
+		List<Answer> totalAnswers = getEveryAnswers(questionId);
+		List<Enum> statusList = totalAnswers.stream().map(Answer::getAnswerStatus).collect(Collectors.toList());
+
+		if(Collections.frequency(statusList, Answer.AnswerStatus.ACCEPTED) >= 2){
+			throw new BusinessLogicException(ExceptionCode.QUESTION_ALREADY_RESOLVED);
+		}
+
 		return questionRepository.save(findQuestion);
 	}
 
