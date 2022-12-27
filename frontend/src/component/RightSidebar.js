@@ -13,31 +13,31 @@ const RightSidebar = () => {
           <header>The Overflow Blog</header>
           <ul>
             <li>
-              <CreateIcon /> Goodbye Webpack, hello Turbopack! The big news from
-              <br /> todays Next.JS conference
+              <CreateIcon /> The three top-paying tech roles in 2022 and the
+              skills you need to land them.
             </li>
             <li>
-              <CreateIcon /> CEO update: Breaking down barriers to unlock
-              innovation
+              <CreateIcon /> Why the number input is the worst input
             </li>
           </ul>
           <header>Featured on Meta</header>
           <ul>
             <li>
               <img src={companyLogo} alt=" " style={{ marginBottom: '1px' }} />
-              The 2022 Community-a-thon has begun!
+              2022 Community Moderator Election Results - now with two more
+              mods!
             </li>
             <li>
               <img src={companyLogo} alt=" " />
-              Mobile app infrastructure being decommissioned
+              standing down as a moderator
             </li>
             <li>
               <img src={companyLogo} alt=" " />
-              Staging Ground Workflow: Canned Comments
+              Temporary policy: ChatGPT is banned
             </li>
             <li>
               <img src={companyLogo} alt=" " />
-              The Ask Wizard has graduated
+              Navigation and UI research starting soon
             </li>
           </ul>
           <header>Hot Meta Posts</header>
@@ -47,9 +47,8 @@ const RightSidebar = () => {
               How are bounties awarded to ChatGPT-sourced answerers handled?
             </li>
             <li>
-              <NumberBadge>19</NumberBadge>
-              How to schedule multiple notifications with Flutter within the
-              same day?
+              <NumberBadge>36</NumberBadge> I worry that ChatGPT answers could
+              currently be too tricky for use in review...
             </li>
           </ul>
         </Sidebaryellow>
