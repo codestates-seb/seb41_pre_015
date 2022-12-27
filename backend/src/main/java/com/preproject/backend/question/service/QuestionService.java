@@ -97,22 +97,22 @@ public class QuestionService {
 
 
 	// *** 질문 채택 ***
-	public Question resolveQuestion(Long questionId, Long answerId) {
+	public Question resolveQuestion(Long answerId) {
 
 		Answer answer = answerService.findById(answerId); // answer 찾아서
 		answerService.acceptAnswer(answer.getId()); //채택 처리
 		//Answer acceptAnswer = answerService.acceptAnswer(answerId); // 채택 처리
 
-		Question findQuestion = findVerifiedQuestion(questionId); // question 검증
+		Question findQuestion = findVerifiedQuestion(answer.getQuestion().getId()); // question 검증
 
 		// 채택한 답변이 존재하면 질문도 채택 상태로 만듬
-		for(Answer a : getEveryAnswers(questionId)){
+		for(Answer a : getEveryAnswers(answer.getQuestion().getId())){
 			if(a.getAnswerStatus().equals(Answer.AnswerStatus.ACCEPTED))
 				findQuestion.setQuestionStatus(Question.QuestionStatus.RESOLVED);
 		}
 
 		// 2개의 답변 채택 불가능하도록
-		List<Answer> totalAnswers = getEveryAnswers(questionId);
+		List<Answer> totalAnswers = getEveryAnswers(answer.getQuestion().getId());
 		List<Enum> statusList = totalAnswers.stream().map(Answer::getAnswerStatus).collect(Collectors.toList());
 
 		if(Collections.frequency(statusList, Answer.AnswerStatus.ACCEPTED) >= 2){
