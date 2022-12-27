@@ -4,6 +4,9 @@ import styled from 'styled-components';
 import logo from '../images/small-logo.png';
 import LoginHeader from './LoginHeader';
 import LeftSidebar from './LeftSidebar';
+import { Link } from 'react-router-dom';
+import { useState, useEffect, Fragment } from 'react';
+import axios from 'axios';
 
 const QuestionList = styled.div`
   /* width: 600px; */
@@ -71,80 +74,54 @@ const SectionRight = styled.div`
 `;
 
 const MainQuestions = () => {
+  // 페이지가 그려지기 전에 axios로 데이터 호출
+  useEffect(() => {
+    const init = async () => {
+      const result = await axios.get(
+        // `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/questions?page=1&size=10`
+        `/questions?page=1&size=10`
+      );
+      console.log('결과값 : ', result);
+      setList(result.data.data);
+    };
+    init();
+  }, []);
+  const [list, setList] = useState([]);
   return (
     <>
-      {/* {리스트 1} */}
-      <QuestionList>
-        <QuestionContentLeft>
-          <div>
-            <div style={{ margin: '5px' }}>0 votes</div>
-            <div style={{ margin: '5px' }}>0 answers</div>
-            <div style={{ margin: '5px' }}>2 views</div>
-          </div>
-        </QuestionContentLeft>
-        <QuestionContentMiddle>
-          <div style={{ padding: '25px' }}>
-            IActionResult not returning string response as string
-          </div>
-          <TagContainer>
-            <Tag>node.js</Tag>
-            <Tag>react.js</Tag>
-            <Tag>C ++</Tag>
-          </TagContainer>
-        </QuestionContentMiddle>
-        <QuestionImg>
-          <ProfileImg src={logo} alt="logo"></ProfileImg>
-          <div style={{ margin: '10px' }}>User name</div>
-        </QuestionImg>
-      </QuestionList>
-      {/* {리스트 2} */}
-      <QuestionList>
-        <QuestionContentLeft>
-          <div>
-            <div style={{ margin: '5px' }}>0 votes</div>
-            <div style={{ margin: '5px' }}>0 answers</div>
-            <div style={{ margin: '5px' }}>2 views</div>
-          </div>
-        </QuestionContentLeft>
-        <QuestionContentMiddle>
-          <div style={{ padding: '25px' }}>
-            IActionResult not returning string response as string
-          </div>
-          <TagContainer>
-            <Tag>node.js</Tag>
-            <Tag>react.js</Tag>
-            <Tag>C ++</Tag>
-          </TagContainer>
-        </QuestionContentMiddle>
-        <QuestionImg>
-          <ProfileImg src={logo} alt="logo"></ProfileImg>
-          <div style={{ margin: '10px' }}>User name</div>
-        </QuestionImg>
-      </QuestionList>
-      {/* {리스트 3} */}
-      <QuestionList>
-        <QuestionContentLeft>
-          <div>
-            <div style={{ margin: '5px' }}>0 votes</div>
-            <div style={{ margin: '5px' }}>0 answers</div>
-            <div style={{ margin: '5px' }}>2 views</div>
-          </div>
-        </QuestionContentLeft>
-        <QuestionContentMiddle>
-          <div style={{ padding: '25px' }}>
-            IActionResult not returning string response as string
-          </div>
-          <TagContainer>
-            <Tag>Tag</Tag>
-            <Tag>Tag</Tag>
-            <Tag>Tag</Tag>
-          </TagContainer>
-        </QuestionContentMiddle>
-        <QuestionImg>
-          <ProfileImg src={logo} alt="logo"></ProfileImg>
-          <div style={{ margin: '10px' }}>User name</div>
-        </QuestionImg>
-      </QuestionList>
+      {/* 리스트 중복 */}
+      {list.map((item, index) => {
+        return (
+          <Fragment key={index}>
+            <Link
+              to="/questiondetail"
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              <QuestionList>
+                <QuestionContentLeft>
+                  <div>
+                    <div style={{ margin: '5px' }}>0 votes</div>
+                    <div style={{ margin: '5px' }}>0 answers</div>
+                    <div style={{ margin: '5px' }}>0 views</div>
+                  </div>
+                </QuestionContentLeft>
+                <QuestionContentMiddle>
+                  <div style={{ padding: '25px' }}>{item.content}</div>
+                  <TagContainer>
+                    <Tag>node.js</Tag>
+                    <Tag>react.js</Tag>
+                    <Tag>C ++</Tag>
+                  </TagContainer>
+                </QuestionContentMiddle>
+                <QuestionImg>
+                  <ProfileImg src={logo} alt="logo"></ProfileImg>
+                  <div style={{ margin: '10px' }}>User name</div>
+                </QuestionImg>
+              </QuestionList>
+            </Link>
+          </Fragment>
+        );
+      })}
     </>
   );
 };
