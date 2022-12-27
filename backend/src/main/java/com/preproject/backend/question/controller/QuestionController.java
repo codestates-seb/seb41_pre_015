@@ -5,6 +5,11 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 
+import com.preproject.backend.answer.dto.AnswerVoteDto;
+import com.preproject.backend.answer.entity.Answer;
+import com.preproject.backend.question.dto.QuestionVoteDto;
+import com.preproject.backend.question.entity.QuestionVote;
+import com.preproject.backend.question.service.QuestionVoteService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,10 +39,14 @@ public class QuestionController {
 	// DI
 	private final QuestionMapper mapper;
 	private final QuestionService questionService;
+	private final QuestionVoteService questionVoteService;
 
-	public QuestionController(QuestionMapper questionMapper, QuestionService questionService) {
-		this.mapper = questionMapper;
+	public QuestionController(QuestionMapper mapper,
+							  QuestionService questionService,
+							  QuestionVoteService questionVoteService) {
+		this.mapper = mapper;
 		this.questionService = questionService;
+		this.questionVoteService = questionVoteService;
 	}
 
 	// *** 질문 등록 ***
@@ -113,5 +122,24 @@ public class QuestionController {
 		questionService.deleteQuestions(question);
 
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+
+	// *** 답변 추천 ***
+	@PatchMapping("/{question-id}/upvotes")
+	public ResponseEntity upVoteQuestion(@Positive @PathVariable("question-id") long id,
+									   @Valid @RequestBody QuestionVoteDto requestBody) {
+
+		Question votedQuestion = questionVoteService.upVoteQuestion(id, mapper.questionVoteDtoToQuestionVote(requestBody));
+
+		return new ResponseEntity<>(mapper.questionToQuestionResponseDto(votedQuestion), HttpStatus.OK);
+	}
+
+	// *** 답변 비추천 ***
+	@PatchMapping("/{question-id}/downvotes")
+	public ResponseEntity downVoteQuestion(@PathVariable("question-id") long id,
+										 @Valid @RequestBody QuestionVoteDto requestBody) {
+		Question votedQuestion = questionVoteService.downVoteQuestion(id, mapper.questionVoteDtoToQuestionVote(requestBody));
+
+		return new ResponseEntity<>(mapper.questionToQuestionResponseDto(votedQuestion), HttpStatus.OK);
 	}
 }

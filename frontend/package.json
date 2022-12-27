@@ -22,6 +22,7 @@
     "suneditor": "^2.44.3",
     "suneditor-react": "^3.4.1",
     "web-vitals": "^2.1.4",
+    "webpack-dev-server": "^4.11.1",
     "zustand": "^4.1.5"
   },
   "scripts": {
@@ -61,5 +62,6 @@
     "prettier": "^2.8.1",
     "typescript": "^4.9.4"
   },
-  "proxy": "http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080"
+
+  "proxy": "http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/"
 }
