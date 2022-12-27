@@ -7,6 +7,10 @@ import com.preproject.backend.answer.mapper.AnswerMapper;
 import com.preproject.backend.answer.service.AnswerService;
 import com.preproject.backend.answer.service.AnswerVoteService;
 import com.preproject.backend.dto.MultiResponseDto;
+import com.preproject.backend.question.entity.Question;
+import com.preproject.backend.question.mapper.QuestionMapper;
+import com.preproject.backend.question.service.QuestionService;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,12 +28,17 @@ public class AnswerController {
 
     private final AnswerService answerService;
     private final AnswerMapper mapper;
+    private final QuestionMapper qmapper;
     private final AnswerVoteService answerVoteService;
+    private final QuestionService questionService;
 
-    public AnswerController(AnswerService answerService, AnswerMapper mapper, AnswerVoteService answerVoteService) {
+    public AnswerController(AnswerService answerService, AnswerMapper mapper, QuestionMapper qmapper, AnswerVoteService answerVoteService,
+        QuestionService questionService) {
         this.answerService = answerService;
         this.mapper = mapper;
+        this.qmapper = qmapper;
         this.answerVoteService = answerVoteService;
+        this.questionService = questionService;
     }
 
     // 답변 등록
@@ -94,4 +103,15 @@ public class AnswerController {
 //        return ResponseEntity.ok(null);
 //    }
 
+    // 질문자가 답변 채택 answers/{answer-id}/accept
+    @PatchMapping("answers/{answer-id}/accept")
+    public ResponseEntity acceptAnswer(@Positive @PathVariable("answer-id")long answerId){
+        // Todo : 로그인한 Id가 작성자(memberId)와 맞는지 검증
+
+        // 답변 채택 -> 질문 채택
+        Question resolvedQuestion = questionService.resolveQuestion(answerId);
+
+        // 채택된 질문, 답변 결과 출력
+        return new ResponseEntity<>(qmapper.questionToQuestionResponseDto(resolvedQuestion), HttpStatus.OK);
+    }
 }

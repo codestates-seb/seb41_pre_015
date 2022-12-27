@@ -9,6 +9,8 @@ import MainQuestions from '../component/MainQuesTions';
 // import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Footer from '../component/Footer';
+
 
 const TopQuestionMain = styled.div`
   width: 100%;
@@ -153,6 +155,7 @@ const MainPage = () => {
         </TopQuestionMain>
         <RightSidebar />
       </div>
+      <Footer />
     </>
   );
 };

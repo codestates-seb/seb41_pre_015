@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import com.preproject.backend.answer.dto.AnswerDto;
+import com.preproject.backend.comment.dto.QuestionCommentDto;
 import com.preproject.backend.question.entity.Question;
 
 import lombok.AllArgsConstructor;
@@ -63,6 +64,7 @@ public class QuestionDto {
 		private LocalDateTime modifiedAt;
 
 		private List<AnswerDto.Response> answer;
+		private List<QuestionCommentDto.Response> questionComments;
 
 		public String getQuestionStatus() {
 			return questionStatus.getStatus();

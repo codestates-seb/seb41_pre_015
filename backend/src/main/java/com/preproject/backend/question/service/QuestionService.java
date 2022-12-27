@@ -1,6 +1,9 @@
 package com.preproject.backend.question.service;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,6 +12,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.preproject.backend.answer.entity.Answer;
+import com.preproject.backend.answer.service.AnswerService;
 import com.preproject.backend.exception.BusinessLogicException;
 import com.preproject.backend.exception.ExceptionCode;
 import com.preproject.backend.member.service.MemberService;
@@ -24,10 +29,13 @@ public class QuestionService {
 	//Repository DI
 	private final QuestionRepository questionRepository;
 	private final MemberService memberService;
+	private final AnswerService answerService;
 
-	public QuestionService(QuestionRepository questionRepository, MemberService memberService) {
+	public QuestionService(QuestionRepository questionRepository, MemberService memberService,
+		AnswerService answerService) {
 		this.questionRepository = questionRepository;
 		this.memberService = memberService;
+		this.answerService = answerService;
 	}
 
 	// *** 질문 등록 ***
@@ -43,7 +51,7 @@ public class QuestionService {
 	// *** 질문 수정 ***
 	public Question updateQuestion(Question question) {
 		// 수정할 질문Id가 유효한 질문인지 검증
-		Question findQuestion = findVerifiedQuestionByQuery(question.getId());
+		Question findQuestion = findVerifiedQuestion(question.getId());
 
 		// 제목, 내용, (+ 태그) 수정
 		Optional.ofNullable(question.getTitle())
@@ -58,7 +66,7 @@ public class QuestionService {
 	// *** 하나의 질문 조회 ***
 	@Transactional(readOnly = true)
 	public Question findQuestion(Long id) {
-		return findVerifiedQuestionByQuery(id);
+		return findVerifiedQuestion(id);
 	}
 
 	// *** 전체 질문 조회 (Paging) ***
@@ -82,37 +90,50 @@ public class QuestionService {
 		return null;
 	}
 
-	// *** 질문 추천 ***
-	public Question upVote() {
-		return null;
-	}
-
-	// *** 질문 비추천 ***
-	public Question downVote() {
-		return null;
-	}
-
 /*	// *** 특정 질문 북마크로 저장 ***
 	public Question saveQuestion() {
 		return null;
 	}*/
 
 
-/*	// *** 질문 채택 ***
-	public Question selectQuestion() {
+	// *** 질문 채택 ***
+	public Question resolveQuestion(Long answerId) {
 
-		// 채택한 답변이 존재하면 (status가 ACCEPTED)
+		Answer answer = answerService.findById(answerId); // answer 찾아서
+		answerService.acceptAnswer(answer.getId()); //채택 처리
+		//Answer acceptAnswer = answerService.acceptAnswer(answerId); // 채택 처리
 
-		// Question Status도 RESOLVED 로 set
-		// * Answer Service 에서 작성?
+		Question findQuestion = findVerifiedQuestion(answer.getQuestion().getId()); // question 검증
 
-		return null;
-	}*/
+		// 채택한 답변이 존재하면 질문도 채택 상태로 만듬
+		for(Answer a : getEveryAnswers(answer.getQuestion().getId())){
+			if(a.getAnswerStatus().equals(Answer.AnswerStatus.ACCEPTED))
+				findQuestion.setQuestionStatus(Question.QuestionStatus.RESOLVED);
+		}
+
+		// 2개의 답변 채택 불가능하도록
+		List<Answer> totalAnswers = getEveryAnswers(answer.getQuestion().getId());
+		List<Enum> statusList = totalAnswers.stream().map(Answer::getAnswerStatus).collect(Collectors.toList());
+
+		if(Collections.frequency(statusList, Answer.AnswerStatus.ACCEPTED) >= 2){
+			throw new BusinessLogicException(ExceptionCode.QUESTION_ALREADY_RESOLVED);
+		}
+
+		return questionRepository.save(findQuestion);
+	}
+
+	// ** 질문 Id로 해당 답변 list 가져옴
+	public List<Answer> getEveryAnswers(Long questionId){
+		Question findQuestion = findVerifiedQuestion(questionId);
+
+		return findQuestion.getQuestionAnswers();
+	}
+
 
 	// *** 하나의 질문 삭제 ***
 	public void deleteQuestion(Long id) {
 		// 유효한 질문인지 검증
-		Question findQuestion = findVerifiedQuestionByQuery(id);
+		Question findQuestion = findVerifiedQuestion(id);
 
 		//TODO : 현재 로그인한 아이디 = 작성자 아이디 일치할 시 질문 삭제
 
@@ -127,7 +148,7 @@ public class QuestionService {
 	}
 
 	// *** 유효한 질문인지 검증 ***
-	private Question findVerifiedQuestionByQuery(Long id) {
+	private Question findVerifiedQuestion(Long id) {
 		Optional<Question> optionalQuestion = questionRepository.findById(id);
 		Question findQuestion =
 			optionalQuestion.orElseThrow(() -> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
