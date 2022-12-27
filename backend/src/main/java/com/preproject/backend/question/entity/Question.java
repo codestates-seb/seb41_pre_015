@@ -55,19 +55,17 @@ public class Question extends Auditable {
 	@JsonIgnore //JPA 무한 참조순환으로 인한 어노테이션 추가
 	private Member member;
 
+	// 질문 ~ 답변 (양방향)
+	@OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+	private List<Answer> questionAnswers = new ArrayList<>();
+
 	// 질문 ~ 코멘트 (양방향)
 	@OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
 	private List<QuestionComment> questionComments = new ArrayList<>();
 
-
   // 질문 ~ 질문투표(양방향)
-	@OneToMany(mappedBy = "question")
-	private List<QuestionVote> questionVoteList = new ArrayList<>();
-
-
-	// 질문 ~ 답변 (양방향)
 	@OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
-	private List<Answer> questionAnswers = new ArrayList<>();
+	private List<QuestionVote> questionVotes = new ArrayList<>();
 
 	public void setMember(Member member) {
 		this.member = member;
