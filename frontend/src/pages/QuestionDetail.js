@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import styled from 'styled-components';
-import LoginHeader from '../component/LoginHeader';
+import LoginHeader from '../component/login/LoginHeader';
 import LeftSidebar from '../component/LeftSidebar';
 import RightSidebar from '../component/RightSidebar';
 import { TiArrowSortedUp, TiArrowSortedDown } from 'react-icons/ti';

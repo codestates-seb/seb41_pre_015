@@ -2,12 +2,13 @@
 /* eslint-disable no-unused-vars */
 import styled from 'styled-components';
 import logo from '../images/small-logo.png';
-import LoginHeader from '../component/LoginHeader';
+import LoginHeader from '../component/login/LoginHeader';
 import LeftSidebar from '../component/LeftSidebar';
 import RightSidebar from '../component/RightSidebar';
 import MainQuestions from '../component/MainQuesTions';
 // import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const TopQuestionMain = styled.div`
   width: 100%;
@@ -32,14 +33,25 @@ const AskQuestionContainer = styled.div`
   }
 `;
 
-const AskQuestion = styled.button`
-  /* width: 140px; */
+// const AskQuestion = styled.button`
+//   /* width: 140px; */
+//   width: 35%;
+//   height: 30px;
+//   background-color: #0a95ff;
+//   border-radius: 2px;
+//   border-color: #0078ff;
+//   margin: 10px;
+// `;
+const SLinkquestion = styled(Link)`
   width: 35%;
   height: 30px;
   background-color: #0a95ff;
   border-radius: 2px;
   border-color: #0078ff;
   margin: 10px;
+  text-decoration: none;
+  text-align: center;
+  color: black;
 `;
 const FilterButtonContainer = styled.div`
   width: 100%;
@@ -127,7 +139,7 @@ const MainPage = () => {
           <TopQuestionTitle>
             <AskQuestionContainer>
               <div style={{ margin: '5px' }}>Top Questions</div>
-              <AskQuestion>Ask Question</AskQuestion>
+              <SLinkquestion to="/addquestion">Ask Question</SLinkquestion>
             </AskQuestionContainer>
             <FilterButtonContainer>
               <FilterButton>Interesting</FilterButton>
