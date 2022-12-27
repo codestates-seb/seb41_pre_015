@@ -1,11 +1,11 @@
 import LoginHeader from '../component/login/LoginHeader';
-import AddQuesTitle from '../component/AddQuestion/Title';
+import AddquestionForm from '../component/AddQuestion/AddquestionForm';
 
 const AddQuestionPage = () => {
   return (
     <div>
       <LoginHeader />
-      <AddQuesTitle />
+      <AddquestionForm />
     </div>
   );
 };
