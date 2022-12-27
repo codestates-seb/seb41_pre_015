@@ -2,7 +2,6 @@
 /* eslint-disable no-unused-vars */
 import styled from 'styled-components';
 import logo from '../images/small-logo.png';
-import LoginHeader from './LoginHeader';
 import LeftSidebar from './LeftSidebar';
 import { Link } from 'react-router-dom';
 import { useState, useEffect, Fragment } from 'react';
@@ -94,7 +93,7 @@ const MainQuestions = () => {
         return (
           <Fragment key={index}>
             <Link
-              to="/questiondetail"
+              to="/questions"
               style={{ textDecoration: 'none', color: 'inherit' }}
             >
               <QuestionList>
