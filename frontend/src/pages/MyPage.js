@@ -4,19 +4,36 @@ import styled from 'styled-components';
 import MypageMain from '../component/Mypage/MypageMain';
 import MypageTitle from '../component/Mypage/MypageTitle';
 import MypageStats from '../component/Mypage/MypageStats';
+import Footer from '../component/Footer';
+import Header from '../component/LoginHeader';
+import LeftSidebar from '../component/LeftSidebar';
 
 const MyPage = () => {
   return (
-    <MypageContainer>
-      <div className="MypageContainer">
-        <MypageTitle />
-        <HorizonLine />
-        <div style={{ display: 'flex' }} className="MypagebottomContainer">
-          {<MypageStats />}
-          {<MypageMain />}
-        </div>
+    <div>
+      <div>
+        <Header />
       </div>
-    </MypageContainer>
+      <div style={{ display: 'flex' }}>
+        {<LeftSidebar />}
+        {
+          <MypageContainer>
+            <div className="MypageContainer">
+              <MypageTitle />
+              <HorizonLine />
+              <div
+                style={{ display: 'flex' }}
+                className="MypagebottomContainer"
+              >
+                {<MypageStats />}
+                {<MypageMain />}
+              </div>
+            </div>
+          </MypageContainer>
+        }
+      </div>
+      <Footer />
+    </div>
   );
 };
 
@@ -28,7 +45,7 @@ const HorizonLine = () => {
         textAlign: 'center',
         borderBottom: '1px solid #aaa',
         lineHeight: '0.1em',
-        margin: '10px 0 20px',
+        margin: '10px 0 100px',
       }}
     ></div>
   );

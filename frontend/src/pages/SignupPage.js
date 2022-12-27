@@ -5,6 +5,9 @@ import { ImPriceTags } from 'react-icons/im';
 import { MdThumbsUpDown } from 'react-icons/md';
 import { RiQuestionnaireFill } from 'react-icons/ri';
 import { BsTrophyFill } from 'react-icons/bs';
+import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const SbackGround = styled.div`
   background-color: #f1f2f3;
@@ -76,10 +79,75 @@ const SbackGround = styled.div`
       border-radius: 5px;
       margin-top: 50px;
     }
+    .Disabled-SignupButton {
+      background-color: #646464;
+      line-height: 30px;
+      border-color: #505050;
+      color: white;
+      border-radius: 5px;
+      margin-top: 50px;
+    }
+    .Valid-comment {
+      color: red;
+      font-size: 12px;
+    }
   }
 `;
 
 const SignupPage = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [emailValid, setEmailValid] = useState(true);
+  const [passwordValid, setPasswordValid] = useState(false);
+  const [checkEmail, setCheckEmail] = useState(false);
+  const navigate = useNavigate();
+
+  const isEmail = (e) => {
+    const regExp =
+      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+    // 형식에 맞는 경우 true 리턴
+    if (regExp.test(e)) {
+      setCheckEmail(true);
+      return true;
+    } else if (e.length === 0) {
+      setCheckEmail(false);
+      return true;
+    } else {
+      setCheckEmail(false);
+      return false;
+    }
+  };
+  const isPassword = (p) => {
+    const regPassword =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/g;
+
+    if (regPassword.test(p)) return true;
+  };
+
+  const OnSignupSubmit = async (e) => {
+    e.preventDefault();
+    await axios
+      .post('/members', {
+        name: name,
+        email: email,
+        password: password,
+      })
+      .then((res) => {
+        if (res.status === 201) {
+          alert('회원 가입 성공');
+        }
+        setName('');
+        setEmail('');
+        setPassword('');
+        setCheckEmail(false);
+        setPasswordValid(false);
+        navigate('/login', { replace: true });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   return (
     <div>
       <SignupHeader />
@@ -108,18 +176,66 @@ const SignupPage = () => {
             <SignupOauthForm></SignupOauthForm>
             <form className="SignupInputForm">
               <div>Display name</div>
-              <input className="IdInput"></input>
+              <input
+                className="IdInput"
+                value={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+              ></input>
               <div>Email</div>
-              <input className="IdInput"></input>
+              <input
+                className="IdInput"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setEmailValid(isEmail(e.target.value));
+                }}
+              ></input>
+              {emailValid ? (
+                ''
+              ) : (
+                <div className="Valid-comment">
+                  유효하지 않은 이메일 입니다.
+                </div>
+              )}
+              {checkEmail ? '✅' : ''}
               <div>Password</div>
-              <input className="PasswordInput" type="password"></input>
-              <div className="PasswordRule">
-                Passwords must contain at least eight characters, including at
-                least 1 letter and 1 number.
-              </div>
-              <button className="SignupButton" type="submit">
-                Sign up
-              </button>
+              <input
+                className="PasswordInput"
+                type="password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setPasswordValid(isPassword(e.target.value));
+                }}
+              ></input>
+              {passwordValid ? (
+                '✅'
+              ) : (
+                <div className="PasswordRule">
+                  Passwords must contain at least eight characters, including at
+                  least 1 letter and 1 number.
+                </div>
+              )}
+              {passwordValid && emailValid ? (
+                <button
+                  className="SignupButton"
+                  type="submit"
+                  onClick={OnSignupSubmit}
+                >
+                  Sign up
+                </button>
+              ) : (
+                <button
+                  className="Disabled-SignupButton"
+                  type="submit"
+                  onClick={OnSignupSubmit}
+                  disabled
+                >
+                  Sign up
+                </button>
+              )}
             </form>
           </div>
         </div>

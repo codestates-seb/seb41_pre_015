@@ -146,14 +146,6 @@ const MypageMainContainer = styled.div`
       height: 200px;
     }
 
-    .user_bookmark_box {
-      border: 1px solid gray;
-      border-radius: 10px;
-      width: 750px;
-      height: 200px;
-      padding: 30px 0px 20px 30px;
-    }
-
     .styledButton {
       display: inline-flex;
       outline: none;
@@ -209,6 +201,15 @@ const MypageMainContainer = styled.div`
 
     .user_bookmark {
       margin: 40px 0px 0px 50px;
+    }
+
+    .user_bookmark_box {
+      border: 1px solid gray;
+      border-radius: 10px;
+      width: 750px;
+      height: 200px;
+      padding: 30px 0px 20px 30px;
+      margin-bottom: 100px;
     }
   }
 `;

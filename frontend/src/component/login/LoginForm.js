@@ -3,6 +3,8 @@ import slogo from '../../images/small-logo.png';
 import { FcGoogle } from 'react-icons/fc';
 import { BsGithub } from 'react-icons/bs';
 import { AiFillFacebook } from 'react-icons/ai';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const SbackGround = styled.div`
   background-color: #f1f2f3;
@@ -36,13 +38,15 @@ const SbackGround = styled.div`
         flex-direction: column;
         .Email-input {
           border-radius: 5px;
-          border-color: #b4e5ff;
+          border: 2px solid #b4e5ff;
           line-height: 25px;
+          outline: none;
         }
-        .Password.input {
+        .Password-input {
           border-radius: 5px;
-          border-color: #b4e5ff;
+          border: 2px solid #b4e5ff;
           line-height: 25px;
+          outline: none;
         }
       }
     }
@@ -83,6 +87,13 @@ const SFacebookLogin = styled(SAauthLogin)`
 `;
 
 const LoginForm = () => {
+  const OnSubmitLogin = async (e) => {
+    e.preventDefault();
+    await axios.get('/members/2').then((res) => {
+      console.log(res.data);
+    });
+  };
+
   return (
     <div>
       <SbackGround>
@@ -107,12 +118,16 @@ const LoginForm = () => {
               <div>Password</div>
               <input className="Password-input" type="password"></input>
             </div>
-            <button className="Login-button" type="submit">
+            <button
+              className="Login-button"
+              type="submit"
+              onClick={OnSubmitLogin}
+            >
               Log in
             </button>
           </form>
           <div className="help-comment">
-            Don’t have an account? <a href=" ">Sign up</a>
+            Don’t have an account? <Link to="/signup">Sign up</Link>
           </div>
         </div>
       </SbackGround>

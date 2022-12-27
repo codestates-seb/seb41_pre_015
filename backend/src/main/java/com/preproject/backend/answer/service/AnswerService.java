@@ -5,7 +5,6 @@ import com.preproject.backend.answer.repository.AnswerRepository;
 import com.preproject.backend.exception.BusinessLogicException;
 import com.preproject.backend.exception.ExceptionCode;
 import com.preproject.backend.question.repository.QuestionRepository;
-import com.preproject.backend.question.service.QuestionService;
 import com.preproject.backend.utils.CustomBeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -62,7 +61,6 @@ public class AnswerService {
 
         answerRepository.delete(verifiedAnswer);
     }
-
 
     public Answer findVerifiedAnswer(long id) {
         Optional<Answer> optionalAnswer =
