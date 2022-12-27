@@ -94,7 +94,7 @@ const MainQuestions = () => {
         return (
           <Fragment key={index}>
             <Link
-              to="/questiondetail"
+              to="/questions"
               style={{ textDecoration: 'none', color: 'inherit' }}
             >
               <QuestionList>
