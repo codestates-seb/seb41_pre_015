@@ -1,6 +1,9 @@
 // import React from 'react';
 import styled from 'styled-components';
 import companyLogo from '../images/stack_overflow_logo_icon.png';
+import CreateIcon from '@mui/icons-material/Create';
+import GoogleIcon from '../images/google_cloud_logo_icon.png';
+import TwilioIcon from '../images/twilio_logo_icon.png';
 
 const RightSidebar = () => {
   return (
@@ -10,10 +13,13 @@ const RightSidebar = () => {
           <header>The Overflow Blog</header>
           <ul>
             <li>
-              1Goodbye Webpack, hello Turbopack! The big news from
+              <CreateIcon /> Goodbye Webpack, hello Turbopack! The big news from
               <br /> todays Next.JS conference
             </li>
-            <li>CEO update: Breaking down barriers to unlock innovation</li>
+            <li>
+              <CreateIcon /> CEO update: Breaking down barriers to unlock
+              innovation
+            </li>
           </ul>
           <header>Featured on Meta</header>
           <ul>
@@ -37,12 +43,13 @@ const RightSidebar = () => {
           <header>Hot Meta Posts</header>
           <ul>
             <li>
-              <NumberBadge>11</NumberBadge>
-              Opinion based link should go to the Ask page
+              <NumberBadge>23</NumberBadge>
+              How are bounties awarded to ChatGPT-sourced answerers handled?
             </li>
             <li>
-              <NumberBadge>5</NumberBadge>
-              Where should we direct new users who post comments as answers?
+              <NumberBadge>19</NumberBadge>
+              How to schedule multiple notifications with Flutter within the
+              same day?
             </li>
           </ul>
         </Sidebaryellow>
@@ -51,7 +58,9 @@ const RightSidebar = () => {
             <header>Collectives</header>
             <CollectiveItem>
               <div>
-                <IconContainer>1</IconContainer>
+                <IconContainer>
+                  <img src={GoogleIcon} alt=" " />
+                </IconContainer>
                 <CollectiveNameGroup>
                   <p>Google Cloud</p>
                   <small>31k Members</small>
@@ -66,31 +75,18 @@ const RightSidebar = () => {
 
             <CollectiveItem>
               <div>
-                <IconContainer>1</IconContainer>
+                <IconContainer>
+                  <img src={TwilioIcon} alt=" " />
+                </IconContainer>
                 <CollectiveNameGroup>
-                  <p>Intel</p>
-                  <small>8k Members</small>
+                  <p>Twilio</p>
+                  <small>6k Members</small>
                 </CollectiveNameGroup>
                 <CollectButton>Join</CollectButton>
               </div>
               <TextBox>
-                A space for developers to collaborate on Intel software tools,
-                libraries, and resources. Share
-              </TextBox>
-            </CollectiveItem>
-
-            <CollectiveItem>
-              <div>
-                <IconContainer>1</IconContainer>
-                <CollectiveNameGroup>
-                  <p>WSO2</p>
-                  <small>2k Members</small>
-                </CollectiveNameGroup>
-                <CollectButton>Join</CollectButton>
-              </div>
-              <TextBox>
-                WSO2 solutions give enterprises the flexibility to deploy
-                applications and services on
+                Twilio has democratized channels like voice, text, chat, video,
+                and email by virtualizing...
               </TextBox>
             </CollectiveItem>
           </SidebarCollective>
@@ -147,7 +143,7 @@ export const Sidebaryellow = styled(Sidebar)`
   }
   li {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 7px;
     margin: 12px 0;
     font-size: 13px;
