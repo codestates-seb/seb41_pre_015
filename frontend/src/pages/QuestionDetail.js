@@ -1,10 +1,12 @@
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable no-unused-vars */
+import { useState } from 'react';
 import styled from 'styled-components';
 import LoginHeader from '../component/LoginHeader';
 import LeftSidebar from '../component/LeftSidebar';
 import RightSidebar from '../component/RightSidebar';
 import { TiArrowSortedUp, TiArrowSortedDown } from 'react-icons/ti';
+import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 
 //{상단 질문제목 전체 칸}
 const TopQuestionTitle = styled.div`
@@ -108,6 +110,22 @@ const AnswerQuestion = styled.button`
 `;
 
 function QuestionDetail() {
+  const [bookMark, setBookMark] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
+
+  // 북마크의 상태 변경
+  const changeStateBookMark = () => {
+    setBookMark((e) => !e);
+  };
+  // 추천수 업
+  const likeUp = () => {
+    setLikeCount((e) => e + 1);
+  };
+  // 추천수 다운
+  const likeDown = () => {
+    setLikeCount((e) => e - 1);
+  };
+
   return (
     <>
       <LoginHeader />
@@ -162,12 +180,16 @@ function QuestionDetail() {
 
           <QuestionDetailTitle>
             {/* 추천 영역 */}
-            <div style={{ width: '10%' }}>
+            <div style={{ width: '10%', paddingRight: 10 }}>
               {/* 위 */}
               <button
-                style={{ border: 'none' }}
+                style={{
+                  border: 'none',
+                  width: '100%',
+                  backgroundColor: 'white',
+                }}
                 onClick={() => {
-                  alert('눌림');
+                  likeUp();
                 }}
               >
                 <TiArrowSortedUp />
@@ -175,21 +197,39 @@ function QuestionDetail() {
               {/* 추천수 */}
               <div
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  //   display: 'flex',
+                  //   alignItems: 'center',
+                  //   justifyContent: 'center',
+                  width: '100%',
+                  textAlign: 'center',
                 }}
               >
-                0
+                {likeCount}
               </div>
               {/* 아래 */}
               <button
-                style={{ border: 'none' }}
+                style={{
+                  border: 'none',
+                  width: '100%',
+                  backgroundColor: 'white',
+                }}
                 onClick={() => {
-                  alert('눌림');
+                  likeDown();
                 }}
               >
                 <TiArrowSortedDown />
+              </button>
+              <button
+                style={{
+                  border: 'none',
+                  width: '100%',
+                  backgroundColor: 'white',
+                }}
+                onClick={() => {
+                  changeStateBookMark();
+                }}
+              >
+                {bookMark == true ? <BsBookmarkFill /> : <BsBookmark />}
               </button>
             </div>
             <QuestionContentText>
