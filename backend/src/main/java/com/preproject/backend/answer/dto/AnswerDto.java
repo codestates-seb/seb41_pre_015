@@ -31,7 +31,6 @@ public class AnswerDto {
         private Long id;
         @NotBlank(message = "내용은 공백이 아니어야 합니다.")
         private String content;
-        private Answer.AnswerStatus answerStatus;
 
         public void setId(Long id) {
             this.id = id;
