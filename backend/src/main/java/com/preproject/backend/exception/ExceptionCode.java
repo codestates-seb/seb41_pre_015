@@ -8,7 +8,9 @@ public enum ExceptionCode {
     MEMBER_NOT_FOUND(NOT_FOUND.value(), "Member Not Found"),
     MEMBER_ALREADY_EXISTS(CONFLICT.value(), "Member Already Exists"),
     QUESTION_NOT_FOUND(NOT_FOUND.value(), "Question Not Found"),
+	  QUESTION_ALREADY_RESOLVED(CONFLICT.value(), "Question Already Resolved");
     ANSWER_NOT_FOUND(NOT_FOUND.value(), "Answer Not Found");
+
 
 	@Getter
 	private int status;
