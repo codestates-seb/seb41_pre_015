@@ -1,13 +1,20 @@
 package com.preproject.backend.answer.controller;
 
 import com.preproject.backend.answer.dto.AnswerDto;
+import com.preproject.backend.answer.dto.AnswerVoteDto;
 import com.preproject.backend.answer.entity.Answer;
 import com.preproject.backend.answer.mapper.AnswerMapper;
 import com.preproject.backend.answer.service.AnswerService;
+import com.preproject.backend.answer.service.AnswerVoteService;
 import com.preproject.backend.dto.MultiResponseDto;
+import com.preproject.backend.question.entity.Question;
+import com.preproject.backend.question.mapper.QuestionMapper;
+import com.preproject.backend.question.service.QuestionService;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,10 +29,17 @@ public class AnswerController {
 
     private final AnswerService answerService;
     private final AnswerMapper mapper;
+    private final QuestionMapper qmapper;
+    private final AnswerVoteService answerVoteService;
+    private final QuestionService questionService;
 
-    public AnswerController(AnswerService answerService, AnswerMapper mapper) {
+    public AnswerController(AnswerService answerService, AnswerMapper mapper, QuestionMapper qmapper, AnswerVoteService answerVoteService,
+        QuestionService questionService) {
         this.answerService = answerService;
         this.mapper = mapper;
+        this.qmapper = qmapper;
+        this.answerVoteService = answerVoteService;
+        this.questionService = questionService;
     }
 
     // 답변 등록
@@ -67,14 +81,21 @@ public class AnswerController {
 
     // 답변 추천
     @PatchMapping("/{answer-id}/upvotes")
-    public void upVoteAnswer(@PathVariable("answer-id") long id) {
+    public ResponseEntity upVoteAnswer(@Positive @PathVariable("answer-id") long id,
+                             @Valid @RequestBody AnswerVoteDto requestBody) {
 
+        Answer votedAnswer = answerVoteService.upVoteAnswer(id, mapper.answerVoteDtoToAnswerVote(requestBody));
+
+        return new ResponseEntity<>(mapper.answerToAnswerResponseDto(votedAnswer), HttpStatus.OK);
     }
 
-    // 답변 삭제
+    // 답변 비추천
     @PatchMapping("/{answer-id}/downvotes")
-    public void downVoteAnswer(@PathVariable("answer-id") long id) {
+    public ResponseEntity downVoteAnswer(@PathVariable("answer-id") long id,
+                               @Valid @RequestBody AnswerVoteDto requestBody) {
+        Answer votedAnswer = answerVoteService.downVoteAnswer(id, mapper.answerVoteDtoToAnswerVote(requestBody));
 
+        return new ResponseEntity<>(mapper.answerToAnswerResponseDto(votedAnswer), HttpStatus.OK);
     }
 
 //    답변 공유
@@ -83,4 +104,16 @@ public class AnswerController {
 //        return ResponseEntity.ok(null);
 //    }
 
+    // 질문자가 답변 채택
+    @PatchMapping("accept/{question-id}/{answer-id}")
+    public ResponseEntity acceptAnswer(@Positive @PathVariable("question-id")long questionId,
+                                        @Positive @PathVariable("answer-id")long answerId){
+        // Todo : 로그인한 Id가 작성자(memberId)와 맞는지 검증
+
+        // 답변 채택 -> 질문 채택
+        Question resolvedQuestion = questionService.resolveQuestion(questionId, answerId);
+
+        // 채택된 질문, 답변 결과 출력
+        return new ResponseEntity<>(qmapper.questionToQuestionResponseDto(resolvedQuestion), HttpStatus.OK);
+    }
 }

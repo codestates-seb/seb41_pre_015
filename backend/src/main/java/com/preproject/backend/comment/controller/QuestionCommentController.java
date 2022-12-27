@@ -26,18 +26,18 @@ public class QuestionCommentController {
 
     @PostMapping
     public ResponseEntity PostQuestionComment(@Valid @RequestBody QuestionCommentDto.Post requestBody) {
-        QuestionComment questioncomment = questioncommentService.createComment(mapper.QuestionCommentPostDtoToQuestionComment(requestBody));
+        QuestionComment questioncomment = questioncommentService.createComment(mapper.questionCommentPostDtoToQuestionComment(requestBody));
 
-        return new ResponseEntity<>(mapper.QuestionCommentToQuestionCommentResponseDto(questioncomment), HttpStatus.CREATED);
+        return new ResponseEntity<>(mapper.questionCommentToQuestionCommentResponseDto(questioncomment), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{question-comment-id}")
     public ResponseEntity PatchQuestionComment(@Positive @PathVariable("question-comment-id") long id,
                                          @Valid @RequestBody QuestionCommentDto.Patch requestBody) {
         requestBody.setId(id);
-        QuestionComment questioncomment = questioncommentService.updateComment(mapper.QuestionCommentPatchDtoToQuestionComment(requestBody));
+        QuestionComment questioncomment = questioncommentService.updateComment(mapper.questionCommentPatchDtoToQuestionComment(requestBody));
 
-        return new ResponseEntity<>(mapper.QuestionCommentToQuestionCommentResponseDto(questioncomment), HttpStatus.OK);
+        return new ResponseEntity<>(mapper.questionCommentToQuestionCommentResponseDto(questioncomment), HttpStatus.OK);
     }
 
     @DeleteMapping("/{question-comment-id}")

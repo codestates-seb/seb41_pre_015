@@ -5,19 +5,38 @@ import styled from 'styled-components';
 import MypageTitle from '../component/Mypage/MypageTitle';
 import MypageStats from '../component/Mypage/MypageStats';
 import MypageEditList from '../component/Mypage/MypageEditList';
+import Footer from '../component/Footer';
+import Header from '../component/LoginHeader';
+import LeftSidebar from '../component/LeftSidebar';
 
 const MypageEdit = () => {
   return (
-    <MypageEditContainer>
-      <div className="MypageContainer">
-        <MypageTitle />
-        <HorizonLine />
-        <div style={{ display: 'flex' }} className="MypagebottomContainer">
-          {<MypageStats />}
-          {<MypageEditList />}
-        </div>
+    <div>
+      <div>
+        <Header />
       </div>
-    </MypageEditContainer>
+      <div style={{ display: 'flex' }}>
+        {<LeftSidebar />}
+        {
+          <MypageEditContainer>
+            <div className="MypageContainer">
+              <MypageTitle />
+              <HorizonLine />
+              <div
+                style={{ display: 'flex' }}
+                className="MypagebottomContainer"
+              >
+                {<MypageStats />}
+                {<MypageEditList />}
+              </div>
+            </div>
+          </MypageEditContainer>
+        }
+      </div>
+      <div>
+        <Footer />
+      </div>
+    </div>
   );
 };
 
@@ -44,6 +63,6 @@ const MypageEditContainer = styled.div`
   margin: 40px 0px 0px 50px;
 
   .MypagebottomContainer {
-    margin-top: 40px;
+    margin: 40px 0px 100px 0px;
   }
 `;

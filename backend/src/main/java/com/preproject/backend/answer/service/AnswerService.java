@@ -2,23 +2,33 @@ package com.preproject.backend.answer.service;
 
 import com.preproject.backend.answer.entity.Answer;
 import com.preproject.backend.answer.repository.AnswerRepository;
+import com.preproject.backend.exception.BusinessLogicException;
+import com.preproject.backend.exception.ExceptionCode;
+import com.preproject.backend.question.repository.QuestionRepository;
 import com.preproject.backend.utils.CustomBeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class AnswerService {
 
     private final AnswerRepository answerRepository;
     private final CustomBeanUtils beanUtils;
 
-    public AnswerService(AnswerRepository answerRepository, CustomBeanUtils customBeanUtils) {
+    private final QuestionRepository questionRepository;
+
+    public AnswerService(AnswerRepository answerRepository, CustomBeanUtils customBeanUtils,
+        QuestionRepository questionRepository) {
         this.answerRepository = answerRepository;
         this.beanUtils = customBeanUtils;
+        this.questionRepository = questionRepository;
     }
 
     public Answer createAnswer(Answer answer) {
@@ -33,7 +43,7 @@ public class AnswerService {
 
         beanUtils.copyNonNullProperties(answer, verifiedAnswer);
 
-        return verifiedAnswer;
+        return answerRepository.save(verifiedAnswer);
     }
 
     public Page<Answer> findAnswers(int page, int size) {
@@ -41,19 +51,35 @@ public class AnswerService {
                 Sort.by("id").descending()));
     }
 
+    public Answer findById(long id){
+        return this.answerRepository.findById(id).get();
+    }
+
+
     public void deleteAnswer(long id) {
         Answer verifiedAnswer = findVerifiedAnswer(id);
 
         answerRepository.delete(verifiedAnswer);
     }
 
-
     public Answer findVerifiedAnswer(long id) {
         Optional<Answer> optionalAnswer =
                 answerRepository.findById(id);
         Answer verifiedAnswer =
                 optionalAnswer.orElseThrow(() ->
-                        new RuntimeException("Answer Not Found")); //리펙토링 필요
+                        new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
         return verifiedAnswer;
+    }
+
+    // Answer 채택
+    @Transactional
+    public Answer acceptAnswer(long answerId) {
+        Answer findAnswer = findVerifiedAnswer(answerId);
+
+        // 채택한 answer status를 바꿈
+        findAnswer.setAnswerStatus(Answer.AnswerStatus.ACCEPTED);
+
+        // 바꾼 status로 저장
+        return answerRepository.save(findAnswer);
     }
 }

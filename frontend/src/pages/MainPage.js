@@ -6,6 +6,8 @@ import LoginHeader from '../component/LoginHeader';
 import LeftSidebar from '../component/LeftSidebar';
 import RightSidebar from '../component/RightSidebar';
 import MainQuestions from '../component/MainQuesTions';
+// import axios from 'axios';
+import { useState, useEffect } from 'react';
 
 const TopQuestionMain = styled.div`
   width: 100%;

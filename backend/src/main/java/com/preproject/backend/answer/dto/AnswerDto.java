@@ -1,12 +1,16 @@
 package com.preproject.backend.answer.dto;
 
 import com.preproject.backend.answer.entity.Answer;
+import com.preproject.backend.comment.dto.AnswerCommentDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class AnswerDto {
     @Getter
@@ -27,7 +31,6 @@ public class AnswerDto {
         private Long id;
         @NotBlank(message = "내용은 공백이 아니어야 합니다.")
         private String content;
-        private Answer.AnswerStatus answerStatus;
 
         public void setId(Long id) {
             this.id = id;
@@ -36,7 +39,9 @@ public class AnswerDto {
     }
 
     @Getter
+    @Setter
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class Response {
         private long id;
         private long memberId;
@@ -46,5 +51,6 @@ public class AnswerDto {
         private Answer.AnswerStatus answerStatus;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
+        private List<AnswerCommentDto.Response> answerComments;
     }
 }

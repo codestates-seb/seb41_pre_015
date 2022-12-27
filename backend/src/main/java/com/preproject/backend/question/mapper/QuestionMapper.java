@@ -2,8 +2,12 @@ package com.preproject.backend.question.mapper;
 
 import java.util.List;
 
+import com.preproject.backend.comment.dto.QuestionCommentDto;
+import com.preproject.backend.comment.entity.QuestionComment;
 import com.preproject.backend.question.dto.QuestionDto;
+import com.preproject.backend.question.dto.QuestionVoteDto;
 import com.preproject.backend.question.entity.Question;
+import com.preproject.backend.question.entity.QuestionVote;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -51,14 +55,25 @@ public interface QuestionMapper {
 		List<Answer> answers = question.getQuestionAnswers();
 		questionResponseDto.setAnswer(answersToAnswerResponseDtos(answers));
 
+		List<QuestionComment> questionComments = question.getQuestionComments();
+		questionResponseDto.setQuestionComments(questionCommentsToQuestionCommentResponseDtos(questionComments));
 		return questionResponseDto;
+
 	}
+
+  QuestionVote questionVoteDtoToQuestionVote(QuestionVoteDto requestBody);
 
 	List<QuestionDto.Response> questionToQuestionResponseDtos(List<Question> questions);
 
 	List<AnswerDto.Response> answersToAnswerResponseDtos(List<Answer> answers);
 
+	List<QuestionCommentDto.Response> questionCommentsToQuestionCommentResponseDtos(List<QuestionComment> questionComments);
+
 	@Mappings({@Mapping(source = "member.id", target = "memberId"),
 		@Mapping(source = "question.id", target = "questionId")})
 	AnswerDto.Response answerToAnswerResponseDto(Answer answer);
+
+	@Mappings({@Mapping(source = "member.id", target = "memberId"),
+			@Mapping(source = "question.id", target = "questionId")})
+	QuestionCommentDto.Response questionCommentToQuestionCommentResponseDto(QuestionComment questionComment);
 }
