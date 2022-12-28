@@ -1,6 +1,9 @@
 import styled from 'styled-components';
-import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
+import { TagsInput } from 'react-tag-input-component';
 
 const SWriteContainer = styled.div`
   .Help-container {
@@ -16,10 +19,10 @@ const SWriteContainer = styled.div`
     flex-direction: column;
     width: 700px;
     text-align: left;
-    /* .question-textarea {
+    textarea {
       resize: none;
       height: 200px;
-    } */
+    }
     .title-input {
       display: flex;
       flex-direction: column;
@@ -65,6 +68,30 @@ const SWriteContainer = styled.div`
 `;
 
 const WriteQuestion = () => {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [selected, setSelected] = useState([]);
+
+  const navigate = useNavigate();
+
+  const onSubmitQuestion = async (e) => {
+    e.preventDefault();
+    await axios
+      .post('/questions', {
+        memberId: 2,
+        title: title,
+        content: content,
+      })
+      .then(() => {
+        alert('질문 등록 완료');
+        setTitle(null);
+        setContent(null);
+        navigate('/main');
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   return (
     <SWriteContainer>
       <div className="Help-container">
@@ -79,7 +106,12 @@ const WriteQuestion = () => {
           <div>
             Be specific and imagine you’re asking a question to another person.
           </div>
-          <input></input>
+          <input
+            value={title}
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
+          ></input>
         </div>
         <div className="question-input">
           <h4>무엇이 문제인지 자세하게 설명해주세요.</h4>
@@ -87,17 +119,33 @@ const WriteQuestion = () => {
             Describe what you tried, what you expected to happen, and what
             actually resulted. Minimum 20 characters.
           </div>
-          <SunEditor height="250" />
+          <textarea
+            value={content}
+            onChange={(e) => {
+              setContent(e.target.value);
+            }}
+          />
           <h4>태그</h4>
           <div>
             Add up to 5 tags to describe what your question is about. Start
             typing to see suggestions.
           </div>
-          <input></input>
+          <TagsInput
+            type="text"
+            id="message"
+            name="message"
+            onChange={setSelected}
+            value={selected}
+            placeholder="태그를 입력해 주세요"
+          />
         </div>
         <div className="button-container">
-          <button className="submit-button">질문하기</button>
-          <button className="cancel-button">취소하기</button>
+          <button className="submit-button" onClick={onSubmitQuestion}>
+            질문하기
+          </button>
+          <Link to="/main">
+            <button className="cancel-button">취소하기</button>
+          </Link>
         </div>
       </form>
     </SWriteContainer>

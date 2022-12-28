@@ -9,9 +9,9 @@ import org.mapstruct.Mapping;
 public interface QuestionCommentMapper {
     @Mapping(source = "memberId", target = "member.id")
     @Mapping(source = "questionId", target = "question.id")
-    QuestionComment QuestionCommentPostDtoToQuestionComment(QuestionCommentDto.Post requestBody);
-    QuestionComment QuestionCommentPatchDtoToQuestionComment(QuestionCommentDto.Patch requestBody);
+    QuestionComment questionCommentPostDtoToQuestionComment(QuestionCommentDto.Post requestBody);
+    QuestionComment questionCommentPatchDtoToQuestionComment(QuestionCommentDto.Patch requestBody);
     @Mapping(source = "member.id", target = "memberId")
     @Mapping(source = "question.id", target = "questionId")
-    QuestionCommentDto.Response QuestionCommentToQuestionCommentResponseDto(QuestionComment questioncomment);
+    QuestionCommentDto.Response questionCommentToQuestionCommentResponseDto(QuestionComment questioncomment);
 }

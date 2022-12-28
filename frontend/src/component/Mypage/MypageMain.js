@@ -1,8 +1,12 @@
-// import React from 'react'
+// import React from 'react';
 import styled from 'styled-components';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Badge from 'react-bootstrap/Badge';
+import { Link } from 'react-router-dom';
+// import { useState } from 'react';
+
+// const [abouts, setAbouts] = useState([]);
 
 const MypageMain = () => {
   return (
@@ -11,8 +15,17 @@ const MypageMain = () => {
         <div className="user_about">
           <h2>About</h2>
           <div className="user_about_box">
-            프로필을 입력하라구우우우 제발!
-            <button className="styledButton">알겠어 수정할게!</button>
+            {/* {abouts === '' ? ( */}
+            <div>
+              {`Your about me section is currently blank. Would you like to
+                  add one? `}
+              <Link to="/editmypage">
+                <h6>Edit profile</h6>
+              </Link>
+            </div>
+            {/* ) : (
+              setAbouts
+            )} */}
           </div>
         </div>
         <div style={{ display: 'flex' }} className="ans_que_group">
@@ -146,14 +159,6 @@ const MypageMainContainer = styled.div`
       height: 200px;
     }
 
-    .user_bookmark_box {
-      border: 1px solid gray;
-      border-radius: 10px;
-      width: 750px;
-      height: 200px;
-      padding: 30px 0px 20px 30px;
-    }
-
     .styledButton {
       display: inline-flex;
       outline: none;
@@ -209,6 +214,15 @@ const MypageMainContainer = styled.div`
 
     .user_bookmark {
       margin: 40px 0px 0px 50px;
+    }
+
+    .user_bookmark_box {
+      border: 1px solid gray;
+      border-radius: 10px;
+      width: 750px;
+      height: 200px;
+      padding: 30px 0px 20px 30px;
+      margin-bottom: 100px;
     }
   }
 `;

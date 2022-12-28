@@ -11,19 +11,19 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
+@Entity
 public class QuestionVote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long voteId;
 
     @Enumerated(EnumType.STRING)
-    private QuestionVote questionVote;
+    private QuestionVoteStatus questionVoteStatus;
 
-    @OneToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @Column(name = "member_id")
+    private Long memberId;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;
 

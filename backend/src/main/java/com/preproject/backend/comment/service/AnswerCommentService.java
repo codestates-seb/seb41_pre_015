@@ -2,6 +2,8 @@ package com.preproject.backend.comment.service;
 
 import com.preproject.backend.comment.entity.AnswerComment;
 import com.preproject.backend.comment.repository.AnswerCommentRepository;
+import com.preproject.backend.exception.BusinessLogicException;
+import com.preproject.backend.exception.ExceptionCode;
 import com.preproject.backend.utils.CustomBeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +42,7 @@ public class AnswerCommentService {
                 answerCommentRepository.findById(id);
         AnswerComment verifiedAnswerComment =
                 optionalAnswerComment.orElseThrow(() ->
-                        new RuntimeException("AnswerComment Not Found")); //리펙토링 필요
+                        new BusinessLogicException(ExceptionCode.ANSWER_COMMENT_NOT_FOUND));
         return verifiedAnswerComment;
     }
 }
