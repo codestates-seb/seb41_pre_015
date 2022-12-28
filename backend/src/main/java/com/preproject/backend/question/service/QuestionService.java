@@ -69,11 +69,18 @@ public class QuestionService {
 		return findVerifiedQuestion(id);
 	}
 
-	// *** 전체 질문 조회 (Paging) ***
+	// *** 전체 질문 조회 (Paging, 최신순) ***
 	@Transactional(readOnly = true)
-	public Page<Question> findQuestions(int page, int size) {
+	public Page<Question> findLQuestions(int page, int size) {
 		return questionRepository.findAll(PageRequest.of(page, size,
 			Sort.by("id").descending()));
+	}
+
+	// *** 전체 질문 조회 (Paging, 추천순) ***
+	@Transactional(readOnly = true)
+	public Page<Question> findHQuestions(int page, int size) {
+		return questionRepository.findAll(PageRequest.of(page, size,
+			Sort.by("score").descending()));
 	}
 
 	// *** 질문 검색 기능 ***
