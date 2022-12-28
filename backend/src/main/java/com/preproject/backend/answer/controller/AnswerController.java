@@ -61,16 +61,26 @@ public class AnswerController {
         return new ResponseEntity<>(mapper.answerToAnswerResponseDto(answer), HttpStatus.OK);
     }
 
-    // 답변 전체 조회
-    @GetMapping
-    public ResponseEntity getAnswers(@Positive @RequestParam int page,
+    // 답변 전체 조회 (최신순)
+    @GetMapping("/latest")
+    public ResponseEntity getLAnswers(@Positive @RequestParam int page,
                                      @Positive @RequestParam int size) {
-        Page<Answer> pageAnswers = answerService.findAnswers(page -1, size);
+        Page<Answer> pageAnswers = answerService.findLAnswers(page -1, size);
         List<Answer> answers = pageAnswers.getContent();
         return new ResponseEntity<>(
                 new MultiResponseDto<>(mapper.answerToAnswerResponseDtos(answers), pageAnswers),
                 HttpStatus.OK);
+    }
 
+    // 답변 전체 조회 (추천순)
+    @GetMapping("/highest")
+    public ResponseEntity getHAnswers(@Positive @RequestParam int page,
+                                        @Positive @RequestParam int size) {
+        Page<Answer> pageAnswers = answerService.findHAnswers(page -1, size);
+        List<Answer> answers = pageAnswers.getContent();
+        return new ResponseEntity<>(
+            new MultiResponseDto<>(mapper.answerToAnswerResponseDtos(answers), pageAnswers),
+            HttpStatus.OK);
     }
 
     // 답변 삭제
