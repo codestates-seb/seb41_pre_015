@@ -101,7 +101,9 @@ export const RightSidebarContainer = styled.aside`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  width: 100%;
+  /* 수정된 사항 */
+  /* width: 100%; */
+  width: 200px;
   box-sizing: border-box;
   & > a {
     width: 100%;
