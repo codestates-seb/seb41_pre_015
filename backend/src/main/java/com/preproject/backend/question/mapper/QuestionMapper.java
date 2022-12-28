@@ -2,7 +2,9 @@ package com.preproject.backend.question.mapper;
 
 import java.util.List;
 
+import com.preproject.backend.comment.dto.AnswerCommentDto;
 import com.preproject.backend.comment.dto.QuestionCommentDto;
+import com.preproject.backend.comment.entity.AnswerComment;
 import com.preproject.backend.comment.entity.QuestionComment;
 import com.preproject.backend.question.dto.QuestionDto;
 import com.preproject.backend.question.dto.QuestionVoteDto;
@@ -76,4 +78,9 @@ public interface QuestionMapper {
 	@Mappings({@Mapping(source = "member.id", target = "memberId"),
 			@Mapping(source = "question.id", target = "questionId")})
 	QuestionCommentDto.Response questionCommentToQuestionCommentResponseDto(QuestionComment questionComment);
+
+	List<AnswerCommentDto.Response> answerCommentsToAnswerCommentResponseDtos(List<AnswerComment> answerComments);
+	@Mappings({@Mapping(source = "member.id", target = "memberId"),
+			@Mapping(source = "answer.id", target = "answerId")})
+	AnswerCommentDto.Response answerCommentToAnswerCommentResponseDto(AnswerComment answerComment);
 }
