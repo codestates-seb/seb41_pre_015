@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable import/no-unresolved */
 // import React from 'react';
-import { Public, Stars, Work, Info } from '@mui/icons-material';
+import { Stars, Work, Info } from '@mui/icons-material';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import PublicIcon from '@mui/icons-material/Public';
 import PersonPinIcon from '@mui/icons-material/PersonPin';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 
@@ -25,17 +26,15 @@ const LeftSidebar = () => {
               <p className="p">PUBLIC</p>
               <div className="link">
                 <div className="link-tag">
-                  <Public className="public" />
+                  <PublicIcon color="action" />
                   <Link to="/main" style={{ textDecoration: 'none' }}>
                     <a className="a">Questions</a>
                   </Link>
                 </div>
                 <div className="link-tag">
                   <Link to="/mypage" style={{ textDecoration: 'none' }}>
-                    <div className="a">
-                      <PersonPinIcon />
-                      MyPage
-                    </div>
+                    <PersonPinIcon color="action" />
+                    <a className="a">MyPage</a>
                   </Link>
 
                   {/* <a
@@ -46,11 +45,13 @@ const LeftSidebar = () => {
                   </a> */}
                 </div>
                 {/* <Link to="/404" style={{ textDecoration: 'none' }}> */}
-                <div className="a">
-                  <LocalOfferIcon />
-                  Tags
+                <div className="link-tag">
+                  <Link to="/error" style={{ textDecoration: 'none' }}>
+                    <LocalOfferIcon color="action" />
+                    <a className="a">Tags</a>
+                  </Link>
+                  {/* </Link> */}
                 </div>
-                {/* </Link> */}
               </div>
             </div>
             <div className="sidebar-option">
@@ -61,7 +62,9 @@ const LeftSidebar = () => {
               <div className="link">
                 <div className="link-tag">
                   <Stars className="stars" />
-                  <a className="a">Explore Collectives</a>
+                  <Link to="/error" style={{ textDecoration: 'none' }}>
+                    <a className="a">Explore Collectives</a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -73,7 +76,9 @@ const LeftSidebar = () => {
               <div className="link">
                 <div className="link-tag">
                   <Work className="work" />
-                  <a className="a">Create free Team</a>
+                  <Link to="/error" style={{ textDecoration: 'none' }}>
+                    <a className="a">Create free Team</a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -137,7 +142,7 @@ const LeftSidebarContainer = styled.div`
   .a {
     text-decoration: none;
     color: gray;
-    margin-bottom: 5px;
+    margin: 0px 0px 5px 5px;
     &hover {
       color: #000;
     }
@@ -173,12 +178,12 @@ const LeftSidebarContainer = styled.div`
     color: gray;
     margin: 0px 29px;
   }
-
+  /* 
   .public {
     color: gray;
     font-size: 18px;
     margin-right: 4px;
-  }
+  } */
 
   .stars {
     color: rgba(245, 162, 9);
