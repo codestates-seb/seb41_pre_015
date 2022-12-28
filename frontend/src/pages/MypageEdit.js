@@ -6,7 +6,7 @@ import MypageTitle from '../component/Mypage/MypageTitle';
 import MypageStats from '../component/Mypage/MypageStats';
 import MypageEditList from '../component/Mypage/MypageEditList';
 import Footer from '../component/Footer';
-import Header from '../component/LoginHeader';
+import Header from '../component/login/LoginHeader';
 import LeftSidebar from '../component/LeftSidebar';
 
 const MypageEdit = () => {
