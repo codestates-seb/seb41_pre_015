@@ -2,7 +2,6 @@
 /* eslint-disable no-unused-vars */
 import styled from 'styled-components';
 import logo from '../images/small-logo.png';
-import LoginHeader from './LoginHeader';
 import LeftSidebar from './LeftSidebar';
 import { Link } from 'react-router-dom';
 import { useState, useEffect, Fragment } from 'react';
@@ -74,6 +73,8 @@ const SectionRight = styled.div`
 `;
 
 const MainQuestions = () => {
+  const [list, setList] = useState([]);
+
   // 페이지가 그려지기 전에 axios로 데이터 호출
   useEffect(() => {
     const init = async () => {
@@ -86,7 +87,23 @@ const MainQuestions = () => {
     };
     init();
   }, []);
-  const [list, setList] = useState([]);
+
+  // 글자수 자르기
+  const textLengthOverCut = (txt, len, lastTxt) => {
+    if (len == '' || len == null) {
+      // 기본값
+      len = 45;
+    }
+    if (lastTxt == '' || lastTxt == null) {
+      // 기본값
+      lastTxt = '...';
+    }
+    if (txt.length > len) {
+      txt = txt.substr(0, len) + lastTxt;
+    }
+    return txt;
+  };
+
   return (
     <>
       {/* 리스트 중복 */}
@@ -94,8 +111,9 @@ const MainQuestions = () => {
         return (
           <Fragment key={index}>
             <Link
-              to="/questiondetail"
+              to="/questions"
               style={{ textDecoration: 'none', color: 'inherit' }}
+              state={{ data: item, questionId: item.id }}
             >
               <QuestionList>
                 <QuestionContentLeft>
@@ -106,7 +124,9 @@ const MainQuestions = () => {
                   </div>
                 </QuestionContentLeft>
                 <QuestionContentMiddle>
-                  <div style={{ padding: '25px' }}>{item.content}</div>
+                  <div style={{ padding: '25px' }}>
+                    {textLengthOverCut(item.content)}
+                  </div>
                   <TagContainer>
                     <Tag>node.js</Tag>
                     <Tag>react.js</Tag>

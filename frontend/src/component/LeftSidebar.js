@@ -1,8 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable import/no-unresolved */
 // import React from 'react';
-import { Public, Stars, Work, Info } from '@mui/icons-material';
+import { Stars, Work, Info } from '@mui/icons-material';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import PublicIcon from '@mui/icons-material/Public';
 import PersonPinIcon from '@mui/icons-material/PersonPin';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 
@@ -13,20 +15,28 @@ const LeftSidebar = () => {
         <div className="sidebar-container">
           <div className="sidebar-options">
             <div className="sidebar-option">
-              <p className="p">Home</p>
+              <Link
+                to="/main"
+                style={{ textDecoration: 'none', color: 'gray' }}
+              >
+                <p className="p">Home</p>
+              </Link>
             </div>
             <div className="sidebar-option">
               <p className="p">PUBLIC</p>
               <div className="link">
                 <div className="link-tag">
-                  <Public className="public" />
-                  <a className="a">Questions</a>
+                  <PublicIcon color="action" />
+                  <Link to="/main" style={{ textDecoration: 'none' }}>
+                    <a className="a">Questions</a>
+                  </Link>
                 </div>
                 <div className="link-tag">
-                  <div className="a">
-                    <PersonPinIcon />
-                    MyPage
-                  </div>
+                  <Link to="/mypage" style={{ textDecoration: 'none' }}>
+                    <PersonPinIcon color="action" />
+                    <a className="a">MyPage</a>
+                  </Link>
+
                   {/* <a
                     className="a"
                     href="https://www.codestates.com/?utm_source=naver&utm_medium=cpc&utm_campaign=%EB%B8%8C%EB%9E%9C%EB%93%9C%EA%B2%80%EC%83%89pc&utm_content=%ED%99%88%EB%A7%81%ED%81%AC&utm_term=%EC%BD%94%EB%93%9C%EC%8A%A4%ED%85%8C%EC%9D%B4%EC%B8%A0&ad_campaign=cmp-a001-04-000000004953107&ad_campaign_type=4&NaPm=ct%3Dlc07fpb4%7Cci%3D0Am0003akUjxAJnRs0Xn%7Ctr%3Dbrnd%7Chk%3D1178f1eeea53e08076562d8fe5bd436b3c0b03d7"
@@ -34,9 +44,13 @@ const LeftSidebar = () => {
                     Companies
                   </a> */}
                 </div>
-                <div className="a">
-                  <LocalOfferIcon />
-                  Tags
+                {/* <Link to="/404" style={{ textDecoration: 'none' }}> */}
+                <div className="link-tag">
+                  <Link to="/error" style={{ textDecoration: 'none' }}>
+                    <LocalOfferIcon color="action" />
+                    <a className="a">Tags</a>
+                  </Link>
+                  {/* </Link> */}
                 </div>
               </div>
             </div>
@@ -48,7 +62,9 @@ const LeftSidebar = () => {
               <div className="link">
                 <div className="link-tag">
                   <Stars className="stars" />
-                  <a className="a">Explore Collectives</a>
+                  <Link to="/error" style={{ textDecoration: 'none' }}>
+                    <a className="a">Explore Collectives</a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -60,7 +76,9 @@ const LeftSidebar = () => {
               <div className="link">
                 <div className="link-tag">
                   <Work className="work" />
-                  <a className="a">Create free Team</a>
+                  <Link to="/error" style={{ textDecoration: 'none' }}>
+                    <a className="a">Create free Team</a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -124,7 +142,7 @@ const LeftSidebarContainer = styled.div`
   .a {
     text-decoration: none;
     color: gray;
-    margin-bottom: 5px;
+    margin: 0px 0px 5px 5px;
     &hover {
       color: #000;
     }
@@ -160,12 +178,12 @@ const LeftSidebarContainer = styled.div`
     color: gray;
     margin: 0px 29px;
   }
-
+  /* 
   .public {
     color: gray;
     font-size: 18px;
     margin-right: 4px;
-  }
+  } */
 
   .stars {
     color: rgba(245, 162, 9);

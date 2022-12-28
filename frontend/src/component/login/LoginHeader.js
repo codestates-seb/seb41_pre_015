@@ -1,6 +1,7 @@
 import logo from '../../images/logo-stackoverflow.png';
 import styled from 'styled-components';
 import { BsSearch } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 
 const SLogo = styled.img`
   width: 150px;
@@ -62,7 +63,9 @@ const SLogoutButton = styled.button`
 const LoginHeader = () => {
   return (
     <Sheader className="header-container">
-      <SLogo src={logo} alt="logo" />
+      <Link to="/main">
+        <SLogo src={logo} alt="logo" />
+      </Link>
       <Sform>
         <BsSearch></BsSearch>
         <Sinput placeholder="search"></Sinput>
