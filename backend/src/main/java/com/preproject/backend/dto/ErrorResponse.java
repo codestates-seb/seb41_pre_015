@@ -96,6 +96,12 @@ public class ErrorResponse {
         return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "필수 HTTP 요청 메세지의 바디 내용이 누락되었습니다.");
     }
 
+    public static ErrorResponse of(HttpStatus httpStatus) {
+        int status = httpStatus.value();
+        String reasonPhrase = httpStatus.getReasonPhrase();
+        return new ErrorResponse(status, reasonPhrase);
+    }
+
     @Getter
     @AllArgsConstructor
     public static class FieldBindingError {
