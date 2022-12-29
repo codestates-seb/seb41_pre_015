@@ -28,6 +28,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
+
+import org.springframework.restdocs.constraints.ConstraintDescriptions;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -167,6 +169,10 @@ class AnswerControllerRestDocsTest {
                 );
 
         //then
+        // 유효성 검증에 사용된 애너테이션에 대한 정보를 추가
+        ConstraintDescriptions patchAnswerConstraints = new ConstraintDescriptions(AnswerDto.Patch.class);
+        List<String> contentDescriptions = patchAnswerConstraints.descriptionsForProperty("content");
+
         actions
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content").value(patch.getContent()))
@@ -262,7 +268,8 @@ class AnswerControllerRestDocsTest {
                         .andExpect(status().isOk())
                         .andDo(
                                 document(
-                                        "get-Answers",
+                                        "get-answers",
+
                                         preprocessRequest(prettyPrint()),
                                         preprocessResponse(prettyPrint()),
                                         requestParameters(
