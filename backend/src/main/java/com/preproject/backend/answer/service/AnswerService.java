@@ -46,9 +46,16 @@ public class AnswerService {
         return answerRepository.save(verifiedAnswer);
     }
 
-    public Page<Answer> findAnswers(int page, int size) {
+    // 최신순
+    public Page<Answer> findLAnswers(int page, int size) {
         return answerRepository.findAll(PageRequest.of(page,size,
                 Sort.by("id").descending()));
+    }
+
+    // 추천순
+    public Page<Answer> findHAnswers(int page, int size) {
+        return answerRepository.findAll(PageRequest.of(page,size,
+            Sort.by("score").descending()));
     }
 
     public Answer findById(long id){
