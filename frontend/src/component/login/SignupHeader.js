@@ -80,7 +80,9 @@ const SignupHeader = () => {
         <BsSearch></BsSearch>
         <Sinput placeholder="search"></Sinput>
       </Sform>
-      <SLoginButton>Log in</SLoginButton>
+      <Link to="/">
+        <SLoginButton>Log in</SLoginButton>
+      </Link>
       <SLink to="/signup">Sign up</SLink>
     </Sheader>
   );

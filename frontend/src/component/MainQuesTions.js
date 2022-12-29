@@ -6,6 +6,8 @@ import LeftSidebar from './LeftSidebar';
 import { Link } from 'react-router-dom';
 import { useState, useEffect, Fragment } from 'react';
 import axios from 'axios';
+import useStore from '../store';
+import { SettingsCellSharp } from '@mui/icons-material';
 
 const QuestionList = styled.div`
   /* width: 600px; */
@@ -74,7 +76,7 @@ const SectionRight = styled.div`
 
 const MainQuestions = () => {
   const [list, setList] = useState([]);
-
+  const { Search, Axios, Userdata } = useStore();
   // 페이지가 그려지기 전에 axios로 데이터 호출
   useEffect(() => {
     const init = async () => {
@@ -82,7 +84,6 @@ const MainQuestions = () => {
         // `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/questions?page=1&size=10`
         `/questions?page=1&size=10`
       );
-      console.log('결과값 : ', result);
       setList(result.data.data);
     };
     init();

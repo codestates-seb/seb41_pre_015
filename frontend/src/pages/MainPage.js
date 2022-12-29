@@ -11,7 +11,6 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '../component/Footer';
 
-
 const TopQuestionMain = styled.div`
   width: 100%;
   height: 200%;
