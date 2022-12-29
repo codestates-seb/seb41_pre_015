@@ -6,6 +6,8 @@ import LeftSidebar from './LeftSidebar';
 import { Link } from 'react-router-dom';
 import { useState, useEffect, Fragment } from 'react';
 import axios from 'axios';
+import useStore from '../store';
+import { SettingsCellSharp } from '@mui/icons-material';
 
 const QuestionList = styled.div`
   /* width: 600px; */
@@ -70,7 +72,6 @@ const ProfileImg = styled.img`
 // eslint-disable-next-line react/prop-types
 const MainQuestions = ({ _list }) => {
   const [list, setList] = useState([]);
-
   // // 페이지가 그려지기 전에 axios로 데이터 호출
   // useEffect(() => {
   //   const init = async () => {

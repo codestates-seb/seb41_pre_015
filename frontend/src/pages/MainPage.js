@@ -11,6 +11,7 @@ import { useState, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '../component/Footer';
 
+
 //질문목록 제목 전체영역
 const AllQuestionMain = styled.div`
   width: 100%;
