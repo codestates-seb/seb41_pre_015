@@ -1,6 +1,7 @@
 package com.preproject.backend.member.service;
 
 import com.preproject.backend.answer.entity.Answer;
+import com.preproject.backend.auth.utils.CustomAuthorityUtils;
 import com.preproject.backend.exception.BusinessLogicException;
 import com.preproject.backend.exception.ExceptionCode;
 import com.preproject.backend.member.entity.Member;
@@ -11,6 +12,7 @@ import com.preproject.backend.utils.CustomBeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,16 +27,34 @@ public class MemberService {
     private final QuestionRepository questionRepository;
     private final CustomBeanUtils<Member> customBeanUtils;
 
-    public MemberService(MemberRepository memberRepository, QuestionRepository questionRepository, CustomBeanUtils<Member> customBeanUtils) {
+    private final PasswordEncoder passwordEncoder;
+
+    private final CustomAuthorityUtils authorityUtils;
+
+    public MemberService(MemberRepository memberRepository,
+                         QuestionRepository questionRepository,
+                         CustomBeanUtils<Member> customBeanUtils,
+                         PasswordEncoder passwordEncoder,
+                         CustomAuthorityUtils authorityUtils) {
+
         this.memberRepository = memberRepository;
         this.questionRepository = questionRepository;
         this.customBeanUtils = customBeanUtils;
+        this.passwordEncoder = passwordEncoder;
+        this.authorityUtils = authorityUtils;
     }
 
     /* 회원 신규 등록 */
     public Member createMember(Member member) {
 
         checkDuplicatedMember(member);
+
+        String password = member.getPassword();
+        String encryptedPassword = passwordEncoder.encode(password);
+        member.setPassword(encryptedPassword);
+
+        List<String> roles = authorityUtils.createRoles(member.getEmail());
+        member.setRoles(roles);
 
         return memberRepository.save(member);
 
