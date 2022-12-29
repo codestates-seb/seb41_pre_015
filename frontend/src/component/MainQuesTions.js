@@ -20,7 +20,7 @@ const QuestionList = styled.div`
 
 // 질문정보(votes,answers,views)
 const QuestionContentLeft = styled.div`
-  /* width: 50%; */
+  width: 20%;
   height: 131.9px;
   /* background-color: pink; */
   display: flex;
@@ -53,7 +53,7 @@ const Tag = styled.button`
   border-radius: 5px;
   border-color: #d0e2f0;
 `;
-// 질문작성자 정보(유저이름,프로필이미지)
+// 질문작성자 정보(회원이름,프로필이미지)
 const QuestionImg = styled.div`
   width: 50%;
   height: 130px;
@@ -123,7 +123,6 @@ const MainQuestions = ({ _list }) => {
                   <div>
                     <div style={{ margin: '5px' }}>0 votes</div>
                     <div style={{ margin: '5px' }}>0 answers</div>
-                    <div style={{ margin: '5px' }}>0 views</div>
                   </div>
                 </QuestionContentLeft>
 
