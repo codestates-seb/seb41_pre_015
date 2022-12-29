@@ -14,6 +14,7 @@ import java.util.List;
 
 public class AnswerDto {
     @Getter
+    @AllArgsConstructor
     public static class Post {
         @NotBlank(message = "내용은 공백이 아니어야 합니다.")
         private String content;
