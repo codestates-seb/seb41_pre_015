@@ -14,7 +14,6 @@ import com.preproject.backend.question.service.QuestionService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -114,14 +113,13 @@ public class AnswerController {
 //        return ResponseEntity.ok(null);
 //    }
 
-    // 질문자가 답변 채택
-    @PatchMapping("accept/{question-id}/{answer-id}")
-    public ResponseEntity acceptAnswer(@Positive @PathVariable("question-id")long questionId,
-                                        @Positive @PathVariable("answer-id")long answerId){
+    // 질문자가 답변 채택 answers/{answer-id}/accept
+    @PatchMapping("answers/{answer-id}/accept")
+    public ResponseEntity acceptAnswer(@Positive @PathVariable("answer-id")long answerId){
         // Todo : 로그인한 Id가 작성자(memberId)와 맞는지 검증
 
         // 답변 채택 -> 질문 채택
-        Question resolvedQuestion = questionService.resolveQuestion(questionId, answerId);
+        Question resolvedQuestion = questionService.resolveQuestion(answerId);
 
         // 채택된 질문, 답변 결과 출력
         return new ResponseEntity<>(qmapper.questionToQuestionResponseDto(resolvedQuestion), HttpStatus.OK);
