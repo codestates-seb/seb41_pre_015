@@ -81,12 +81,22 @@ public class QuestionController {
 		return new ResponseEntity<>(mapper.questionToQuestionResponseDto(question), HttpStatus.OK);
 	}
 
-	// *** 전체 질문 조회 ***
-	@GetMapping
-	public ResponseEntity getQuestions(@Positive @RequestParam int page,
+	// *** 전체 질문 조회 (최신순) ***
+	@GetMapping("/latest")
+	public ResponseEntity getLQuestions(@Positive @RequestParam int page,
 		@Positive @RequestParam int size) {
+		Page<Question> pageQuestions = questionService.findLQuestions(page - 1, size);
+		List<Question> questions = pageQuestions.getContent();
 
-		Page<Question> pageQuestions = questionService.findQuestions(page - 1, size);
+		return new ResponseEntity<>(
+			new MultiResponseDto<>(mapper.questionToQuestionResponseDtos(questions), pageQuestions),
+			HttpStatus.OK);
+	}
+
+	// *** 전체 질문 조회 (추천순) ***
+	@GetMapping("/highest")
+	public ResponseEntity getHQuestions(@Positive @RequestParam int page, @Positive @RequestParam int size){
+		Page<Question> pageQuestions = questionService.findHQuestions(page - 1, size);
 		List<Question> questions = pageQuestions.getContent();
 
 		return new ResponseEntity<>(

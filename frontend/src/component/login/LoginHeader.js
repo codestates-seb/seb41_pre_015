@@ -2,13 +2,14 @@ import logo from '../../images/logo-stackoverflow.png';
 import styled from 'styled-components';
 import { BsSearch } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
+import useStore from '../../store';
 
 const SLogo = styled.img`
   width: 150px;
   height: 30px;
   margin-right: 10px;
 `;
-const Sform = styled.form`
+const Sform = styled.div`
   display: flex;
   margin: 0 10px 0 0;
   flex-grow: 0.8;
@@ -61,6 +62,7 @@ const SLogoutButton = styled.button`
 `;
 
 const LoginHeader = () => {
+  const { SearchValue } = useStore();
   return (
     <Sheader className="header-container">
       <Link to="/main">
@@ -68,9 +70,18 @@ const LoginHeader = () => {
       </Link>
       <Sform>
         <BsSearch></BsSearch>
-        <Sinput placeholder="search"></Sinput>
+        <Sinput
+          placeholder="search"
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              SearchValue(e.target.value);
+            }
+          }}
+        ></Sinput>
       </Sform>
-      <SmypageButton>My page</SmypageButton>
+      <Link to="/mypage">
+        <SmypageButton>My page</SmypageButton>
+      </Link>
       <SLogoutButton>Log out</SLogoutButton>
     </Sheader>
   );
