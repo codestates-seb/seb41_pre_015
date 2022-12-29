@@ -29,6 +29,9 @@ public class MemberDetailsService implements UserDetailsService {
         Optional<Member> memberByEmail = memberRepository.findByEmail(username);
         Member findMember = memberByEmail.orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+//        Member findMember = memberByEmail.orElseThrow(() ->
+//                new UsernameNotFoundException("등록된 회원이 아닙니다. 회원가입 후 진행해주세요")
+//        );
 
         return new MemberDetails(findMember);
     }

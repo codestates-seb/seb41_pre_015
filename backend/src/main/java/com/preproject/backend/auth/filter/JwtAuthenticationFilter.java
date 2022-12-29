@@ -28,12 +28,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         this.authenticationManager = authenticationManager;
         this.jwtTokenizer = jwtTokenizer;
     }
-
     @SneakyThrows
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         ObjectMapper objectMapper = new ObjectMapper();
         LoginDto loginDto = objectMapper.readValue(request.getInputStream(), LoginDto.class);
+        /*TODO UsernamePasswordAuthenticationFilter에 이미 AuthenticationManager가 있는 것 아닌가?
+        *  this.getAuthenticationManager()로 예외처리 진행해보기 <- securityConfiguration에 있는 sharedObject쓰지 말고*/
 
         /* 테스트 할 때 안되면 확인하기 */
         UsernamePasswordAuthenticationToken authenticationToken =
