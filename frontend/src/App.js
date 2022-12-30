@@ -9,18 +9,9 @@ import MyPage from './pages/MyPage';
 import AddQuestionPage from './pages/AddQuestionPage';
 import QuestionDetail from './pages/QuestionDetail';
 import MypageEdit from './pages/MypageEdit';
-import useStore from './store';
+import ErrorPage from './pages/ErrorPage';
 
 function App() {
-  const { Userdata } = useStore();
-
-  Userdata.then((res) => {
-    console.log(
-      res.filter((el) => {
-        if (el.id === 1) return el;
-      })
-    );
-  });
   return (
     <>
       <BrowserRouter>
@@ -32,6 +23,7 @@ function App() {
           <Route path="/addquestion" element={<AddQuestionPage />} />
           <Route path="/questions" element={<QuestionDetail />} />
           <Route path="/editmypage" element={<MypageEdit />} />
+          <Route path="/error" element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>
     </>

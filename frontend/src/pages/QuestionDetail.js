@@ -1,13 +1,15 @@
+/* eslint-disable no-undef */
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import logo from '../images/small-logo.png';
 import LoginHeader from '../component/login/LoginHeader';
 import LeftSidebar from '../component/LeftSidebar';
 import RightSidebar from '../component/RightSidebar';
 import { TiArrowSortedUp, TiArrowSortedDown } from 'react-icons/ti';
 import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
-// import { ImCheckmark, ImCheckmark2 } from 'react-icons/bs';
+import { ImCheckmark } from 'react-icons/im';
 import Footer from '../component/Footer';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
@@ -23,6 +25,9 @@ const SLinkquestion = styled(Link)`
   text-decoration: none;
   text-align: center;
   color: black;
+  :hover {
+    color: black;
+  }
 `;
 //상단 질문제목 전체 영역
 const TopQuestionTitle = styled.div`
@@ -142,6 +147,7 @@ const QuDelete = styled.button`
   border-color: #d0e2f0;
   font-size: 5px;
 `;
+
 //댓글 전체 영역
 const CommentContent = styled.div`
   width: 100%;
@@ -151,18 +157,28 @@ const CommentContent = styled.div`
   padding-left: 50px;
   padding-right: 10px;
 `;
-//댓글
+//댓글(comment) 전체영역
 const CommentContentTitle = styled.div`
   width: 100%;
 `;
-// 댓글 내용 칸
-const CommentContentInput = styled.input`
+// 댓글(comment) 내용 칸
+const CommentContentTextarea = styled.textarea`
   width: 100%;
-  height: 70%;
+  height: 100px;
   text-align: start;
   font-size: 5px;
   background-color: #ffff;
   border: 0.3px solid black;
+`;
+// add a comment 버튼
+const Commentbutton = styled.button`
+  /* width: 40%; */
+  height: 20px;
+  background-color: #0a95ff;
+  border-radius: 2px;
+  border-color: #0078ff;
+  margin: 10px;
+  font-size: 5px;
 `;
 // 등록된 답변 전체 영역
 const AnswerContentTitle = styled.div`
@@ -247,7 +263,7 @@ const RegisterAnswerTextarea = styled.textarea`
 
 // Post Your Answer 버튼
 const RegisterAnswerbutton = styled.button`
-  width: 40%;
+  /* width: 40%; */
   height: 20px;
   background-color: #0a95ff;
   border-radius: 2px;
@@ -274,7 +290,6 @@ const FilterButton = styled.button`
 function QuestionDetail() {
   const location = useLocation();
   const { data, questionId } = location.state;
-
   const [bookMark, setBookMark] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [pageData, setPageData] = useState(null);
@@ -310,7 +325,6 @@ function QuestionDetail() {
   const changeStateBookMark = () => {
     setBookMark((e) => !e);
   };
-
   // 추천수 업
   const likeUp = () => {
     setLikeCount((e) => e + 1);
@@ -580,29 +594,15 @@ function QuestionDetail() {
                 <QuDelete>Delete</QuDelete>
               </QuEDContainer>
             )}
-            {/* 질문 수정,삭제 영역 */}
+            {/* 질문 수정,삭제 영역 끝*/}
 
             {/* <댓글> */}
             <CommentContent>
-              {/* <CommentContentTitle>
-              <div style={{ padding: '5px' }}>댓글</div>
-            </CommentContentTitle>
-            <CommentContentInput></CommentContentInput> */}
-              {/* 댓글 더미데이터 */}
-              <div style={{ fontSize: 12 }}>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industrys standard dummy text
-                ever since the 1500s, when an unknown printer took a galley of
-                type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets
-                containing Lorem Ipsum passages, and more recently with desktop
-                publishing software like Aldus PageMaker including versions of
-                Lorem Ipsum. - <span style={{ color: 'blue' }}>작성자</span>
-                ,&nbsp;
-                <span style={{ color: 'gray' }}>작성일</span>
-              </div>
+              <CommentContentTitle>
+                <div>Comment</div>
+              </CommentContentTitle>
+              <CommentContentTextarea></CommentContentTextarea>
+              <Commentbutton>add a Comment</Commentbutton>
             </CommentContent>
             {/* <댓글 끝> */}
 
@@ -663,7 +663,7 @@ function QuestionDetail() {
                     >
                       <TiArrowSortedDown />
                     </button>
-                    {/* 북마크  기능 */}
+                    {/* 답변 북마크  기능 */}
                     <button
                       style={{
                         border: 'none',
@@ -675,6 +675,16 @@ function QuestionDetail() {
                       }}
                     >
                       {bookMark == true ? <BsBookmarkFill /> : <BsBookmark />}
+                    </button>
+                    {/* 채택 버튼 */}
+                    <button
+                      style={{
+                        border: 'none',
+                        width: '100%',
+                        backgroundColor: 'white',
+                      }}
+                    >
+                      <ImCheckmark />
                     </button>
                   </div>
                   {item.editState == false ? (
@@ -726,7 +736,7 @@ function QuestionDetail() {
                 </AnswerContentTitle>
               );
             })}
-            {/* 질문 영역 끝 */}
+            {/* 질문 답변 영역 끝 */}
 
             {/* 답변 등록 영역 전체영역*/}
             {/* Your Answer 글씨 */}
