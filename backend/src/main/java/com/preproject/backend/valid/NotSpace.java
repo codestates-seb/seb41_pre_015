@@ -1,4 +1,4 @@
-package com.preproject.backend.validator;
+package com.preproject.backend.valid;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -9,8 +9,8 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = {NotOnlySpaceValidator.class})
-public @interface NotOnlySpace {
+@Constraint(validatedBy = {NotSpaceValidator.class})
+public @interface NotSpace {
     String message() default "공백만으로 구성될 수 없습니다.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};

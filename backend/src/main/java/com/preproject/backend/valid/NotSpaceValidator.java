@@ -1,13 +1,13 @@
-package com.preproject.backend.validator;
+package com.preproject.backend.valid;
 
 import org.springframework.util.StringUtils;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class NotOnlySpaceValidator implements ConstraintValidator<NotOnlySpace, String> {
+public class NotSpaceValidator implements ConstraintValidator<NotSpace, String> {
     @Override
-    public void initialize(NotOnlySpace constraintAnnotation) {
+    public void initialize(NotSpace constraintAnnotation) {
         ConstraintValidator.super.initialize(constraintAnnotation);
     }
 
