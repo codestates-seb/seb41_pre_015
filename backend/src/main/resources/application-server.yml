@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://preproject-db-15.cttb8u7cmhrf.ap-northeast-2.rds.amazonaws.com:13306/preproject_db_15
+    USERNAME: ${DB.USERNAME}
+    PASSWORD: ${DB.PASSWORD}
+  jpa:
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    database: mysql
+    properties:
+      hibernate:
+        format_sql: true
