@@ -8,6 +8,14 @@ import PublicIcon from '@mui/icons-material/Public';
 import PersonPinIcon from '@mui/icons-material/PersonPin';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 
+const SLink = styled(Link)`
+  color: gray;
+  margin-left: 2px;
+  text-decoration: none;
+  :hover {
+    color: gray;
+  }
+`;
 const LeftSidebar = () => {
   return (
     <LeftSidebarContainer>
@@ -27,15 +35,11 @@ const LeftSidebar = () => {
               <div className="link">
                 <div className="link-tag">
                   <PublicIcon color="action" />
-                  <Link to="/main" style={{ textDecoration: 'none' }}>
-                    <a className="a">Questions</a>
-                  </Link>
+                  <SLink to="/main">Questions</SLink>
                 </div>
                 <div className="link-tag">
-                  <Link to="/mypage" style={{ textDecoration: 'none' }}>
-                    <PersonPinIcon color="action" />
-                    <a className="a">MyPage</a>
-                  </Link>
+                  <PersonPinIcon color="action" />
+                  <SLink to="/mypage">MyPage</SLink>
 
                   {/* <a
                     className="a"
@@ -46,10 +50,8 @@ const LeftSidebar = () => {
                 </div>
                 {/* <Link to="/404" style={{ textDecoration: 'none' }}> */}
                 <div className="link-tag">
-                  <Link to="/error" style={{ textDecoration: 'none' }}>
-                    <LocalOfferIcon color="action" />
-                    <a className="a">Tags</a>
-                  </Link>
+                  <LocalOfferIcon color="action" />
+                  <SLink to="/error">Tags</SLink>
                   {/* </Link> */}
                 </div>
               </div>
@@ -62,9 +64,7 @@ const LeftSidebar = () => {
               <div className="link">
                 <div className="link-tag">
                   <Stars className="stars" />
-                  <Link to="/error" style={{ textDecoration: 'none' }}>
-                    <a className="a">Explore Collectives</a>
-                  </Link>
+                  <SLink to="/error">Explore Collectives</SLink>
                 </div>
               </div>
             </div>
@@ -76,9 +76,7 @@ const LeftSidebar = () => {
               <div className="link">
                 <div className="link-tag">
                   <Work className="work" />
-                  <Link to="/error" style={{ textDecoration: 'none' }}>
-                    <a className="a">Create free Team</a>
-                  </Link>
+                  <SLink to="/error">Create free Team</SLink>
                 </div>
               </div>
             </div>
