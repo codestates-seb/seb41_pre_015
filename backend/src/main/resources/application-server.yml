@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://preproject-db-15.cttb8u7cmhrf.ap-northeast-2.rds.amazonaws.com:13306/preproject_db_15
+    url: ${DB.URL}
     USERNAME: ${DB.USERNAME}
     PASSWORD: ${DB.PASSWORD}
   jpa:
@@ -13,3 +13,4 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
