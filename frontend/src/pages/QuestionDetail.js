@@ -25,6 +25,9 @@ const SLinkquestion = styled(Link)`
   text-decoration: none;
   text-align: center;
   color: black;
+  :hover {
+    color: black;
+  }
 `;
 //상단 질문제목 전체 영역
 const TopQuestionTitle = styled.div`
@@ -159,7 +162,7 @@ const CommentContentTitle = styled.div`
   width: 100%;
 `;
 // 댓글(comment) 내용 칸
-const CommentContentTextarea = styled.Textarea`
+const CommentContentTextarea = styled.textarea`
   width: 100%;
   height: 100px;
   text-align: start;

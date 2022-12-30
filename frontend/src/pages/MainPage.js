@@ -11,7 +11,6 @@ import { useState, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '../component/Footer';
 
-
 //질문목록 제목 전체영역
 const AllQuestionMain = styled.div`
   width: 100%;
@@ -47,6 +46,9 @@ const SLinkquestion = styled(Link)`
   text-decoration: none;
   text-align: center;
   color: black;
+  :hover {
+    color: black;
+  }
 `;
 // 필터버튼 전체영역
 const FilterButtonContainer = styled.div`
