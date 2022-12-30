@@ -39,7 +39,7 @@ const LeftSidebar = () => {
                 </div>
                 <div className="link-tag">
                   <PersonPinIcon color="action" />
-                  <SLink to="/mypage">MyPage</SLink>
+                  <SLink to="/mypage">Users</SLink>
 
                   {/* <a
                     className="a"
