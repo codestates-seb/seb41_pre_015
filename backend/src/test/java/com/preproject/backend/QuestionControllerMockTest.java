@@ -27,6 +27,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.constraints.ConstraintDescriptions;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -34,6 +35,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 
 import com.google.gson.Gson;
+import com.preproject.backend.answer.dto.AnswerDto;
 import com.preproject.backend.config.SecurityConfiguration;
 import com.preproject.backend.member.entity.Member;
 import com.preproject.backend.question.controller.QuestionController;
@@ -177,6 +179,11 @@ public class QuestionControllerMockTest {
 			);
 
 		// then
+
+		// 유효성 검증에 사용된 애너테이션에 대한 정보를 추가
+		ConstraintDescriptions patchQuestionConstraints = new ConstraintDescriptions(QuestionDto.Patch.class);
+		List<String> contentDescriptions = patchQuestionConstraints.descriptionsForProperty("content");
+
 		actions
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.id").value(patch.getId()))
