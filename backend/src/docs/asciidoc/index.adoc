@@ -5,113 +5,127 @@
 :toc-title: Table of Contents
 :source-highlighter: prettify
 
-15jijo
-BackEnd : 김정하, 정민교, 황원용
+*😎15jijo*
+
+BackEnd : 김정하, 정민교, 황원용 +
 FrontEnd : 조규성, 최은화, 홍동화
 
 v1.0.0, 2022.12.30    // (3)
 
 ***
+== MemberController
+=== 회원 가입
+
+.http-request
+include::{snippets}/post-member/http-request.adoc[]
+
+.request-fields
+include::{snippets}/post-member/request-fields.adoc[]
+
+.http-response
+include::{snippets}/post-member/http-response.adoc[]
+
+.http-response
+include::{snippets}/post-member/response-fields.adoc[]
+
+=== 회원 수정
+
+.http-request
+include::{snippets}/patch-member/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/patch-member/path-parameters.adoc[]
+
+.request-fields
+include::{snippets}/patch-member/request-fields.adoc[]
+
+.http-response
+include::{snippets}/patch-member/http-response.adoc[]
+
+.response-fields
+include::{snippets}/patch-member/response-fields.adoc[]
+
+=== 회원 조회
+
+.http-request
+include::{snippets}/get-member/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/get-member/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-member/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-member/response-fields.adoc[]
+
+=== 회원 탈퇴
+
+.http-request
+include::{snippets}/delete-member/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/delete-member/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/delete-member/http-response.adoc[]
+
 == AnswerController
 === 답변 등록
-.curl-request
-include::{snippets}/post-answer/curl-request.adoc[]
 
-http-request
-include::{snippets}/post-answer/curl-request.adoc[]
+.http-request
+include::{snippets}/post-answer/http-request.adoc[]
 
-http-response
-include::{snippets}/post-answer/http-response.adoc[]
-
-httpie-request
-include::{snippets}/post-answer/httpie-request.adoc[]
-
-request-body
-include::{snippets}/post-answer/request-body.adoc[]
-
-request-fields
+.request-fields
 include::{snippets}/post-answer/request-fields.adoc[]
 
-response-body
-include::{snippets}/post-answer/response-body.adoc[]
+.http-response
+include::{snippets}/post-answer/http-response.adoc[]
 
-response-fields
+.response-fields
 include::{snippets}/post-answer/response-fields.adoc[]
 
 === 답변 수정
-curl-request
-include::{snippets}/patch-answer/curl-request.adoc[]
 
-http-request
+.http-request
 include::{snippets}/patch-answer/http-request.adoc[]
 
-http-response
-include::{snippets}/patch-answer/http-response.adoc[]
-
-httpie-request
-include::{snippets}/patch-answer/response-fields.adoc[]
-
-path-parameters
+.path-parameters
 include::{snippets}/patch-answer/path-parameters.adoc[]
 
-request-body
-include::{snippets}/patch-answer/request-body.adoc[]
-
-request-fields
+.request-fields
 include::{snippets}/patch-answer/request-fields.adoc[]
 
-response-body
-include::{snippets}/patch-answer/response-body.adoc[]
+.http-response
+include::{snippets}/patch-answer/http-response.adoc[]
 
-response-fields
+.response-fields
 include::{snippets}/patch-answer/response-fields.adoc[]
 
 === 답변 전체 조회
-curl-request
-include::{snippets}/get-answers/curl-request.adoc[]
 
-http-request
+.http-request
 include::{snippets}/get-answers/http-request.adoc[]
 
-http-response
-include::{snippets}/get-answers/http-response.adoc[]
-
-httpie-request
-include::{snippets}/get-answers/httpie-request.adoc[]
-
-request-body
-include::{snippets}/get-answers/request-body.adoc[]
-
-request-parameters
+.request-parameters
 include::{snippets}/get-answers/request-parameters.adoc[]
 
-response-body
-include::{snippets}/get-answers/response-body.adoc[]
+.http-response
+include::{snippets}/get-answers/http-response.adoc[]
 
-response-fields
+.response-fields
 include::{snippets}/get-answers/response-fields.adoc[]
 
 === 답변 삭제
-curl-request
-include::{snippets}/delete-answer/curl-request.adoc[]
 
-http-request
+.http-request
 include::{snippets}/delete-answer/http-request.adoc[]
 
-http-response
-include::{snippets}/delete-answer/http-response.adoc[]
-
-httpie-request
-include::{snippets}/delete-answer/httpie-request.adoc[]
-
-path-parameters
+.path-parameters
 include::{snippets}/delete-answer/path-parameters.adoc[]
 
-request-body
-include::{snippets}/delete-answer/request-body.adoc[]
-
-response-body
-include::{snippets}/delete-answer/response-body.adoc[]
+.http-response
+include::{snippets}/delete-answer/http-response.adoc[]
 
 
 
