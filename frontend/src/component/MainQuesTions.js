@@ -121,8 +121,10 @@ const MainQuestions = ({ _list }) => {
                 {/* 질문 정보 (votes투표수,answers답변수,views 질문열람 수) */}
                 <QuestionContentLeft>
                   <div>
-                    <div style={{ margin: '5px' }}>0 votes</div>
-                    <div style={{ margin: '5px' }}>0 answers</div>
+                    <div style={{ margin: '5px' }}>{item.score} votes</div>
+                    <div style={{ margin: '5px' }}>
+                      {item.answer.length} answers
+                    </div>
                   </div>
                 </QuestionContentLeft>
 
