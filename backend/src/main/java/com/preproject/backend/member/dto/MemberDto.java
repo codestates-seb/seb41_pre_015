@@ -2,17 +2,18 @@ package com.preproject.backend.member.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.preproject.backend.member.entity.Member;
 
-import com.preproject.backend.validator.NotOnlySpace;
+import com.preproject.backend.valid.NotSpace;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 public class MemberDto {
 
@@ -59,7 +60,7 @@ public class MemberDto {
 		private String password;
 
 		@Size(max = 255)
-		@NotOnlySpace
+		@NotSpace
 		private String aboutMe;
 
 		private Member.MemberStatus status;
@@ -73,5 +74,6 @@ public class MemberDto {
 		private String email;
 		private String aboutMe;
 		private Member.MemberStatus status;
+		private List<String> roles;
 	}
 }
