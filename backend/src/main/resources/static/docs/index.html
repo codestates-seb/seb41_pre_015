@@ -469,8 +469,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>15jijo
-BackEnd : 김정하, 정민교, 황원용
+<p><strong>15jijo</strong></p>
+</div>
+<div class="paragraph">
+<p>BackEnd : 김정하, 정민교, 황원용<br>
 FrontEnd : 조규성, 최은화, 홍동화</p>
 </div>
 <div class="paragraph">
@@ -1167,8 +1169,17 @@ Vary: Access-Control-Request-Headers</code></pre>
 <div class="sect2">
 <h3 id="_답변_등록">2.1. 답변 등록</h3>
 <div class="listingblock">
-<div class="title">curl-request</div>
+<div class="title">http-request</div>
 <div class="content">
+<<<<<<< HEAD
+<pre class="prettyprint highlight nowrap"><code data-lang="http">POST /answers HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Content-Length: 82
+Host: localhost:8080
+
+{
+=======
 <pre class="prettyprint highlight"><code data-lang="bash">$ curl 'http://localhost:8080/answers' -i -X POST \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -H 'Accept: application/json' \
@@ -1236,16 +1247,15 @@ Content-Length: 269
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code>{
+>>>>>>> dev
   "content" : "This is Answer Test.",
   "memberId" : 1,
   "questionId" : 1
 }</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>request-fields</p>
-</div>
 <table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. request-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -1276,28 +1286,33 @@ Content-Length: 269
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p>response-body</p>
-</div>
 <div class="listingblock">
+<div class="title">http-response</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code>{
+<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 201 Created
+Content-Type: application/json;charset=UTF-8
+Content-Length: 269
+
+{
   "id" : 1,
   "memberId" : 1,
   "questionId" : 1,
   "content" : "This is Answer Test.",
   "score" : 0,
   "answerStatus" : "UNACCEPTED",
+<<<<<<< HEAD
+  "createdAt" : "2022-12-30T15:07:59.5012266",
+  "modifiedAt" : "2022-12-30T15:07:59.5012266",
+=======
   "createdAt" : "2022-12-30T14:56:54.6931616",
   "modifiedAt" : "2022-12-30T14:56:54.6931616",
+>>>>>>> dev
   "answerComments" : [ ]
 }</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>response-fields</p>
-</div>
 <table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. response-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -1360,6 +1375,9 @@ Content-Length: 269
 </table>
 </div>
 <div class="sect2">
+<<<<<<< HEAD
+<h3 id="_답변_수정">1.2. 답변 수정</h3>
+=======
 <h3 id="_답변_수정">2.2. 답변 수정</h3>
 <div class="paragraph">
 <p>curl-request</p>
@@ -1378,7 +1396,9 @@ Content-Length: 269
 <div class="paragraph">
 <p>http-request</p>
 </div>
+>>>>>>> dev
 <div class="listingblock">
+<div class="title">http-request</div>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">PATCH /answers/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
@@ -1392,6 +1412,8 @@ Host: localhost:8080
 }</code></pre>
 </div>
 </div>
+<<<<<<< HEAD
+=======
 <div class="paragraph">
 <p>http-response</p>
 </div>
@@ -1482,7 +1504,9 @@ Content-Length: 269
 <p>path-parameters
 ./answers/{answer-id}</p>
 </div>
+>>>>>>> dev
 <table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. /answers/{answer-id}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1500,21 +1524,8 @@ Content-Length: 269
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p>request-body</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight nowrap"><code>{
-  "id" : 1,
-  "content" : "This is Answer Test."
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>request-fields</p>
-</div>
 <table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. request-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -1529,39 +1540,39 @@ Content-Length: 269
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">답변 식별자</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">답변 내용</p></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p>response-body</p>
-</div>
 <div class="listingblock">
+<div class="title">http-response</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code>{
+<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 269
+
+{
   "id" : 1,
   "memberId" : 1,
   "questionId" : 1,
   "content" : "This is Answer Test.",
   "score" : 0,
   "answerStatus" : "UNACCEPTED",
+<<<<<<< HEAD
+  "createdAt" : "2022-12-30T15:07:59.4017087",
+  "modifiedAt" : "2022-12-30T15:07:59.4017087",
+=======
   "createdAt" : "2022-12-30T14:56:54.4787774",
   "modifiedAt" : "2022-12-30T14:56:54.4787774",
+>>>>>>> dev
   "answerComments" : [ ]
 }</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>response-fields</p>
-</div>
 <table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. response-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -1624,6 +1635,9 @@ Content-Length: 269
 </table>
 </div>
 <div class="sect2">
+<<<<<<< HEAD
+<h3 id="_답변_전체_조회">1.3. 답변 전체 조회</h3>
+=======
 <h3 id="_답변_전체_조회">2.3. 답변 전체 조회</h3>
 <div class="paragraph">
 <p>curl-request</p>
@@ -1637,13 +1651,17 @@ Content-Length: 269
 <div class="paragraph">
 <p>http-request</p>
 </div>
+>>>>>>> dev
 <div class="listingblock">
+<div class="title">http-request</div>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">GET /answers/latest?page=1&amp;size=3 HTTP/1.1
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
 </div>
+<<<<<<< HEAD
+=======
 <div class="paragraph">
 <p>http-response</p>
 </div>
@@ -1704,7 +1722,9 @@ Content-Length: 693
 <div class="paragraph">
 <p>request-parameters</p>
 </div>
+>>>>>>> dev
 <table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. request-parameters</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1726,12 +1746,14 @@ Content-Length: 693
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p>response-body</p>
-</div>
 <div class="listingblock">
+<div class="title">http-response</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code>{
+<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 693
+
+{
   "data" : [ {
     "id" : 1,
     "memberId" : 1,
@@ -1739,8 +1761,13 @@ Content-Length: 693
     "content" : "This is stub1.",
     "score" : 0,
     "answerStatus" : "ACCEPTED",
+<<<<<<< HEAD
+    "createdAt" : "2022-12-30T15:07:59.4523726",
+    "modifiedAt" : "2022-12-30T15:07:59.4523726",
+=======
     "createdAt" : "2022-12-30T14:56:54.6072383",
     "modifiedAt" : "2022-12-30T14:56:54.6072383",
+>>>>>>> dev
     "answerComments" : [ ]
   }, {
     "id" : 2,
@@ -1749,8 +1776,13 @@ Content-Length: 693
     "content" : "This is stub2.",
     "score" : 0,
     "answerStatus" : "UNACCEPTED",
+<<<<<<< HEAD
+    "createdAt" : "2022-12-30T15:07:59.4523726",
+    "modifiedAt" : "2022-12-30T15:07:59.4523726",
+=======
     "createdAt" : "2022-12-30T14:56:54.6072383",
     "modifiedAt" : "2022-12-30T14:56:54.6072383",
+>>>>>>> dev
     "answerComments" : [ ]
   } ],
   "pageInfo" : {
@@ -1762,10 +1794,8 @@ Content-Length: 693
 }</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>response-fields</p>
-</div>
 <table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 7. response-fields</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -1858,6 +1888,9 @@ Content-Length: 693
 </table>
 </div>
 <div class="sect2">
+<<<<<<< HEAD
+<h3 id="_답변_삭제">1.4. 답변 삭제</h3>
+=======
 <h3 id="_답변_삭제">2.4. 답변 삭제</h3>
 <div class="paragraph">
 <p>curl-request</p>
@@ -1870,33 +1903,16 @@ Content-Length: 693
 <div class="paragraph">
 <p>http-request</p>
 </div>
+>>>>>>> dev
 <div class="listingblock">
+<div class="title">http-request</div>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code data-lang="http">DELETE /answers/1 HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>http-response</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 204 No Content</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>httpie-request</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="bash">$ http DELETE 'http://localhost:8080/answers/1'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>path-parameters
-./answers/{answer-id}</p>
-</div>
 <table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 8. /answers/{answer-id}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1914,20 +1930,10 @@ Host: localhost:8080</code></pre>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p>request-body</p>
-</div>
 <div class="listingblock">
+<div class="title">http-response</div>
 <div class="content">
-<pre class="prettyprint highlight nowrap"><code></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>response-body</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight nowrap"><code></code></pre>
+<pre class="prettyprint highlight nowrap"><code data-lang="http">HTTP/1.1 204 No Content</code></pre>
 </div>
 </div>
 </div>
@@ -1937,7 +1943,11 @@ Host: localhost:8080</code></pre>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
+<<<<<<< HEAD
+Last updated 2022-12-30 15:07:33 +0900
+=======
 Last updated 2022-12-30 14:54:02 +0900
+>>>>>>> dev
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">

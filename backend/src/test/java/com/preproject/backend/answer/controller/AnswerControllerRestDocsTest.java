@@ -184,7 +184,7 @@ class AnswerControllerRestDocsTest {
                         ),
                         requestFields(
                                 List.of(
-                                        fieldWithPath("id").type(JsonFieldType.NUMBER).description("답변 식별자"),
+                                        fieldWithPath("id").type(JsonFieldType.NUMBER).description("답변 식별자").ignored(),
                                         fieldWithPath("content").type(JsonFieldType.STRING).description("답변 내용")
                                 )
                         ),
