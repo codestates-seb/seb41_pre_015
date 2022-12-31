@@ -7,6 +7,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import useStore from '../../store';
+import Swal from 'sweetalert2';
 
 const SbackGround = styled.div`
   background-color: #f1f2f3;
@@ -111,7 +112,7 @@ const LoginForm = () => {
         setUserdata(res.data);
         localStorage.setItem('UserId', res.data.id);
         localStorage.setItem('Useremail', res.data.email);
-        alert('로그인 성공');
+        Swal.fire({ title: '로그인 성공!', timer: 1000 });
         navigate('/main');
       })
       .catch((e) => {

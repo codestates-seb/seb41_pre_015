@@ -10,6 +10,8 @@ import axios from 'axios';
 import { useState, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '../component/Footer';
+import SignupHeader from '../component/login/SignupHeader';
+import { AutoFixOffSharp } from '@mui/icons-material';
 
 //질문목록 제목 전체영역
 const AllQuestionMain = styled.div`
@@ -70,14 +72,23 @@ const MainPage = () => {
 
   // 페이지가 그려지기 전에 axios로 데이터 호출
   useEffect(() => {
+    window.scrollTo(0, 0);
     const init = async () => {
       const result = await axios.get(
         // `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/questions?page=1&size=10`
-        'http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/questions/latest?page=1&size=3',
+        'http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/questions/latest?page=1&size=10',
         {
           headers: { authorization: localStorage.getItem('accessToken') }, // headers에 headers 객체 전달
         }
       );
+      const UserId = result.data.data.map((el) => el.memberId);
+      const Username = await axios.get(
+        'http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/members/1',
+        {
+          headers: { authorization: localStorage.getItem('accessToken') }, // headers에 headers 객체 전달
+        }
+      );
+      console.log('Username', Username.data);
       console.log('결과값 : ', result);
       setList(result.data.data);
     };
@@ -114,7 +125,7 @@ const MainPage = () => {
 
   return (
     <>
-      <LoginHeader />
+      {localStorage.getItem('accessToken') ? <LoginHeader /> : <SignupHeader />}
       <div style={{ display: 'flex' }}>
         <LeftSidebar />
         {/* 질문목록 제목 전체영역 */}

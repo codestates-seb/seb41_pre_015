@@ -22,7 +22,7 @@ function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/addquestion" element={<AddQuestionPage />} />
-          <Route path="/questions" element={<QuestionDetail />} />
+          <Route path="/questions/:id" element={<QuestionDetail />} />
           <Route path="/editmypage" element={<MypageEdit />} />
           <Route path="/error" element={<ErrorPage />} />
           <Route path="/users" element={<UsersPage />} />

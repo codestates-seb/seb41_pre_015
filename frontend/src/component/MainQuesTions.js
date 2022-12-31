@@ -113,7 +113,7 @@ const MainQuestions = ({ _list }) => {
         return (
           <Fragment key={index}>
             <Link
-              to="/questions"
+              to={`/questions/${item.id}`}
               style={{ textDecoration: 'none', color: 'inherit' }}
               state={{ data: item, questionId: item.id }}
             >
