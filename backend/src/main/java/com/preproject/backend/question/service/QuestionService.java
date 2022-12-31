@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.preproject.backend.member.entity.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -42,7 +43,8 @@ public class QuestionService {
 	public Question createQuestion(Question question) {
 
 		// + 유효한 멤버인지 검증(memberId)
-		memberService.checkVerifiedMember(question.getMember().getId());
+		Member verifiedMember = memberService.checkVerifiedMember(question.getMember().getId());
+		question.setMember(verifiedMember);
 
 		// 질문 저장
 		return questionRepository.save(question);

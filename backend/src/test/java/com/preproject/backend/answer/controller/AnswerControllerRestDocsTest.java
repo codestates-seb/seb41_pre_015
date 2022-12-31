@@ -95,7 +95,7 @@ class AnswerControllerRestDocsTest {
         String content = gson.toJson(post);
 
         AnswerDto.Response responseDto =
-                new AnswerDto.Response(1L, 1L, 1L,
+                new AnswerDto.Response(1L, 1L, "홍길동",1L,
                         "This is Answer Test.", 0, Answer.AnswerStatus.UNACCEPTED,
                         LocalDateTime.now(), LocalDateTime.now(), new ArrayList<>());
 
@@ -130,6 +130,7 @@ class AnswerControllerRestDocsTest {
                                 List.of(
                                         fieldWithPath("id").type(JsonFieldType.NUMBER).description("답변 식별자"),
                                         fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                        fieldWithPath("memberName").type(JsonFieldType.STRING).description("답변 작성자"),
                                         fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
                                         fieldWithPath("content").type(JsonFieldType.STRING).description("답변 내용"),
                                         fieldWithPath("score").type(JsonFieldType.NUMBER).description("답변 투표수"),
@@ -151,7 +152,7 @@ class AnswerControllerRestDocsTest {
         String content = gson.toJson(patch);
 
         AnswerDto.Response responseDto =
-                new AnswerDto.Response(1L, 1L, 1L,
+                new AnswerDto.Response(1L, 1L, "홍길동", 1L,
                         "This is Answer Test.", 0, Answer.AnswerStatus.UNACCEPTED,
                         LocalDateTime.now(), LocalDateTime.now(), new ArrayList<>());
 
@@ -192,6 +193,7 @@ class AnswerControllerRestDocsTest {
                                 List.of(
                                         fieldWithPath("id").type(JsonFieldType.NUMBER).description("답변 식별자"),
                                         fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                        fieldWithPath("memberName").type(JsonFieldType.STRING).description("답변 작성자"),
                                         fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
                                         fieldWithPath("content").type(JsonFieldType.STRING).description("답변 내용"),
                                         fieldWithPath("score").type(JsonFieldType.NUMBER).description("답변 투표수"),
@@ -236,12 +238,12 @@ class AnswerControllerRestDocsTest {
         answer2.setAnswerVoteList(new ArrayList<>());
 
         AnswerDto.Response responseDto1 =
-                new AnswerDto.Response(1L, 1L, 1L,
+                new AnswerDto.Response(1L, 1L, "홍길동1", 1L,
                         "This is stub1.", 0, Answer.AnswerStatus.ACCEPTED,
                         LocalDateTime.now(), LocalDateTime.now(), new ArrayList<>());
 
         AnswerDto.Response responseDto2 =
-                new AnswerDto.Response(2L, 1L, 1L,
+                new AnswerDto.Response(2L, 1L, "홍길동2", 1L,
                         "This is stub2.", 0, Answer.AnswerStatus.UNACCEPTED,
                         LocalDateTime.now(), LocalDateTime.now(), new ArrayList<>());
 
@@ -283,6 +285,7 @@ class AnswerControllerRestDocsTest {
                                                         fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터").optional(),
                                                         fieldWithPath("data[].id").type(JsonFieldType.NUMBER).description("답변 식별자"),
                                                         fieldWithPath("data[].memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                                        fieldWithPath("data[].memberName").type(JsonFieldType.STRING).description("답변 작성자"),
                                                         fieldWithPath("data[].questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
                                                         fieldWithPath("data[].content").type(JsonFieldType.STRING).description("답변 내용"),
                                                         fieldWithPath("data[].score").type(JsonFieldType.NUMBER).description("답변 투표수"),
