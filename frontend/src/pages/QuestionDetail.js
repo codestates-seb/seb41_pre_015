@@ -11,7 +11,7 @@ import { TiArrowSortedUp, TiArrowSortedDown } from 'react-icons/ti';
 import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 import { ImCheckmark } from 'react-icons/im';
 import Footer from '../component/Footer';
-import { useParams, useLocation, Link } from 'react-router-dom';
+import { useParams, useLocation, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 //AskQuestion 버튼과 라우터 연결(질문작성페이지 이동)
@@ -295,6 +295,7 @@ function QuestionDetail() {
   const [pageData, setPageData] = useState(null);
   const [pageDataAnswer, setPageDataAnswer] = useState([]);
   const [yourAnswer, setYourAnswer] = useState(''); // 답변 등록용
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log('data', data);
@@ -394,7 +395,7 @@ function QuestionDetail() {
     const result = await axios.patch(
       `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/${type}/${id}/${updown}`,
       {
-        memberId: 1,
+        memberId: localStorage.getItem('UserId'),
       },
       {
         headers: { authorization: localStorage.getItem('accessToken') }, // headers에 headers 객체 전달
@@ -421,12 +422,10 @@ function QuestionDetail() {
   const modify = async (type, Id, title, content, answerId) => {
     // type (questions / answers)
     const result = await axios.patch(
-      type ==
-        'http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/questions'
-        ? `/${type}/${Id}`
-        : `/${type}/${answerId}`,
-      type ==
-        'http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/questions'
+      type == 'questions'
+        ? `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/${type}/${Id}`
+        : `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/${type}/${answerId}`,
+      type == 'questions'
         ? {
             Id,
             title,
@@ -441,6 +440,18 @@ function QuestionDetail() {
     console.log('result', result.data);
     // 작동후 초기화하여 화면 업데이트
     init(questionId);
+  };
+  const DeleteQuestion = async () => {
+    await axios
+      .delete(
+        `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/questions/${pageData.id}`,
+        {
+          id: pageData.id,
+        }
+      )
+      .then(() => {
+        navigate('/main', { replace: true });
+      });
   };
 
   return (
@@ -590,7 +601,12 @@ function QuestionDetail() {
                 <QuEdit onClick={() => editStateChange('questions')}>
                   Edit
                 </QuEdit>
-                <QuDelete>Delete</QuDelete>
+                {pageData.memberId ===
+                Number(localStorage.getItem('UserId')) ? (
+                  <QuDelete onClick={DeleteQuestion}>Delete</QuDelete>
+                ) : (
+                  ''
+                )}
               </QuEDContainer>
             ) : (
               <QuEDContainer>
@@ -609,7 +625,6 @@ function QuestionDetail() {
                 <QuEdit onClick={() => editStateChange('questions')}>
                   Cancel
                 </QuEdit>
-                <QuDelete>Delete</QuDelete>
               </QuEDContainer>
             )}
             {/* 질문 수정,삭제 영역 끝*/}
