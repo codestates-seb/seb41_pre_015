@@ -13,6 +13,8 @@ import { ImCheckmark } from 'react-icons/im';
 import Footer from '../component/Footer';
 import { useParams, useLocation, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import useStore from '../store';
 
 //AskQuestion 버튼과 라우터 연결(질문작성페이지 이동)
 const SLinkquestion = styled(Link)`
@@ -94,6 +96,7 @@ const QuestionContentTextEdit = styled.textarea`
   font-size: 15px;
   background-color: #ffff;
   border: 1px solid black;
+  resize: none;
   /* margin-bottom: 50px; */
   /* background-color: olive; */
 `;
@@ -169,6 +172,7 @@ const CommentContentTextarea = styled.textarea`
   font-size: 5px;
   background-color: #ffff;
   border: 0.3px solid black;
+  resize: none;
 `;
 // add a comment 버튼
 const Commentbutton = styled.button`
@@ -207,6 +211,7 @@ const AnswerContentTextEdit = styled.textarea`
   font-size: 15px;
   background-color: #ffff;
   border: 1px solid black;
+  resize: none;
   /* background-color: olive; */
 `;
 // 답변 수정, 삭제 버튼 전체영역
@@ -259,6 +264,7 @@ const RegisterAnswerTextarea = styled.textarea`
   width: 100%;
   height: 120px;
   border: 1px solid black;
+  resize: none;
 `;
 
 // Post Your Answer 버튼
@@ -296,6 +302,9 @@ function QuestionDetail() {
   const [pageDataAnswer, setPageDataAnswer] = useState([]);
   const [yourAnswer, setYourAnswer] = useState(''); // 답변 등록용
   const navigate = useNavigate();
+  const { Userdata } = useStore();
+  const UserId = Userdata.id;
+  console.log(UserId);
 
   useEffect(() => {
     console.log('data', data);
@@ -339,12 +348,15 @@ function QuestionDetail() {
   // 답변 달기
   const answerPost = async () => {
     if (yourAnswer == '') {
-      alert('답변을 입력하세요');
+      Swal.fire({
+        text: '답변을 등록해 주세요.',
+        icon: 'warning',
+      });
     } else {
       // 통신 처리
       const body = {
         // TODO : memberId change
-        memberId: pageData.memberId, //member ID가 아닌 로그인 된 ID로 입력
+        memberId: UserId, //member ID가 아닌 로그인 된 ID로 입력
         questionId: pageData.id,
         content: yourAnswer,
       };
@@ -392,18 +404,29 @@ function QuestionDetail() {
   const like_unlike = async (type, updown, id) => {
     // type ('questions', 'answers')
     // updown ('upvotes', 'downvotes')
-    const result = await axios.patch(
-      `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/${type}/${id}/${updown}`,
-      {
-        memberId: localStorage.getItem('UserId'),
-      },
-      {
-        headers: { authorization: localStorage.getItem('accessToken') }, // headers에 headers 객체 전달
-      }
-    );
-    console.log('result', result.data);
+    const result = await axios
+      .patch(
+        `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/${type}/${id}/${updown}`,
+        {
+          memberId: localStorage.getItem('UserId'),
+        },
+        {
+          headers: { authorization: localStorage.getItem('accessToken') }, // headers에 headers 객체 전달
+        }
+      )
+      .then(() => {
+        init(questionId);
+      })
+      .catch((e) => {
+        if (e.response.data.status === 409) {
+          Swal.fire({
+            title: '이미 투표했습니다.',
+            icon: 'warning',
+          });
+        }
+        console.log(e);
+      });
     // 작동후 초기화하여 화면 업데이트
-    init(questionId);
   };
   // editState 상태 변경
   const editStateChange = (type, arrayIndex) => {
@@ -421,25 +444,35 @@ function QuestionDetail() {
   // 질문 / 답변 수정
   const modify = async (type, Id, title, content, answerId) => {
     // type (questions / answers)
-    const result = await axios.patch(
-      type == 'questions'
-        ? `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/${type}/${Id}`
-        : `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/${type}/${answerId}`,
-      type == 'questions'
-        ? {
-            Id,
-            title,
-            content,
-          }
-        : {
-            id: answerId,
-            questionId: Id,
-            content,
-          }
-    );
-    console.log('result', result.data);
-    // 작동후 초기화하여 화면 업데이트
-    init(questionId);
+    const result = await axios
+      .patch(
+        type == 'questions'
+          ? `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/${type}/${Id}`
+          : `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/${type}/${answerId}`,
+        type == 'questions'
+          ? {
+              Id,
+              title,
+              content,
+            }
+          : {
+              id: answerId,
+              questionId: Id,
+              content,
+            }
+      )
+      .then(() => {
+        Swal.fire({ text: '수정 완료', icon: 'success' });
+        init(questionId);
+      });
+    // 작동후 초기화하여 화면 업데이트\
+  };
+  const OnclickEdit = () => editStateChange('questions');
+  const OnclickError = () => {
+    Swal.fire({
+      text: '작성자만 수정할 수 있습니다.',
+      icon: 'error',
+    });
   };
   const DeleteQuestion = async () => {
     await axios
@@ -598,7 +631,13 @@ function QuestionDetail() {
             {/* 질문 수정,삭제 영역 */}
             {pageData.editState == false ? (
               <QuEDContainer>
-                <QuEdit onClick={() => editStateChange('questions')}>
+                <QuEdit
+                  onClick={
+                    pageData.memberId === Number(localStorage.getItem('UserId'))
+                      ? OnclickEdit
+                      : OnclickError
+                  }
+                >
                   Edit
                 </QuEdit>
                 {pageData.memberId ===
@@ -739,10 +778,20 @@ function QuestionDetail() {
                   {/* 답변 수정,삭제버튼*/}
                   {item.editState == false ? (
                     <AnEDContainer>
-                      <AnEdit onClick={() => editStateChange('answers', index)}>
+                      <AnEdit
+                        onClick={
+                          item.memberId === UserId
+                            ? () => editStateChange('answers', index)
+                            : OnclickError
+                        }
+                      >
                         Edit
                       </AnEdit>
-                      <AnDelete>Delete</AnDelete>
+                      {item.memberId === UserId ? (
+                        <AnDelete>Delete</AnDelete>
+                      ) : (
+                        ''
+                      )}
                     </AnEDContainer>
                   ) : (
                     <AnEDContainer>

@@ -5,6 +5,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { TagsInput } from 'react-tag-input-component';
 import useStore from '../../store';
+import Swal from 'sweetalert2';
 
 const SWriteContainer = styled.div`
   .Help-container {
@@ -91,7 +92,10 @@ const WriteQuestion = () => {
         }
       )
       .then(() => {
-        alert('질문 등록 완료');
+        Swal.fire({
+          text: '질문 등록 완료!',
+          icon: 'success',
+        });
         setTitle(null);
         setContent(null);
         navigate('/main');
