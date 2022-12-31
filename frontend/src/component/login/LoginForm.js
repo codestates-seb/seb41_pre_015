@@ -112,7 +112,7 @@ const LoginForm = () => {
         setUserdata(res.data);
         localStorage.setItem('UserId', res.data.id);
         localStorage.setItem('Useremail', res.data.email);
-        Swal.fire({ title: '로그인 성공!', timer: 1000 });
+        Swal.fire({ title: '로그인 성공!', timer: 1000, icon: 'success' });
         navigate('/main');
       })
       .catch((e) => {
