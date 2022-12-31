@@ -4,7 +4,9 @@ import { FcGoogle } from 'react-icons/fc';
 import { BsGithub } from 'react-icons/bs';
 import { AiFillFacebook } from 'react-icons/ai';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import useStore from '../../store';
 
 const SbackGround = styled.div`
   background-color: #f1f2f3;
@@ -87,11 +89,34 @@ const SFacebookLogin = styled(SAauthLogin)`
 `;
 
 const LoginForm = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { setUserdata } = useStore();
+  const navigate = useNavigate();
+
   const OnSubmitLogin = async (e) => {
     e.preventDefault();
-    await axios.get('/members/2').then((res) => {
-      console.log(res.data);
-    });
+    await axios
+      .post(
+        'http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/auth/login',
+        {
+          email: email,
+          password: password,
+        }
+      )
+      .then((res) => {
+        setEmail('');
+        setPassword('');
+        localStorage.setItem('accessToken', res.headers.authorization);
+        setUserdata(res.data);
+        localStorage.setItem('UserId', res.data.id);
+        localStorage.setItem('Useremail', res.data.email);
+        alert('로그인 성공');
+        navigate('/main');
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   return (
@@ -112,11 +137,22 @@ const LoginForm = () => {
           <form className="LoginInputForm">
             <div className="InputBox">
               <div>Email</div>
-              <input className="Email-input"></input>
+              <input
+                className="Email-input"
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              ></input>
             </div>
             <div className="InputBox">
               <div>Password</div>
-              <input className="Password-input" type="password"></input>
+              <input
+                className="Password-input"
+                type="password"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+              ></input>
             </div>
             <button
               className="Login-button"

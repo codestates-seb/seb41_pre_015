@@ -128,11 +128,14 @@ const SignupPage = () => {
   const OnSignupSubmit = async (e) => {
     e.preventDefault();
     await axios
-      .post('/members', {
-        name: name,
-        email: email,
-        password: password,
-      })
+      .post(
+        'http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/members',
+        {
+          name: name,
+          email: email,
+          password: password,
+        }
+      )
       .then((res) => {
         if (res.status === 201) {
           alert('회원 가입 성공');
@@ -142,9 +145,12 @@ const SignupPage = () => {
         setPassword('');
         setCheckEmail(false);
         setPasswordValid(false);
-        navigate('/login', { replace: true });
+        navigate('/', { replace: true });
       })
       .catch((e) => {
+        if (e.response.data.status === 409) {
+          alert('이미 가입된 이메일 입니다.');
+        }
         console.log(e);
       });
   };

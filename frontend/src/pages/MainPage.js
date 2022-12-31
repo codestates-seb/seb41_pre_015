@@ -73,7 +73,10 @@ const MainPage = () => {
     const init = async () => {
       const result = await axios.get(
         // `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/questions?page=1&size=10`
-        `/questions?page=1&size=10`
+        'http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/questions/latest?page=1&size=3',
+        {
+          headers: { authorization: localStorage.getItem('accessToken') }, // headers에 headers 객체 전달
+        }
       );
       console.log('결과값 : ', result);
       setList(result.data.data);
@@ -86,9 +89,9 @@ const MainPage = () => {
     console.log('추천순 필터');
     let temp = [...list];
     let result = temp.sort((a, b) => {
-      if (a.score > b.score) return 1;
+      if (a.score > b.score) return -1;
       if (a.score === b.score) return 0;
-      if (a.score < b.score) return -1;
+      if (a.score < b.score) return 1;
     });
     console.log('result', result);
     setList(result);
@@ -101,9 +104,9 @@ const MainPage = () => {
     let result = temp.sort((a, b) => {
       let timestamp_a = new Date(a.createdAt).getTime();
       let timestamp_b = new Date(b.createdAt).getTime();
-      if (timestamp_a > timestamp_b) return 1;
+      if (timestamp_a > timestamp_b) return -1;
       if (timestamp_a === timestamp_b) return 0;
-      if (timestamp_a < timestamp_b) return -1;
+      if (timestamp_a < timestamp_b) return 1;
     });
     console.log('result', result);
     setList(result);
