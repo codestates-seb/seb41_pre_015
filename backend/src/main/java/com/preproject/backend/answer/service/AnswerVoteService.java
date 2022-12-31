@@ -38,17 +38,16 @@ public class AnswerVoteService {
             findAnswerVote.setAnswerVoteStatus(AnswerVote.AnswerVoteStatus.UP);
             verifiedAnswer.setScore(verifiedAnswer.getScore() + 1);
             answerVoteRepository.save(findAnswerVote);
+            answerRepository.save(verifiedAnswer);
         }
         else if (findAnswerVote.getAnswerVoteStatus() == AnswerVote.AnswerVoteStatus.DOWN) {
-            findAnswerVote.setAnswerVoteStatus(AnswerVote.AnswerVoteStatus.UP);
-            verifiedAnswer.setScore(verifiedAnswer.getScore() + 2);
-            answerVoteRepository.save(findAnswerVote);
+            verifiedAnswer.setScore(verifiedAnswer.getScore() + 1);
+            answerVoteRepository.delete(findAnswerVote);
+            answerRepository.save(verifiedAnswer);
         }
         else if (findAnswerVote.getAnswerVoteStatus() == AnswerVote.AnswerVoteStatus.UP) {
-            verifiedAnswer.setScore(verifiedAnswer.getScore() - 1);
-            answerVoteRepository.delete(findAnswerVote);
+            throw new BusinessLogicException(ExceptionCode.MEMBER_ALREADY_VOTED);
         }
-        answerRepository.save(verifiedAnswer);
 
         return verifiedAnswer;
     }
@@ -65,17 +64,16 @@ public class AnswerVoteService {
             findAnswerVote.setAnswerVoteStatus(AnswerVote.AnswerVoteStatus.DOWN);
             verifiedAnswer.setScore(verifiedAnswer.getScore() - 1);
             answerVoteRepository.save(findAnswerVote);
+            answerRepository.save(verifiedAnswer);
         }
         else if (findAnswerVote.getAnswerVoteStatus() == AnswerVote.AnswerVoteStatus.UP) {
-            findAnswerVote.setAnswerVoteStatus(AnswerVote.AnswerVoteStatus.DOWN);
-            verifiedAnswer.setScore(verifiedAnswer.getScore() - 2);
-            answerVoteRepository.save(findAnswerVote);
+            verifiedAnswer.setScore(verifiedAnswer.getScore() - 1);
+            answerVoteRepository.delete(findAnswerVote);
+            answerRepository.save(verifiedAnswer);
         }
         else if (findAnswerVote.getAnswerVoteStatus() == AnswerVote.AnswerVoteStatus.DOWN) {
-            verifiedAnswer.setScore(verifiedAnswer.getScore() + 1);
-            answerVoteRepository.delete(findAnswerVote);
+            throw new BusinessLogicException(ExceptionCode.MEMBER_ALREADY_VOTED);
         }
-        answerRepository.save(verifiedAnswer);
 
         return verifiedAnswer;
     }
