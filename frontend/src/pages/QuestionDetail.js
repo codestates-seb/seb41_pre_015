@@ -309,7 +309,9 @@ function QuestionDetail() {
 
   // 초기 데이터 통신 호출
   const init = async (questionId) => {
-    const result = await axios.get(`/questions/${questionId}`);
+    const result = await axios.get(
+      `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/questions/${questionId}`
+    );
     console.log('init', result);
 
     // edit 상태 추가
@@ -341,11 +343,17 @@ function QuestionDetail() {
       // 통신 처리
       const body = {
         // TODO : memberId change
-        memberId: pageData.memberId,
+        memberId: pageData.memberId, //member ID가 아닌 로그인 된 ID로 입력
         questionId: pageData.id,
         content: yourAnswer,
       };
-      const result = await axios.post('/answers', body);
+      const result = await axios.post(
+        'http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/answers',
+        body,
+        {
+          headers: { authorization: localStorage.getItem('accessToken') }, // headers에 headers 객체 전달
+        }
+      );
       console.log('result', result);
       // 답변 등록후 초기화하여 화면 업데이트
       init(questionId);
@@ -383,9 +391,15 @@ function QuestionDetail() {
   const like_unlike = async (type, updown, id) => {
     // type ('questions', 'answers')
     // updown ('upvotes', 'downvotes')
-    const result = await axios.patch(`/${type}/${id}/${updown}`, {
-      memberId: 1,
-    });
+    const result = await axios.patch(
+      `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/${type}/${id}/${updown}`,
+      {
+        memberId: 1,
+      },
+      {
+        headers: { authorization: localStorage.getItem('accessToken') }, // headers에 headers 객체 전달
+      }
+    );
     console.log('result', result.data);
     // 작동후 초기화하여 화면 업데이트
     init(questionId);
@@ -407,8 +421,12 @@ function QuestionDetail() {
   const modify = async (type, Id, title, content, answerId) => {
     // type (questions / answers)
     const result = await axios.patch(
-      type == 'questions' ? `/${type}/${Id}` : `/${type}/${answerId}`,
-      type == 'questions'
+      type ==
+        'http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/questions'
+        ? `/${type}/${Id}`
+        : `/${type}/${answerId}`,
+      type ==
+        'http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/questions'
         ? {
             Id,
             title,
