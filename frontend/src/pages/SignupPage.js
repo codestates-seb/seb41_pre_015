@@ -8,6 +8,7 @@ import { BsTrophyFill } from 'react-icons/bs';
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const SbackGround = styled.div`
   background-color: #f1f2f3;
@@ -138,7 +139,7 @@ const SignupPage = () => {
       )
       .then((res) => {
         if (res.status === 201) {
-          alert('회원 가입 성공');
+          Swal.fire({ title: '회원 가입 성공', icon: 'success' });
         }
         setName('');
         setEmail('');
@@ -149,7 +150,10 @@ const SignupPage = () => {
       })
       .catch((e) => {
         if (e.response.data.status === 409) {
-          alert('이미 가입된 이메일 입니다.');
+          Swal.fire({
+            title: '이미 가입된 이메일 입니다.',
+            icon: 'error',
+          });
         }
         console.log(e);
       });

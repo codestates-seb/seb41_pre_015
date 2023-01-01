@@ -14,6 +14,7 @@ import com.preproject.backend.question.mapper.QuestionMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -76,11 +77,15 @@ public class MemberController {
     }
 
     @GetMapping
-    public ResponseEntity getMembers(@RequestParam("page") int page,
-                                     @RequestParam("size") int size) {
+    public ResponseEntity getMembers(@Positive @RequestParam int page, @Positive @RequestParam int size){
+        Page<Member> pageMembers = memberService.findMembers(page - 1, size);
+        List<Member> members = pageMembers.getContent();
 
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(
+            new MultiResponseDto<>(memberMapper.membersToMemberResponses(members), pageMembers),
+            HttpStatus.OK);
     }
+
 
     @GetMapping("/{member-id}/questions")
     public ResponseEntity getQuestionsOfMember(@Positive @RequestParam("page") int page,
