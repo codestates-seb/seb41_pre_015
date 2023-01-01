@@ -1,7 +1,7 @@
 import logo from '../../images/logo-stackoverflow.png';
 import styled from 'styled-components';
 import { BsSearch } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useStore from '../../store';
 
 const SLogo = styled.img`
@@ -63,6 +63,11 @@ const SLogoutButton = styled.button`
 
 const LoginHeader = () => {
   const { SearchValue } = useStore();
+  const navigate = useNavigate();
+  const OnSubmitLogout = () => {
+    window.localStorage.clear();
+    navigate('/', { replace: true });
+  };
   return (
     <Sheader className="header-container">
       <Link to="/main">
@@ -82,7 +87,7 @@ const LoginHeader = () => {
       <Link to="/mypage">
         <SmypageButton>My page</SmypageButton>
       </Link>
-      <SLogoutButton>Log out</SLogoutButton>
+      <SLogoutButton onClick={OnSubmitLogout}>Log out</SLogoutButton>
     </Sheader>
   );
 };

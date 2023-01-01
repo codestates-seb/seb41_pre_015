@@ -1,16 +1,20 @@
+/* eslint-disable no-undef */
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import logo from '../images/small-logo.png';
 import LoginHeader from '../component/login/LoginHeader';
 import LeftSidebar from '../component/LeftSidebar';
 import RightSidebar from '../component/RightSidebar';
 import { TiArrowSortedUp, TiArrowSortedDown } from 'react-icons/ti';
 import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
-// import { ImCheckmark, ImCheckmark2 } from 'react-icons/bs';
+import { ImCheckmark } from 'react-icons/im';
 import Footer from '../component/Footer';
-import { useParams, useLocation, Link } from 'react-router-dom';
+import { useParams, useLocation, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import useStore from '../store';
 
 //AskQuestion 버튼과 라우터 연결(질문작성페이지 이동)
 const SLinkquestion = styled(Link)`
@@ -23,6 +27,9 @@ const SLinkquestion = styled(Link)`
   text-decoration: none;
   text-align: center;
   color: black;
+  :hover {
+    color: black;
+  }
 `;
 //상단 질문제목 전체 영역
 const TopQuestionTitle = styled.div`
@@ -34,6 +41,21 @@ const TopQuestionTitle = styled.div`
   padding-left: 10px;
   padding-right: 10px;
   /* background-color: aqua; */
+  .comment-container {
+    display: flex;
+    flex-direction: column;
+    border-bottom: solid 1px gray;
+    margin-left: 100px;
+    margin-top: 100px;
+    div {
+      border-top: solid 1px gray;
+    }
+    .comment {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
 `;
 //질문제목 과 Ask 버튼
 const AskQuestionContainer = styled.div`
@@ -89,6 +111,7 @@ const QuestionContentTextEdit = styled.textarea`
   font-size: 15px;
   background-color: #ffff;
   border: 1px solid black;
+  resize: none;
   /* margin-bottom: 50px; */
   /* background-color: olive; */
 `;
@@ -142,6 +165,7 @@ const QuDelete = styled.button`
   border-color: #d0e2f0;
   font-size: 5px;
 `;
+
 //댓글 전체 영역
 const CommentContent = styled.div`
   width: 100%;
@@ -151,18 +175,30 @@ const CommentContent = styled.div`
   padding-left: 50px;
   padding-right: 10px;
 `;
-//댓글
+//댓글(comment) 전체영역
 const CommentContentTitle = styled.div`
   width: 100%;
 `;
-// 댓글 내용 칸
-const CommentContentInput = styled.input`
+// 댓글(comment) 내용 칸
+const CommentContentTextarea = styled.textarea`
   width: 100%;
-  height: 70%;
+  height: 50px;
   text-align: start;
-  font-size: 5px;
+  font-size: 15px;
   background-color: #ffff;
   border: 0.3px solid black;
+  resize: none;
+`;
+// add a comment 버튼
+const Commentbutton = styled.button`
+  /* width: 40%; */
+  height: 20px;
+  background-color: #0a95ff;
+  border-radius: 2px;
+  border-color: #0078ff;
+  margin: 10px;
+  font-size: 5px;
+  color: white;
 `;
 // 등록된 답변 전체 영역
 const AnswerContentTitle = styled.div`
@@ -191,6 +227,7 @@ const AnswerContentTextEdit = styled.textarea`
   font-size: 15px;
   background-color: #ffff;
   border: 1px solid black;
+  resize: none;
   /* background-color: olive; */
 `;
 // 답변 수정, 삭제 버튼 전체영역
@@ -243,17 +280,19 @@ const RegisterAnswerTextarea = styled.textarea`
   width: 100%;
   height: 120px;
   border: 1px solid black;
+  resize: none;
 `;
 
 // Post Your Answer 버튼
 const RegisterAnswerbutton = styled.button`
-  width: 40%;
+  /* width: 40%; */
   height: 20px;
   background-color: #0a95ff;
   border-radius: 2px;
   border-color: #0078ff;
   margin: 10px;
-  font-size: 5px;
+  font-size: 10px;
+  color: white;
 `;
 
 // 필터버튼 전체영역
@@ -274,12 +313,15 @@ const FilterButton = styled.button`
 function QuestionDetail() {
   const location = useLocation();
   const { data, questionId } = location.state;
-
   const [bookMark, setBookMark] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [pageData, setPageData] = useState(null);
   const [pageDataAnswer, setPageDataAnswer] = useState([]);
   const [yourAnswer, setYourAnswer] = useState(''); // 답변 등록용
+  const [comment, setComment] = useState('');
+  const navigate = useNavigate();
+  const { Userdata } = useStore();
+  const UserId = Number(Userdata.id);
 
   useEffect(() => {
     console.log('data', data);
@@ -294,7 +336,9 @@ function QuestionDetail() {
 
   // 초기 데이터 통신 호출
   const init = async (questionId) => {
-    const result = await axios.get(`/questions/${questionId}`);
+    const result = await axios.get(
+      `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/questions/${questionId}`
+    );
     console.log('init', result);
 
     // edit 상태 추가
@@ -310,7 +354,6 @@ function QuestionDetail() {
   const changeStateBookMark = () => {
     setBookMark((e) => !e);
   };
-
   // 추천수 업
   const likeUp = () => {
     setLikeCount((e) => e + 1);
@@ -322,16 +365,25 @@ function QuestionDetail() {
   // 답변 달기
   const answerPost = async () => {
     if (yourAnswer == '') {
-      alert('답변을 입력하세요');
+      Swal.fire({
+        text: '답변을 등록해 주세요.',
+        icon: 'warning',
+      });
     } else {
       // 통신 처리
       const body = {
         // TODO : memberId change
-        memberId: pageData.memberId,
+        memberId: UserId, //member ID가 아닌 로그인 된 ID로 입력
         questionId: pageData.id,
         content: yourAnswer,
       };
-      const result = await axios.post('/answers', body);
+      const result = await axios.post(
+        'http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/answers',
+        body,
+        {
+          headers: { authorization: localStorage.getItem('accessToken') }, // headers에 headers 객체 전달
+        }
+      );
       console.log('result', result);
       // 답변 등록후 초기화하여 화면 업데이트
       init(questionId);
@@ -369,12 +421,29 @@ function QuestionDetail() {
   const like_unlike = async (type, updown, id) => {
     // type ('questions', 'answers')
     // updown ('upvotes', 'downvotes')
-    const result = await axios.patch(`/${type}/${id}/${updown}`, {
-      memberId: 1,
-    });
-    console.log('result', result.data);
+    const result = await axios
+      .patch(
+        `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/${type}/${id}/${updown}`,
+        {
+          memberId: localStorage.getItem('UserId'),
+        },
+        {
+          headers: { authorization: localStorage.getItem('accessToken') }, // headers에 headers 객체 전달
+        }
+      )
+      .then(() => {
+        init(questionId);
+      })
+      .catch((e) => {
+        if (e.response.data.status === 409) {
+          Swal.fire({
+            title: '이미 투표했습니다.',
+            icon: 'warning',
+          });
+        }
+        console.log(e);
+      });
     // 작동후 초기화하여 화면 업데이트
-    init(questionId);
   };
   // editState 상태 변경
   const editStateChange = (type, arrayIndex) => {
@@ -392,23 +461,86 @@ function QuestionDetail() {
   // 질문 / 답변 수정
   const modify = async (type, Id, title, content, answerId) => {
     // type (questions / answers)
-    const result = await axios.patch(
-      type == 'questions' ? `/${type}/${Id}` : `/${type}/${answerId}`,
-      type == 'questions'
-        ? {
-            Id,
-            title,
-            content,
-          }
-        : {
-            id: answerId,
-            questionId: Id,
-            content,
-          }
-    );
-    console.log('result', result.data);
-    // 작동후 초기화하여 화면 업데이트
-    init(questionId);
+    const result = await axios
+      .patch(
+        type == 'questions'
+          ? `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/${type}/${Id}`
+          : `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/${type}/${answerId}`,
+        type == 'questions'
+          ? {
+              Id,
+              title,
+              content,
+            }
+          : {
+              id: answerId,
+              questionId: Id,
+              content,
+            }
+      )
+      .then(() => {
+        Swal.fire({ text: '수정 완료', icon: 'success' });
+        init(questionId);
+      });
+    // 작동후 초기화하여 화면 업데이트\
+  };
+  const OnclickEdit = () => editStateChange('questions');
+  const OnclickError = () => {
+    Swal.fire({
+      text: '작성자만 수정할 수 있습니다.',
+      icon: 'error',
+    });
+  };
+  const DeleteQuestion = async () => {
+    await axios
+      .delete(
+        `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/questions/${pageData.id}`,
+        {
+          id: pageData.id,
+        }
+      )
+      .then(() => {
+        navigate('/main', { replace: true });
+      });
+  };
+  const OnSubmitComment = async () => {
+    await axios
+      .post(
+        'http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/question-comments',
+        {
+          questionId: pageData.id,
+          memberId: UserId,
+          content: comment,
+        }
+      )
+      .then(() => {
+        setComment('');
+        Swal.fire({
+          text: '댓글 등록 완료',
+          icon: 'success',
+        });
+        init(questionId);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const DeleteComment = async (el) => {
+    await axios
+      .delete(
+        `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/question-comments/${el.id}`,
+        {
+          headers: { authorization: localStorage.getItem('accessToken') }, // headers에 headers 객체 전달
+        }
+      )
+      .then(() => {
+        Swal.fire({
+          text: '삭제 완료',
+          icon: 'success',
+        });
+        init(questionId);
+      });
   };
 
   return (
@@ -555,10 +687,21 @@ function QuestionDetail() {
             {/* 질문 수정,삭제 영역 */}
             {pageData.editState == false ? (
               <QuEDContainer>
-                <QuEdit onClick={() => editStateChange('questions')}>
+                <QuEdit
+                  onClick={
+                    pageData.memberId === Number(localStorage.getItem('UserId'))
+                      ? OnclickEdit
+                      : OnclickError
+                  }
+                >
                   Edit
                 </QuEdit>
-                <QuDelete>Delete</QuDelete>
+                {pageData.memberId ===
+                Number(localStorage.getItem('UserId')) ? (
+                  <QuDelete onClick={DeleteQuestion}>Delete</QuDelete>
+                ) : (
+                  ''
+                )}
               </QuEDContainer>
             ) : (
               <QuEDContainer>
@@ -577,32 +720,41 @@ function QuestionDetail() {
                 <QuEdit onClick={() => editStateChange('questions')}>
                   Cancel
                 </QuEdit>
-                <QuDelete>Delete</QuDelete>
               </QuEDContainer>
             )}
-            {/* 질문 수정,삭제 영역 */}
+            {/* 질문 수정,삭제 영역 끝*/}
 
             {/* <댓글> */}
+            <div className="comment-container">
+              Comment
+              {pageData.questionComments.map((el, index) => {
+                return (
+                  <div key={el.id} className="comment">
+                    {index + 1}.{el.content}
+                    {el.memberId === UserId ? (
+                      <QuDelete onClick={() => DeleteComment(el)}>
+                        delete
+                      </QuDelete>
+                    ) : (
+                      ''
+                    )}
+                  </div>
+                );
+              })}
+            </div>
             <CommentContent>
-              {/* <CommentContentTitle>
-              <div style={{ padding: '5px' }}>댓글</div>
-            </CommentContentTitle>
-            <CommentContentInput></CommentContentInput> */}
-              {/* 댓글 더미데이터 */}
-              <div style={{ fontSize: 12 }}>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industrys standard dummy text
-                ever since the 1500s, when an unknown printer took a galley of
-                type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets
-                containing Lorem Ipsum passages, and more recently with desktop
-                publishing software like Aldus PageMaker including versions of
-                Lorem Ipsum. - <span style={{ color: 'blue' }}>작성자</span>
-                ,&nbsp;
-                <span style={{ color: 'gray' }}>작성일</span>
-              </div>
+              <CommentContentTitle>
+                <div>Your Comment</div>
+              </CommentContentTitle>
+              <CommentContentTextarea
+                value={comment}
+                onChange={(e) => {
+                  setComment(e.target.value);
+                }}
+              ></CommentContentTextarea>
+              <Commentbutton onClick={() => OnSubmitComment()}>
+                add a Comment
+              </Commentbutton>
             </CommentContent>
             {/* <댓글 끝> */}
 
@@ -663,7 +815,7 @@ function QuestionDetail() {
                     >
                       <TiArrowSortedDown />
                     </button>
-                    {/* 북마크  기능 */}
+                    {/* 답변 북마크  기능 */}
                     <button
                       style={{
                         border: 'none',
@@ -675,6 +827,16 @@ function QuestionDetail() {
                       }}
                     >
                       {bookMark == true ? <BsBookmarkFill /> : <BsBookmark />}
+                    </button>
+                    {/* 채택 버튼 */}
+                    <button
+                      style={{
+                        border: 'none',
+                        width: '100%',
+                        backgroundColor: 'white',
+                      }}
+                    >
+                      <ImCheckmark />
                     </button>
                   </div>
                   {item.editState == false ? (
@@ -696,10 +858,20 @@ function QuestionDetail() {
                   {/* 답변 수정,삭제버튼*/}
                   {item.editState == false ? (
                     <AnEDContainer>
-                      <AnEdit onClick={() => editStateChange('answers', index)}>
+                      <AnEdit
+                        onClick={
+                          item.memberId === UserId
+                            ? () => editStateChange('answers', index)
+                            : OnclickError
+                        }
+                      >
                         Edit
                       </AnEdit>
-                      <AnDelete>Delete</AnDelete>
+                      {item.memberId === UserId ? (
+                        <AnDelete>Delete</AnDelete>
+                      ) : (
+                        ''
+                      )}
                     </AnEDContainer>
                   ) : (
                     <AnEDContainer>
@@ -726,7 +898,7 @@ function QuestionDetail() {
                 </AnswerContentTitle>
               );
             })}
-            {/* 질문 영역 끝 */}
+            {/* 질문 답변 영역 끝 */}
 
             {/* 답변 등록 영역 전체영역*/}
             {/* Your Answer 글씨 */}

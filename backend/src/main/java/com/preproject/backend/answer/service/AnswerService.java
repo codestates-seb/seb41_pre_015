@@ -4,6 +4,8 @@ import com.preproject.backend.answer.entity.Answer;
 import com.preproject.backend.answer.repository.AnswerRepository;
 import com.preproject.backend.exception.BusinessLogicException;
 import com.preproject.backend.exception.ExceptionCode;
+import com.preproject.backend.member.entity.Member;
+import com.preproject.backend.member.service.MemberService;
 import com.preproject.backend.question.repository.QuestionRepository;
 import com.preproject.backend.utils.CustomBeanUtils;
 import org.springframework.data.domain.Page;
@@ -18,22 +20,24 @@ import java.util.Optional;
 @Service
 @Transactional
 public class AnswerService {
-
+    private final MemberService memberService;
     private final AnswerRepository answerRepository;
     private final CustomBeanUtils beanUtils;
 
     private final QuestionRepository questionRepository;
 
-    public AnswerService(AnswerRepository answerRepository, CustomBeanUtils customBeanUtils,
-        QuestionRepository questionRepository) {
+    public AnswerService(MemberService memberService, AnswerRepository answerRepository, CustomBeanUtils beanUtils, QuestionRepository questionRepository) {
+        this.memberService = memberService;
         this.answerRepository = answerRepository;
-        this.beanUtils = customBeanUtils;
+        this.beanUtils = beanUtils;
         this.questionRepository = questionRepository;
     }
 
     public Answer createAnswer(Answer answer) {
-        //TODO 유효성 로직 추가 필요
 
+        // + 유효한 멤버인지 검증(memberId)
+        Member verifiedMember = memberService.checkVerifiedMember(answer.getMember().getId());
+        answer.setMember(verifiedMember);
 
         return answerRepository.save(answer);
     }

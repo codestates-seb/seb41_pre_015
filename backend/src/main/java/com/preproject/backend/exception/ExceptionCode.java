@@ -11,7 +11,9 @@ public enum ExceptionCode {
     ANSWER_NOT_FOUND(NOT_FOUND.value(), "Answer Not Found"),
 	ANSWER_COMMENT_NOT_FOUND(NOT_FOUND.value(), "AnswerComment Not Found"),
 	QUESTION_COMMENT_NOT_FOUND(NOT_FOUND.value(), "QuestionComment Not Found"),
-	QUESTION_ALREADY_RESOLVED(CONFLICT.value(), "Question Already Resolved");
+	QUESTION_ALREADY_RESOLVED(CONFLICT.value(), "Question Already Resolved"),
+
+	MEMBER_ALREADY_VOTED(CONFLICT.value(), "This Member Already Voted");
 
 	@Getter
 	private int status;

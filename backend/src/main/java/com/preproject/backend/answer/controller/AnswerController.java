@@ -84,8 +84,11 @@ public class AnswerController {
 
     // 답변 삭제
     @DeleteMapping("/{answer-id}")
-    public void deleteAnswer(@Positive @PathVariable("answer-id") long id) {
+    public ResponseEntity deleteAnswer(@Positive @PathVariable("answer-id") long id) {
+
         answerService.deleteAnswer(id);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     // 답변 추천
@@ -107,13 +110,7 @@ public class AnswerController {
         return new ResponseEntity<>(mapper.answerToAnswerResponseDto(votedAnswer), HttpStatus.OK);
     }
 
-//    답변 공유
-//    @GetMapping("/{answer-id}")
-//    public ResponseEntity getAnswer(@PathVariable("answer-id") long id) {
-//        return ResponseEntity.ok(null);
-//    }
-
-    // 질문자가 답변 채택 answers/{answer-id}/accept
+    // 질문자가 답변 채택
     @PatchMapping("answers/{answer-id}/accept")
     public ResponseEntity acceptAnswer(@Positive @PathVariable("answer-id")long answerId){
         // Todo : 로그인한 Id가 작성자(memberId)와 맞는지 검증

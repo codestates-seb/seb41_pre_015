@@ -21,18 +21,17 @@ public class QuestionDto {
 	@Getter
 	@AllArgsConstructor
 	public static class Post {
+		@Positive
+		@NotNull
+		private Long memberId;
+
 		@NotBlank(message = "제목은 공백이 아니어야 합니다.")
 		private String title;
 
 		@NotBlank(message = "내용은 공백이 아니어야 합니다.")
 		private String content;
 
-		@Positive
-		@NotNull
-		private Long memberId;
-
 		//Private List<Tag> tags;
-
 	}
 
 	// *** PatchDto ***
@@ -56,6 +55,7 @@ public class QuestionDto {
 	public static class Response {
 		private Long id;
 		private Long memberId;
+		private String memberName;
 		private String title;
 		private String content;
 		private int score;
