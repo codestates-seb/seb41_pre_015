@@ -1,5 +1,7 @@
 package com.preproject.backend.member.mapper;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 
 import com.preproject.backend.member.dto.MemberDto;
@@ -12,4 +14,6 @@ public interface MemberMapper {
 	Member memberPatchToMember(MemberDto.Patch requestBody);
 
 	MemberDto.Response memberToMemberResponse(Member member);
+
+	List<MemberDto.Response> membersToMemberResponses(List<Member> members);
 }
