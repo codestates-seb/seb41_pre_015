@@ -41,6 +41,21 @@ const TopQuestionTitle = styled.div`
   padding-left: 10px;
   padding-right: 10px;
   /* background-color: aqua; */
+  .comment-container {
+    display: flex;
+    flex-direction: column;
+    border-bottom: solid 1px gray;
+    margin-left: 100px;
+    margin-top: 100px;
+    div {
+      border-top: solid 1px gray;
+    }
+    .comment {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
 `;
 //질문제목 과 Ask 버튼
 const AskQuestionContainer = styled.div`
@@ -167,9 +182,9 @@ const CommentContentTitle = styled.div`
 // 댓글(comment) 내용 칸
 const CommentContentTextarea = styled.textarea`
   width: 100%;
-  height: 100px;
+  height: 50px;
   text-align: start;
-  font-size: 5px;
+  font-size: 15px;
   background-color: #ffff;
   border: 0.3px solid black;
   resize: none;
@@ -183,6 +198,7 @@ const Commentbutton = styled.button`
   border-color: #0078ff;
   margin: 10px;
   font-size: 5px;
+  color: white;
 `;
 // 등록된 답변 전체 영역
 const AnswerContentTitle = styled.div`
@@ -275,7 +291,8 @@ const RegisterAnswerbutton = styled.button`
   border-radius: 2px;
   border-color: #0078ff;
   margin: 10px;
-  font-size: 5px;
+  font-size: 10px;
+  color: white;
 `;
 
 // 필터버튼 전체영역
@@ -301,10 +318,10 @@ function QuestionDetail() {
   const [pageData, setPageData] = useState(null);
   const [pageDataAnswer, setPageDataAnswer] = useState([]);
   const [yourAnswer, setYourAnswer] = useState(''); // 답변 등록용
+  const [comment, setComment] = useState('');
   const navigate = useNavigate();
   const { Userdata } = useStore();
-  const UserId = Userdata.id;
-  console.log(UserId);
+  const UserId = Number(Userdata.id);
 
   useEffect(() => {
     console.log('data', data);
@@ -484,6 +501,45 @@ function QuestionDetail() {
       )
       .then(() => {
         navigate('/main', { replace: true });
+      });
+  };
+  const OnSubmitComment = async () => {
+    await axios
+      .post(
+        'http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/question-comments',
+        {
+          questionId: pageData.id,
+          memberId: UserId,
+          content: comment,
+        }
+      )
+      .then(() => {
+        setComment('');
+        Swal.fire({
+          text: '댓글 등록 완료',
+          icon: 'success',
+        });
+        init(questionId);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const DeleteComment = async (el) => {
+    await axios
+      .delete(
+        `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/question-comments/${el.id}`,
+        {
+          headers: { authorization: localStorage.getItem('accessToken') }, // headers에 headers 객체 전달
+        }
+      )
+      .then(() => {
+        Swal.fire({
+          text: '삭제 완료',
+          icon: 'success',
+        });
+        init(questionId);
       });
   };
 
@@ -669,12 +725,36 @@ function QuestionDetail() {
             {/* 질문 수정,삭제 영역 끝*/}
 
             {/* <댓글> */}
+            <div className="comment-container">
+              Comment
+              {pageData.questionComments.map((el, index) => {
+                return (
+                  <div key={el.id} className="comment">
+                    {index + 1}.{el.content}
+                    {el.memberId === UserId ? (
+                      <QuDelete onClick={() => DeleteComment(el)}>
+                        delete
+                      </QuDelete>
+                    ) : (
+                      ''
+                    )}
+                  </div>
+                );
+              })}
+            </div>
             <CommentContent>
               <CommentContentTitle>
-                <div>Comment</div>
+                <div>Your Comment</div>
               </CommentContentTitle>
-              <CommentContentTextarea></CommentContentTextarea>
-              <Commentbutton>add a Comment</Commentbutton>
+              <CommentContentTextarea
+                value={comment}
+                onChange={(e) => {
+                  setComment(e.target.value);
+                }}
+              ></CommentContentTextarea>
+              <Commentbutton onClick={() => OnSubmitComment()}>
+                add a Comment
+              </Commentbutton>
             </CommentContent>
             {/* <댓글 끝> */}
 

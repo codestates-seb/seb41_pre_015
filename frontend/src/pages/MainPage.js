@@ -60,9 +60,10 @@ const SLinkquestion = styled(Link)`
   margin: 10px;
   text-decoration: none;
   text-align: center;
-  color: black;
+  color: white;
   :hover {
-    color: black;
+    color: white;
+    background-color: #1478ff;
   }
 `;
 // 필터버튼 전체영역
@@ -78,6 +79,7 @@ const FilterButtonContainer = styled.div`
 const FilterButton = styled.button`
   height: 30px;
   margin-right: 3px;
+  border-radius: 5px;
 `;
 
 const MainPage = () => {
