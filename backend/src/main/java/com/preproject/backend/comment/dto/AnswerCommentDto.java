@@ -2,6 +2,8 @@ package com.preproject.backend.comment.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
@@ -15,31 +17,34 @@ public class AnswerCommentDto {
         private String content;
 
         @Positive
-        private long answerId;
+        private Long answerId;
 
         @Positive
-        private long memberId;
+        private Long memberId;
     }
 
     @Getter
     @AllArgsConstructor
     public static class Patch {
-        private long id;
+        private Long id;
 
         @NotBlank(message = "내용은 공백이 아니어야 합니다.")
         private String content;
 
-        public void setId(long id) {
+        public void setId(Long id) {
             this.id = id;
         }
     }
 
     @Getter
+    @Setter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Response {
-        private long id;
-        private long answerId;
-        private long memberId;
+        private Long id;
+        private Long answerId;
+        private Long memberId;
+        private String memberName;
         private String content;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
