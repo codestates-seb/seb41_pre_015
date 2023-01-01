@@ -145,7 +145,7 @@ const MainQuestions = ({ _list }) => {
                 {/* 질문작성자 정보(프로필,이름) */}
                 <QuestionImg>
                   <ProfileImg src={logo} alt="logo"></ProfileImg>
-                  <div style={{ margin: '10px' }}>User name</div>
+                  <div style={{ margin: '10px' }}>{item.memberName}</div>
                 </QuestionImg>
               </QuestionList>
               {/* 질문조회 전체영역 끝*/}
