@@ -8,8 +8,19 @@ import MypageEditList from '../component/Mypage/MypageEditList';
 import Footer from '../component/Footer';
 import Header from '../component/login/LoginHeader';
 import LeftSidebar from '../component/LeftSidebar';
+// import axios from 'axios';
+// import { useState, useEffect } from 'react';
 
 const MypageEdit = () => {
+  // const [userData, setUserData] = useState([]);
+
+  // useEffect(() => {
+  //   axios
+  //     .get('http://localhost:3000/mypage')
+  //     .then((response) => response.data)
+  //     .then((item) => setUserData(item));
+  // }, []);
+
   return (
     <div>
       <div>

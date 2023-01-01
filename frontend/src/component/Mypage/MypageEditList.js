@@ -4,70 +4,108 @@ import Button from 'react-bootstrap/Button';
 // import Form from 'react-bootstrap/Form';
 // eslint-disable-next-line no-unused-vars
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useStore from '../../store';
+import Swal from 'sweetalert2';
+import axios from 'axios';
 
 export default function EditListMypage() {
-  const [aboutText, setAboutText] = useState('');
-  const [userName, setUserName] = useState('');
+  const { Userdata } = useStore();
+  const [newname, setNewName] = useState('');
+  const [newabout, setNewAbout] = useState('');
+  const navigate = useNavigate();
 
-  // const handleClickSubmit = () => {};
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    axios
+      .patch(
+        `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/members/${Userdata.id}`,
+        newname,
+        newabout
+      )
+      .then(() => {
+        Swal.fire({
+          text: '정보 수정 완료!',
+        });
+        navigate(`/mypage/${Userdata.id}`);
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+    navigate('/mypage');
+  };
+
+  const changeHandler = () => {
+    Userdata(newname, newabout);
+  };
 
   return (
     <MypageEditListContainer>
-      <div>
-        <h4>Edit your profile</h4>
-        <HorizonLine />
-        <h5>Public information</h5>
-        <div className="edit-box">
-          <div style={{ height: '30px' }}></div>
-          <div>
-            <h7
-              style={{
-                fontWeight: 'bold',
-                marginLeft: '30px',
-              }}
-            >
-              Profile image
-            </h7>
-          </div>
-          <img
-            className="edit-img"
-            src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FekfshA%2FbtqUnKjFURC%2FAK2XK3NwkQZCHjNKBOPz00%2Fimg.jpg"
-            alt=" "
-          />
-          <SizesExample /> {/* 프로필 수정 버튼*/}
-          <div className="edit-list">
-            <div id="inputBox">
-              <div className="lable">Display name</div>
-              <input
-                className="input"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                placeholder="이지은 (Lee ji eun)"
-              ></input>
+      <form onSubmit={submitHandler}>
+        <div>
+          <h4>Edit your profile</h4>
+          <HorizonLine />
+          <h5>Public information</h5>
+          <div className="edit-box">
+            <div style={{ height: '30px' }}></div>
+            <div>
+              <h7
+                style={{
+                  fontWeight: 'bold',
+                  marginLeft: '30px',
+                }}
+              >
+                Profile image
+              </h7>
             </div>
-            <div id="inputBox">
-              <div className="lable">Title</div>
-              <input
-                className="input"
-                placeholder="No title has been set"
-              ></input>
-            </div>
-            <div className="editorbox">
-              <div className="lable">About</div>
-              <div className="editor">
-                <textarea
-                  value={aboutText}
-                  className="aboutInput"
-                  onChange={(e) => setAboutText(e.target.value)}
-                />
+            <img
+              className="edit-img"
+              src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FekfshA%2FbtqUnKjFURC%2FAK2XK3NwkQZCHjNKBOPz00%2Fimg.jpg"
+              alt=" "
+            />
+            <SizesExample /> {/* 프로필 수정 버튼*/}
+            <div className="edit-list">
+              <div id="inputBox">
+                <div className="lable">Display name</div>
+                <input
+                  className="input"
+                  type={'text'}
+                  value={newname || ''}
+                  id="newname"
+                  onChange={(e) => {
+                    setNewName(e.target.value);
+                  }}
+                  defaultValue={Userdata.newname}
+                ></input>
               </div>
-            </div>
-            <div className="btnBox">
-              <button className="saveBtn">Save profile</button>
+              <div id="inputBox">
+                <div className="lable">Title</div>
+                <input
+                  className="input"
+                  placeholder="No title has been set"
+                ></input>
+              </div>
+              <div className="editorbox">
+                <div className="lable">About</div>
+                <div className="editor">
+                  <textarea
+                    value={newabout}
+                    className="aboutInput"
+                    onChange={(e) => setNewAbout(e.target.value)}
+                    defaultValue={Userdata.newabout}
+                  />
+                </div>
+              </div>
+              <div className="btnBox">
+                <button className="saveBtn" onClick={changeHandler}>
+                  Save profile
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </MypageEditListContainer>
   );
 }

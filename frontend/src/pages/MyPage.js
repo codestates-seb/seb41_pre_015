@@ -1,5 +1,8 @@
 // import React from 'react'
 import styled from 'styled-components';
+// import axios from 'axios';
+// import { useState, useEffect } from 'react';
+// import useStore from '../store';
 
 import MypageMain from '../component/Mypage/MypageMain';
 import MypageTitle from '../component/Mypage/MypageTitle';
