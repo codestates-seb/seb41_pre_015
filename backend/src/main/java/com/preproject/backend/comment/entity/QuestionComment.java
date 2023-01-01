@@ -1,5 +1,6 @@
 package com.preproject.backend.comment.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.preproject.backend.answer.entity.Answer;
 import com.preproject.backend.audit.Auditable;
 import com.preproject.backend.member.entity.Member;
@@ -25,9 +26,11 @@ public class QuestionComment extends Auditable {
 
     @ManyToOne
     @JoinColumn(name = "member_id")
+    @JsonIgnore
     private Member member;
 
     @ManyToOne
     @JoinColumn(name = "question_id")
+    @JsonIgnore
     private Question question;
 }
