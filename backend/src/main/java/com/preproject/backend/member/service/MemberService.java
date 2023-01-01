@@ -12,6 +12,7 @@ import com.preproject.backend.utils.CustomBeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,6 +76,14 @@ public class MemberService {
 
         return findMember;
     }
+
+    /* 회원 전체 정보 조회 */
+    @Transactional(readOnly = true)
+    public Page<Member> findMembers(int page, int size){
+        return memberRepository.findAll(PageRequest.of(page, size,
+            Sort.by("createdAt").descending()));
+    }
+
 
     /* 회원이 등록한 질문 목록 조회(pagination) */
     public Page<Question> findQuestionsOfMember(long id,
