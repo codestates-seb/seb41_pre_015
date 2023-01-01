@@ -542,6 +542,22 @@ function QuestionDetail() {
         init(questionId);
       });
   };
+  const DeleteAnswer = async (item) => {
+    await axios
+      .delete(
+        `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/answers/${item.id}`,
+        {
+          headers: { authorization: localStorage.getItem('accessToken') },
+        }
+      )
+      .then(() => {
+        Swal.fire({
+          text: '삭제 완료',
+          icon: 'success',
+        });
+        init(questionId);
+      });
+  };
 
   return (
     <>
@@ -868,7 +884,13 @@ function QuestionDetail() {
                         Edit
                       </AnEdit>
                       {item.memberId === UserId ? (
-                        <AnDelete>Delete</AnDelete>
+                        <AnDelete
+                          onClick={() => {
+                            DeleteAnswer(item);
+                          }}
+                        >
+                          Delete
+                        </AnDelete>
                       ) : (
                         ''
                       )}
