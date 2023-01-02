@@ -12,28 +12,26 @@ const MypageStats = () => {
 
   useEffect(() => {
     axios
-      .get(
-        `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/members/${Userdata.id}/answers`
-        // {
-        //   headers: { authorization: localStorage.getItem('accessToken') },
-        // }
-      )
+      .get(`http://43.201.119.99:8080/members/${Number(Userdata.id)}/answers`, {
+        headers: { authorization: localStorage.getItem('accessToken') },
+      })
       .then((response) => {
         setAnswerView(response.data.data);
+        console.log('answer', answerView);
       });
   }, []);
 
   useEffect(() => {
     axios
       .get(
-        `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/members/${Userdata.id}/questions`
-        // {
-        //   headers: { authorization: localStorage.getItem('accessToken') },
-        // }
+        `http://43.201.119.99:8080/members/${Number(Userdata.id)}/questions`,
+        {
+          headers: { authorization: localStorage.getItem('accessToken') },
+        }
       )
       .then((response) => {
         setQuestionView(response.data.data);
-        console.log(response);
+        console.log('questions', response);
       });
   }, []);
 
