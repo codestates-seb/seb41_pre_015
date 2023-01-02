@@ -3,12 +3,48 @@ import styled from 'styled-components';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Badge from 'react-bootstrap/Badge';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
-// import { useState } from 'react';
-
-// const [abouts, setAbouts] = useState([]);
+import { useState, useEffect } from 'react';
+import useStore from '../../store';
 
 const MypageMain = () => {
+  const { Userdata } = useStore();
+  const [answerView, setAnswerView] = useState([]);
+  const [questionView, setQuestionView] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(
+        `http://43.201.119.99:8080/members/${Number(
+          Userdata.id
+        )}/questions?page=1&size=4`,
+        {
+          headers: { authorization: localStorage.getItem('accessToken') },
+        }
+      )
+      .then((response) => {
+        setQuestionView(response.data.data);
+        console.log('questions', response);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(
+        `http://43.201.119.99:8080/members/${Number(
+          Userdata.id
+        )}/answers?page=1&size=4`,
+        {
+          headers: { authorization: localStorage.getItem('accessToken') },
+        }
+      )
+      .then((response) => {
+        setAnswerView(response.data.data);
+        console.log('answers', response);
+      });
+  }, []);
+
   return (
     <MypageMainContainer>
       <div className="mypage_main">
@@ -28,6 +64,7 @@ const MypageMain = () => {
             )} */}
           </div>
         </div>
+        <div>{/* <MypageAnsList /> */}</div>
         <div style={{ display: 'flex' }} className="ans_que_group">
           <div>
             <div style={{ display: 'flex' }} className="user_answer_group">
@@ -35,7 +72,17 @@ const MypageMain = () => {
               <BasicExample />
             </div>
             <div className="user_answer_box">
-              You have not answered any questions.
+              <ul>
+                {answerView.length === 0
+                  ? `You have not answered any questions.`
+                  : answerView.map((answer) => (
+                      <li key={answer.id}>
+                        <Link to="/questions/${answer.id}">
+                          <p>{answer.content}</p>
+                        </Link>
+                      </li>
+                    ))}
+              </ul>
             </div>
           </div>
           <div>
@@ -44,7 +91,17 @@ const MypageMain = () => {
               <BasicExample />
             </div>
             <div className="user_question_box">
-              You have not asked any questions.
+              <ul>
+                {questionView.length === 0
+                  ? `You have not asked any questions.`
+                  : answerView.map((que) => (
+                      <li key={que.id}>
+                        <Link to="/questions/${que.id}">
+                          <p>{que.content}</p>
+                        </Link>
+                      </li>
+                    ))}
+              </ul>
             </div>
           </div>
         </div>
