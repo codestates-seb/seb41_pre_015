@@ -98,9 +98,6 @@ const MainPage = () => {
           headers: { authorization: localStorage.getItem('accessToken') }, // headers에 headers 객체 전달
         }
       );
-      const Username = await axios.get('http://43.201.119.99:8080/members/1', {
-        headers: { authorization: localStorage.getItem('accessToken') }, // headers에 headers 객체 전달
-      });
       console.log('결과값 : ', result);
       localStorage.setItem('TotalPage', result.data.pageInfo.totalPages);
       setList(result.data.data);

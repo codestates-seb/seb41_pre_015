@@ -15,7 +15,9 @@ const MypageStats = () => {
       .get(
         `http://43.201.119.99:8080/members/${Number(
           Userdata.id
+
         )}/questions?page=1&size=4`,
+
         {
           headers: { authorization: localStorage.getItem('accessToken') },
         }
