@@ -15,7 +15,6 @@ const MypageStats = () => {
       .get(
         `http://43.201.119.99:8080/members/${Number(
           Userdata.id
-
         )}/questions?page=1&size=4`,
 
         {
@@ -24,7 +23,6 @@ const MypageStats = () => {
       )
       .then((response) => {
         setQuestionView(response.data.data);
-        console.log('questions', response);
       });
   }, []);
 
@@ -40,7 +38,6 @@ const MypageStats = () => {
       )
       .then((response) => {
         setAnswerView(response.data.data);
-        console.log('answers', response);
       });
   }, []);
 

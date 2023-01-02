@@ -106,6 +106,7 @@ const LoginForm = () => {
         setEmail('');
         setPassword('');
         localStorage.setItem('accessToken', res.headers.authorization);
+        localStorage.setItem('refreshToken', res.headers.refresh);
         setUserdata(res.data);
         localStorage.setItem('UserId', res.data.id);
         localStorage.setItem('Useremail', res.data.email);
