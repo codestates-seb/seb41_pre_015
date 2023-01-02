@@ -29,9 +29,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     private final RedisTemplate<String, String> redisTemplate;
 
-    @Value("${REFRESH_TOKEN_EXPIRATION_HOUR}")
-    private long REFRESH_TOKEN_EXPIRATION_HOUR;
-
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager,
                                    JwtTokenizer jwtTokenizer,
                                    RedisTemplate<String, String> redisTemplate) {
