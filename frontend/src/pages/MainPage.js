@@ -93,17 +93,14 @@ const MainPage = () => {
     const init = async () => {
       const result = await axios.get(
         // `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/questions?page=1&size=10`
-        `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/questions/latest?page=${currentPage}&size=5`,
+        `http://43.201.119.99:8080/questions/latest?page=${currentPage}&size=5`,
         {
           headers: { authorization: localStorage.getItem('accessToken') }, // headers에 headers 객체 전달
         }
       );
-      const Username = await axios.get(
-        'http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/members/1',
-        {
-          headers: { authorization: localStorage.getItem('accessToken') }, // headers에 headers 객체 전달
-        }
-      );
+      const Username = await axios.get('http://43.201.119.99:8080/members/1', {
+        headers: { authorization: localStorage.getItem('accessToken') }, // headers에 headers 객체 전달
+      });
       console.log('결과값 : ', result);
       localStorage.setItem('TotalPage', result.data.pageInfo.totalPages);
       setList(result.data.data);
