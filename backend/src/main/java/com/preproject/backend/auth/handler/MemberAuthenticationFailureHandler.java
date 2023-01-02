@@ -20,6 +20,7 @@ public class MemberAuthenticationFailureHandler implements AuthenticationFailure
                                         HttpServletResponse response,
                                         AuthenticationException exception) throws IOException, ServletException {
         log.error("# Authentication failed: {}", exception.getMessage());
+
 //        log.error("exception type: {}", exception.getClass());
 //        if(exception instanceof BadCredentialsException) {
 //            System.out.println("BadCredentail");
