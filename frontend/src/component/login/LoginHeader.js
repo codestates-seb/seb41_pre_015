@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { BsSearch } from 'react-icons/bs';
 import { Link, useNavigate } from 'react-router-dom';
 import useStore from '../../store';
+import axios from 'axios';
 
 const SLogo = styled.img`
   width: 150px;
@@ -64,9 +65,19 @@ const SLogoutButton = styled.button`
 const LoginHeader = () => {
   const { SearchValue } = useStore();
   const navigate = useNavigate();
-  const OnSubmitLogout = () => {
-    window.localStorage.clear();
-    navigate('/', { replace: true });
+  const OnSubmitLogout = async () => {
+    await axios
+      .post('http://43.201.119.99:8080/auth/logout', ' ', {
+        headers: {
+          authorization: localStorage.getItem('accessToken'),
+          refresh: localStorage.getItem('refreshToken'),
+        }, // headers에 headers 객체 전달
+      })
+      .then((res) => {
+        console.log(res.data);
+        window.localStorage.clear();
+        navigate('/', { replace: true });
+      });
   };
   return (
     <Sheader className="header-container">

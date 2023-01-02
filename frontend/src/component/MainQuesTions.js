@@ -102,7 +102,6 @@ const MainQuestions = ({ _list }) => {
   };
 
   useEffect(() => {
-    console.log('rerender', _list);
     setList(_list);
   }, [_list]);
 

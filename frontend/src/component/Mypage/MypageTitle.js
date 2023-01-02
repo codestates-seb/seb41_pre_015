@@ -2,11 +2,24 @@
 // import React from 'react';
 import styled from 'styled-components';
 import useStore from '../../store';
-// import axios from 'axios';
+import axios from 'axios';
+import { useEffect } from 'react';
 
 const MypageTitle = () => {
   const { Userdata } = useStore();
-  console.log(Userdata);
+  // const [user, setUser] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`http://43.201.119.99:8080/members/${Userdata.id}`, {
+        headers: { authorization: localStorage.getItem('accessToken') },
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  });
+
+  // console.log(Userdata);
 
   return (
     <MypageHeaderContainer>
@@ -17,7 +30,8 @@ const MypageTitle = () => {
         <div className="user_profile_info">
           <div>
             <h2 className="userName" style={{ fontWeight: 'bold' }}>
-              {Userdata.name} 이지은
+              {/* {user.name}  */}
+              이지은
             </h2>
           </div>
           <ul className="user_profile_memo">
@@ -30,6 +44,7 @@ const MypageTitle = () => {
     </MypageHeaderContainer>
   );
 };
+
 export default MypageTitle;
 
 const MypageHeaderContainer = styled.div`
