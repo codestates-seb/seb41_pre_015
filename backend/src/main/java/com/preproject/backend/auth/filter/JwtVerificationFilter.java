@@ -2,12 +2,18 @@ package com.preproject.backend.auth.filter;
 
 import com.preproject.backend.auth.jwt.JwtTokenizer;
 import com.preproject.backend.auth.utils.CustomAuthorityUtils;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.security.SignatureException;
+import io.netty.util.internal.StringUtil;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -15,6 +21,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -22,11 +29,16 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils customAuthorityUtils;
 
-    public JwtVerificationFilter(JwtTokenizer jwtTokenizer, CustomAuthorityUtils customAuthorityUtils) {
+    private final RedisTemplate<String, String> redisTemplate;
+
+    public JwtVerificationFilter(JwtTokenizer jwtTokenizer,
+                                 CustomAuthorityUtils customAuthorityUtils,
+                                 RedisTemplate<String, String> redisTemplate) {
+
         this.jwtTokenizer = jwtTokenizer;
         this.customAuthorityUtils = customAuthorityUtils;
+        this.redisTemplate = redisTemplate;
     }
-
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String authorization = request.getHeader("Authorization");
@@ -39,8 +51,13 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         try {
-            Map<String, Object> claims = verifyJws(request);
-            setAuthenticationToContext(claims);
+            String jws =  request.getHeader("Authorization").replace("Bearer ", "");
+            String encodeBase64SecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
+            Jws<Claims> claims = jwtTokenizer.getClaims(jws, encodeBase64SecretKey);
+
+            isExpired(claims);
+
+            setAuthenticationToContext(jws);
         } catch (SignatureException signatureException) {
             request.setAttribute("exception", signatureException);
         } catch (ExpiredJwtException expiredJwtException) {
@@ -53,21 +70,27 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private Map<String, Object> verifyJws(HttpServletRequest request) {
-        String jws
-                = request.getHeader("Authorization").replace("Bearer ", "");
-        String base64EncodedSecretKey =
-                jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
-        Map<String, Object> claims = jwtTokenizer.getClaims(jws, base64EncodedSecretKey).getBody();
-
-        return claims;
+    private void isExpired(Jws<Claims> claimsJws) {
+        if (claimsJws.getBody().getExpiration().after(new Date())) {
+            throw new ExpiredJwtException(claimsJws.getHeader(), claimsJws.getBody(), "토큰 기한 만료");
+        }
     }
 
-    private void setAuthenticationToContext(Map<String, Object> claims) {
-        String username = (String) claims.get("username");
-        List<GrantedAuthority> authorities = customAuthorityUtils.createAuthorities((List<String>)claims.get("roles"));
-        Authentication authentication
-                = new UsernamePasswordAuthenticationToken(username, null, authorities);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+    private void setAuthenticationToContext(String jws) {
+        String tokenFromRedis = redisTemplate.opsForValue().get(jws);
+
+        if (ObjectUtils.isEmpty(tokenFromRedis)) {
+            String encodeBase64SecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
+            Claims claimsBody = jwtTokenizer.getClaims(jws, encodeBase64SecretKey).getBody();
+
+            String username = (String) claimsBody.get("username");
+
+            List<GrantedAuthority> authorities =
+                    customAuthorityUtils.createAuthorities((List<String>)claimsBody.get("roles"));
+
+            Authentication authentication
+                    = new UsernamePasswordAuthenticationToken(username, null, authorities);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
     }
 }

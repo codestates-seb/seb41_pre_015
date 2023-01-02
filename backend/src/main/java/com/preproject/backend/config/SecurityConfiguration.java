@@ -1,15 +1,19 @@
 package com.preproject.backend.config;
 
 import com.preproject.backend.auth.filter.JwtAuthenticationFilter;
+import com.preproject.backend.auth.filter.JwtLogoutFilter;
 import com.preproject.backend.auth.filter.JwtVerificationFilter;
 import com.preproject.backend.auth.handler.MemberAccessDeniedHandler;
 import com.preproject.backend.auth.handler.MemberAuthenticationEntryPoint;
 import com.preproject.backend.auth.handler.MemberAuthenticationFailureHandler;
 import com.preproject.backend.auth.handler.MemberAuthenticationSuccessHandler;
+import com.preproject.backend.auth.handler.MemberLogoutHandler;
+import com.preproject.backend.auth.handler.MemberLogoutSuccessHandler;
 import com.preproject.backend.auth.jwt.JwtTokenizer;
 import com.preproject.backend.auth.utils.CustomAuthorityUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -31,9 +35,12 @@ public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
 
-    public SecurityConfiguration(JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils) {
+    private final RedisTemplate<String, String> redisTemplate;
+
+    public SecurityConfiguration(JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils, RedisTemplate<String, String> redisTemplate) {
         this.jwtTokenizer = jwtTokenizer;
         this.authorityUtils = authorityUtils;
+        this.redisTemplate = redisTemplate;
     }
 
     @Bean
@@ -47,6 +54,7 @@ public class SecurityConfiguration {
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()
+                .logout().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(new MemberAuthenticationEntryPoint())
                 .accessDeniedHandler(new MemberAccessDeniedHandler())
@@ -98,6 +106,8 @@ public class SecurityConfiguration {
         corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE"));
         corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
         corsConfiguration.addExposedHeader("Authorization");
+        corsConfiguration.addExposedHeader("Refresh");
+
 
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
         urlBasedCorsConfigurationSource
@@ -112,16 +122,24 @@ public class SecurityConfiguration {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
 
             JwtAuthenticationFilter jwtAuthenticationFilter =
-                    new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
+                    new JwtAuthenticationFilter(authenticationManager, jwtTokenizer, redisTemplate);
 
             jwtAuthenticationFilter.setFilterProcessesUrl("/auth/login");
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
 
-            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
+            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils, redisTemplate);
+
+            JwtLogoutFilter jwtLogoutFilter =
+                    new JwtLogoutFilter(
+                            new MemberLogoutSuccessHandler(),
+                            new MemberLogoutHandler(jwtTokenizer, redisTemplate));
+
+            jwtLogoutFilter.setFilterProcessesUrl("/auth/logout");
 
             builder.addFilter(jwtAuthenticationFilter)
-                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
+                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class)
+                    .addFilterAfter(jwtLogoutFilter, JwtLogoutFilter.class);
         }
     }
 }

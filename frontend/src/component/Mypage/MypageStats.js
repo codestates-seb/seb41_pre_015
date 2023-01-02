@@ -15,23 +15,9 @@ const MypageStats = () => {
       .get(
         `http://43.201.119.99:8080/members/${Number(
           Userdata.id
-        )}/answers?page=1&size=5`,
-        {
-          headers: { authorization: localStorage.getItem('accessToken') },
-        }
-      )
-      .then((response) => {
-        setAnswerView(response.data.data);
-        console.log('answer', response.data);
-      });
-  }, []);
 
-  useEffect(() => {
-    axios
-      .get(
-        `http://43.201.119.99:8080/members/${Number(
-          Userdata.id
         )}/questions?page=1&size=4`,
+
         {
           headers: { authorization: localStorage.getItem('accessToken') },
         }
@@ -42,13 +28,29 @@ const MypageStats = () => {
       });
   }, []);
 
+  useEffect(() => {
+    axios
+      .get(
+        `http://43.201.119.99:8080/members/${Number(
+          Userdata.id
+        )}/answers?page=1&size=4`,
+        {
+          headers: { authorization: localStorage.getItem('accessToken') },
+        }
+      )
+      .then((response) => {
+        setAnswerView(response.data.data);
+        console.log('answers', response);
+      });
+  }, []);
+
   return (
     <MypagestatsContainer>
       <div className="title">Stats</div>
       <div className="StatContainer">
         <div className="StatTop">
           <StatDiv>
-            <StatNum>1</StatNum>
+            <StatNum>0</StatNum>
             <StatMsg>reputation</StatMsg>
           </StatDiv>
 
