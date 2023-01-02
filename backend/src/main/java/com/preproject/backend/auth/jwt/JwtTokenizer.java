@@ -24,12 +24,12 @@ public class JwtTokenizer {
     private String secretKey;
 
     @Getter
-    @Value("${ACCESS_TOKEN_EXPIRATION_HOUR}")
-    private int accessTokenExpirationHour;
+    @Value("${ACCESS_TOKEN_EXPIRATION_MINUTE}")
+    private int accessTokenExpirationMinute;
 
     @Getter
-    @Value("${REFRESH_TOKEN_EXPIRATION_HOUR}")
-    private int refreshTokenExpirationHour;
+    @Value("${REFRESH_TOKEN_EXPIRATION_MINUTE}")
+    private int refreshTokenExpirationMinute;
 
     public String encodeBase64SecretKey(String secretKey) {
         return Encoders.BASE64.encode(secretKey.getBytes(StandardCharsets.UTF_8));
@@ -74,20 +74,10 @@ public class JwtTokenizer {
         return claims;
     }
 
-    public void verifySignature(String jws, String base64EncodedSecretKey) {
-        Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
-
-        Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(jws);
-    }
-
-    public Date getTokenExpiration(int expirationHour) {
+    public Date getTokenExpiration(int expirationMinute) {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.HOUR_OF_DAY, expirationHour);
+        calendar.add(Calendar.MINUTE, expirationMinute);
         Date expiration = calendar.getTime();
-
         return expiration;
     }
 
@@ -97,7 +87,4 @@ public class JwtTokenizer {
 
         return key;
     }
-
-
-
 }
