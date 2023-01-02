@@ -3,6 +3,7 @@ os: linux
 
 files:
   - source: /
+
     destination: /home/ubuntu/seb41_015
 
 hooks:

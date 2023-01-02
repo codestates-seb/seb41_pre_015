@@ -337,7 +337,7 @@ function QuestionDetail() {
   // 초기 데이터 통신 호출
   const init = async (questionId) => {
     const result = await axios.get(
-      `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/questions/${questionId}`
+      `http://43.201.119.99:8080/questions/${questionId}`
     );
     console.log('init', result);
 
@@ -378,7 +378,7 @@ function QuestionDetail() {
         content: yourAnswer,
       };
       const result = await axios.post(
-        'http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/answers',
+        'http://43.201.119.99:8080/answers',
         body,
         {
           headers: { authorization: localStorage.getItem('accessToken') }, // headers에 headers 객체 전달
@@ -423,7 +423,7 @@ function QuestionDetail() {
     // updown ('upvotes', 'downvotes')
     const result = await axios
       .patch(
-        `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/${type}/${id}/${updown}`,
+        `http://43.201.119.99:8080/${type}/${id}/${updown}`,
         {
           memberId: localStorage.getItem('UserId'),
         },
@@ -464,8 +464,8 @@ function QuestionDetail() {
     const result = await axios
       .patch(
         type == 'questions'
-          ? `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/${type}/${Id}`
-          : `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/${type}/${answerId}`,
+          ? `http://43.201.119.99:8080/${type}/${Id}`
+          : `http://43.201.119.99:8080/${type}/${answerId}`,
         type == 'questions'
           ? {
               Id,
@@ -493,26 +493,20 @@ function QuestionDetail() {
   };
   const DeleteQuestion = async () => {
     await axios
-      .delete(
-        `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/questions/${pageData.id}`,
-        {
-          id: pageData.id,
-        }
-      )
+      .delete(`http://43.201.119.99:8080/questions/${pageData.id}`, {
+        id: pageData.id,
+      })
       .then(() => {
         navigate('/main', { replace: true });
       });
   };
   const OnSubmitComment = async () => {
     await axios
-      .post(
-        'http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/question-comments',
-        {
-          questionId: pageData.id,
-          memberId: UserId,
-          content: comment,
-        }
-      )
+      .post('http://43.201.119.99:8080/question-comments', {
+        questionId: pageData.id,
+        memberId: UserId,
+        content: comment,
+      })
       .then(() => {
         setComment('');
         Swal.fire({
@@ -528,12 +522,22 @@ function QuestionDetail() {
 
   const DeleteComment = async (el) => {
     await axios
-      .delete(
-        `http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/question-comments/${el.id}`,
-        {
-          headers: { authorization: localStorage.getItem('accessToken') }, // headers에 headers 객체 전달
-        }
-      )
+      .delete(`http://43.201.119.99:8080/question-comments/${el.id}`, {
+        headers: { authorization: localStorage.getItem('accessToken') }, // headers에 headers 객체 전달
+      })
+      .then(() => {
+        Swal.fire({
+          text: '삭제 완료',
+          icon: 'success',
+        });
+        init(questionId);
+      });
+  };
+  const DeleteAnswer = async (item) => {
+    await axios
+      .delete(`http://43.201.119.99:8080/answers/${item.id}`, {
+        headers: { authorization: localStorage.getItem('accessToken') },
+      })
       .then(() => {
         Swal.fire({
           text: '삭제 완료',
@@ -868,7 +872,13 @@ function QuestionDetail() {
                         Edit
                       </AnEdit>
                       {item.memberId === UserId ? (
-                        <AnDelete>Delete</AnDelete>
+                        <AnDelete
+                          onClick={() => {
+                            DeleteAnswer(item);
+                          }}
+                        >
+                          Delete
+                        </AnDelete>
                       ) : (
                         ''
                       )}

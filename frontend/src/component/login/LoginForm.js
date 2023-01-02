@@ -98,13 +98,10 @@ const LoginForm = () => {
   const OnSubmitLogin = async (e) => {
     e.preventDefault();
     await axios
-      .post(
-        'http://ec2-3-36-57-221.ap-northeast-2.compute.amazonaws.com:8080/auth/login',
-        {
-          email: email,
-          password: password,
-        }
-      )
+      .post('http://43.201.119.99:8080/auth/login', {
+        email: email,
+        password: password,
+      })
       .then((res) => {
         setEmail('');
         setPassword('');
