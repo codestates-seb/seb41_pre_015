@@ -41,17 +41,16 @@ public class QuestionVoteService {
             findQuestionVote.setQuestionVoteStatus(QuestionVote.QuestionVoteStatus.UP);
             verifiedQuestion.setScore(verifiedQuestion.getScore() + 1);
             questionVoteRepository.save(findQuestionVote);
+            questionRepository.save(verifiedQuestion);
         }
         else if (findQuestionVote.getQuestionVoteStatus() == QuestionVote.QuestionVoteStatus.DOWN) {
-            findQuestionVote.setQuestionVoteStatus(QuestionVote.QuestionVoteStatus.UP);
-            verifiedQuestion.setScore(verifiedQuestion.getScore() + 2);
-            questionVoteRepository.save(findQuestionVote);
+            verifiedQuestion.setScore(verifiedQuestion.getScore() + 1);
+            questionVoteRepository.delete(findQuestionVote);
+            questionRepository.save(verifiedQuestion);
         }
         else if (findQuestionVote.getQuestionVoteStatus() == QuestionVote.QuestionVoteStatus.UP) {
-            verifiedQuestion.setScore(verifiedQuestion.getScore() - 1);
-            questionVoteRepository.delete(findQuestionVote);
+            throw new BusinessLogicException(ExceptionCode.MEMBER_ALREADY_VOTED);
         }
-        questionRepository.save(verifiedQuestion);
 
         return verifiedQuestion;
     }
@@ -68,17 +67,17 @@ public class QuestionVoteService {
             findQuestionVote.setQuestionVoteStatus(QuestionVote.QuestionVoteStatus.DOWN);
             verifiedQuestion.setScore(verifiedQuestion.getScore() - 1);
             questionVoteRepository.save(findQuestionVote);
+            questionRepository.save(verifiedQuestion);
         }
         else if (findQuestionVote.getQuestionVoteStatus() == QuestionVote.QuestionVoteStatus.UP) {
-            findQuestionVote.setQuestionVoteStatus(QuestionVote.QuestionVoteStatus.DOWN);
-            verifiedQuestion.setScore(verifiedQuestion.getScore() - 2);
-            questionVoteRepository.save(findQuestionVote);
+            verifiedQuestion.setScore(verifiedQuestion.getScore() - 1);
+            questionVoteRepository.delete(findQuestionVote);
+            questionRepository.save(verifiedQuestion);
+
         }
         else if (findQuestionVote.getQuestionVoteStatus() == QuestionVote.QuestionVoteStatus.DOWN) {
-            verifiedQuestion.setScore(verifiedQuestion.getScore() + 1);
-            questionVoteRepository.delete(findQuestionVote);
+            throw new BusinessLogicException(ExceptionCode.MEMBER_ALREADY_VOTED);
         }
-        questionRepository.save(verifiedQuestion);
 
         return verifiedQuestion;
     }

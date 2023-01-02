@@ -1,7 +1,40 @@
 // import React from 'react'
+// import React from 'react';
 import styled from 'styled-components';
+import useStore from '../../store';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const MypageStats = () => {
+  const { Userdata } = useStore();
+  const [answerView, setAnswerView] = useState([]);
+  const [questionView, setQuestionView] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`http://43.201.119.99:8080/members/${Number(Userdata.id)}/answers`, {
+        headers: { authorization: localStorage.getItem('accessToken') },
+      })
+      .then((response) => {
+        setAnswerView(response.data.data);
+        console.log('answer', answerView);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(
+        `http://43.201.119.99:8080/members/${Number(Userdata.id)}/questions`,
+        {
+          headers: { authorization: localStorage.getItem('accessToken') },
+        }
+      )
+      .then((response) => {
+        setQuestionView(response.data.data);
+        console.log('questions', response);
+      });
+  }, []);
+
   return (
     <MypagestatsContainer>
       <div className="title">Stats</div>
@@ -20,12 +53,12 @@ const MypageStats = () => {
 
         <div className="StatBottom">
           <StatDiv>
-            <StatNum>1</StatNum>
+            <StatNum>{answerView.length}</StatNum>
             <StatMsg>answers</StatMsg>
           </StatDiv>
 
           <StatDiv>
-            <StatNum>0</StatNum>
+            <StatNum>{questionView.length}</StatNum>
             <StatMsg>questions</StatMsg>
           </StatDiv>
         </div>

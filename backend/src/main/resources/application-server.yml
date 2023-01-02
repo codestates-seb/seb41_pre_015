@@ -5,11 +5,12 @@ spring:
     USERNAME: ${DB.USERNAME}
     PASSWORD: ${DB.PASSWORD}
   jpa:
-    open-in-view: false
-    show-sql: true
+    open-in-view: true
+    show-sql: false
     hibernate:
       ddl-auto: none
     database: mysql
     properties:
       hibernate:
         format_sql: true
+

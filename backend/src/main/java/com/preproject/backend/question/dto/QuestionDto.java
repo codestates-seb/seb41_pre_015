@@ -55,6 +55,7 @@ public class QuestionDto {
 	public static class Response {
 		private Long id;
 		private Long memberId;
+		private String memberName;
 		private String title;
 		private String content;
 		private int score;

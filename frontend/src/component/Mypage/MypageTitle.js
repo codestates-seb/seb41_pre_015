@@ -1,8 +1,13 @@
 /* eslint-disable jsx-a11y/alt-text */
 // import React from 'react';
 import styled from 'styled-components';
+import useStore from '../../store';
+// import axios from 'axios';
 
 const MypageTitle = () => {
+  const { Userdata } = useStore();
+  console.log(Userdata);
+
   return (
     <MypageHeaderContainer>
       <div className="mypage_header">
@@ -12,12 +17,12 @@ const MypageTitle = () => {
         <div className="user_profile_info">
           <div>
             <h2 className="userName" style={{ fontWeight: 'bold' }}>
-              이지은 (Lee ji eun)
+              {Userdata.name} 이지은
             </h2>
           </div>
           <ul className="user_profile_memo">
+            <li>{Userdata.email} </li>
             <li>Member for 4 months </li>
-            <li>Last seen this week </li>
             <li>Visited 16 days </li>
           </ul>
         </div>

@@ -53,6 +53,7 @@ public interface QuestionMapper {
 
 		questionResponseDto.setId(question.getId());
 		questionResponseDto.setMemberId(question.getMember().getId());
+		questionResponseDto.setMemberName(question.getMember().getName());
 		questionResponseDto.setTitle(question.getTitle());
 		questionResponseDto.setContent(question.getContent());
 		questionResponseDto.setCreatedAt(question.getCreatedAt());

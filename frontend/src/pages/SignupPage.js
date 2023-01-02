@@ -8,6 +8,7 @@ import { BsTrophyFill } from 'react-icons/bs';
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const SbackGround = styled.div`
   background-color: #f1f2f3;
@@ -128,23 +129,29 @@ const SignupPage = () => {
   const OnSignupSubmit = async (e) => {
     e.preventDefault();
     await axios
-      .post('/members', {
+      .post('http://43.201.119.99:8080/members', {
         name: name,
         email: email,
         password: password,
       })
       .then((res) => {
         if (res.status === 201) {
-          alert('회원 가입 성공');
+          Swal.fire({ title: '회원 가입 성공', icon: 'success' });
         }
         setName('');
         setEmail('');
         setPassword('');
         setCheckEmail(false);
         setPasswordValid(false);
-        navigate('/login', { replace: true });
+        navigate('/', { replace: true });
       })
       .catch((e) => {
+        if (e.response.data.status === 409) {
+          Swal.fire({
+            title: '이미 가입된 이메일 입니다.',
+            icon: 'error',
+          });
+        }
         console.log(e);
       });
   };

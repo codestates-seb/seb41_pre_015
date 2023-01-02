@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.preproject.backend.answer.entity.Answer;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,7 @@ public class QuestionControllerMockTest {
 		QuestionDto.Response responseDto =
 				new QuestionDto.Response(1L,
 					1L,
+					"홍길동",
 					"질문입니다",
 					"내용입니다",
 					0,
@@ -127,6 +129,7 @@ public class QuestionControllerMockTest {
 					List.of(
 						fieldWithPath("id").type(JsonFieldType.NUMBER).description("질문 식별자"),
 						fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("멤버 식별자"),
+						fieldWithPath("memberName").type(JsonFieldType.STRING).description("질문 작성자"),
 						fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
 						fieldWithPath("content").type(JsonFieldType.STRING).description("내용"),
 						fieldWithPath("score").type(JsonFieldType.NUMBER).description("추천수"),
@@ -153,6 +156,7 @@ public class QuestionControllerMockTest {
 		QuestionDto.Response responseDto =
 			new QuestionDto.Response(1L,
 				1L,
+					"홍길동",
 				"바꿀 질문",
 				"바꿀 내용",
 				0,
@@ -203,6 +207,7 @@ public class QuestionControllerMockTest {
 					List.of(
 						fieldWithPath("id").type(JsonFieldType.NUMBER).description("질문 식별자"),
 						fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("멤버 식별자"),
+						fieldWithPath("memberName").type(JsonFieldType.STRING).description("질문 작성자"),
 						fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
 						fieldWithPath("content").type(JsonFieldType.STRING).description("내용"),
 						fieldWithPath("score").type(JsonFieldType.NUMBER).description("추천수"),
@@ -225,6 +230,7 @@ public class QuestionControllerMockTest {
 		QuestionDto.Response responseDto =
 			new QuestionDto.Response(1L,
 				1L,
+					"홍길동",
 				"제목",
 				"내용",
 				0,
@@ -259,6 +265,7 @@ public class QuestionControllerMockTest {
 					List.of(
 						fieldWithPath("id").type(JsonFieldType.NUMBER).description("질문 식별자"),
 						fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("멤버 식별자"),
+						fieldWithPath("memberName").type(JsonFieldType.STRING).description("질문 작성자"),
 						fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
 						fieldWithPath("content").type(JsonFieldType.STRING).description("내용"),
 						fieldWithPath("score").type(JsonFieldType.NUMBER).description("추천수"),
@@ -330,6 +337,7 @@ public class QuestionControllerMockTest {
 				new QuestionDto.Response(
 					questionList.get(0).getId(),
 					questionList.get(0).getMember().getId(),
+					questionList.get(0).getMember().getName(),
 					questionList.get(0).getTitle(),
 					questionList.get(0).getContent(),
 					questionList.get(0).getScore(),
@@ -342,6 +350,7 @@ public class QuestionControllerMockTest {
 				new QuestionDto.Response(
 					questionList.get(1).getId(),
 					questionList.get(1).getMember().getId(),
+					questionList.get(1).getMember().getName(),
 					questionList.get(1).getTitle(),
 					questionList.get(1).getContent(),
 					questionList.get(1).getScore(),
@@ -354,6 +363,7 @@ public class QuestionControllerMockTest {
 				new QuestionDto.Response(
 					questionList.get(2).getId(),
 					questionList.get(2).getMember().getId(),
+					questionList.get(2).getMember().getName(),
 					questionList.get(2).getTitle(),
 					questionList.get(2).getContent(),
 					questionList.get(2).getScore(),
@@ -390,14 +400,15 @@ public class QuestionControllerMockTest {
 						fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
 						fieldWithPath("data[0].id").type(JsonFieldType.NUMBER).description("질문 식별자"),
 						fieldWithPath("data[1].memberId").type(JsonFieldType.NUMBER).description("멤버 식별자").optional(),
-						fieldWithPath("data[2].title").type(JsonFieldType.STRING).description("제목"),
-						fieldWithPath("data[3].content").type(JsonFieldType.STRING).description("내용"),
-						fieldWithPath("data[4].score").type(JsonFieldType.NUMBER).description("추천수"),
-						fieldWithPath("data[5].questionStatus").type(JsonFieldType.STRING).description("질문 상태: RESOLVED / UNRESOLVED"),
-						fieldWithPath("data[6].createdAt").type(JsonFieldType.STRING).description("생성 날짜").optional(),
-						fieldWithPath("data[7].modifiedAt").type(JsonFieldType.STRING).description("수정 날짜").optional(),
-						fieldWithPath("data[8].answer").type(JsonFieldType.ARRAY).description("답변들"),
-						fieldWithPath("data[9].questionComments").type(JsonFieldType.ARRAY).description("질문 댓글들"),
+						fieldWithPath("data[2].memberName").type(JsonFieldType.STRING).description("질문 작성자명").optional(),
+						fieldWithPath("data[3].title").type(JsonFieldType.STRING).description("제목"),
+						fieldWithPath("data[4].content").type(JsonFieldType.STRING).description("내용"),
+						fieldWithPath("data[5].score").type(JsonFieldType.NUMBER).description("추천수"),
+						fieldWithPath("data[6].questionStatus").type(JsonFieldType.STRING).description("질문 상태: RESOLVED / UNRESOLVED"),
+						fieldWithPath("data[7].createdAt").type(JsonFieldType.STRING).description("생성 날짜").optional(),
+						fieldWithPath("data[8].modifiedAt").type(JsonFieldType.STRING).description("수정 날짜").optional(),
+						fieldWithPath("data[9].answer").type(JsonFieldType.ARRAY).description("답변들"),
+						fieldWithPath("data[10].questionComments").type(JsonFieldType.ARRAY).description("질문 댓글들"),
 						fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이지 정보"),
 						fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("페이지 번호"),
 						fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("페이지 내 개수"),

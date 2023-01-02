@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { TagsInput } from 'react-tag-input-component';
+import useStore from '../../store';
+import Swal from 'sweetalert2';
 
 const SWriteContainer = styled.div`
   .Help-container {
@@ -71,19 +73,29 @@ const WriteQuestion = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [selected, setSelected] = useState([]);
+  const { Userdata } = useStore();
 
   const navigate = useNavigate();
 
   const onSubmitQuestion = async (e) => {
     e.preventDefault();
     await axios
-      .post('/questions', {
-        memberId: 2,
-        title: title,
-        content: content,
-      })
+      .post(
+        'http://43.201.119.99:8080/questions',
+        {
+          memberId: Userdata.id,
+          title: title,
+          content: content,
+        },
+        {
+          headers: { authorization: localStorage.getItem('accessToken') }, // headers에 headers 객체 전달
+        }
+      )
       .then(() => {
-        alert('질문 등록 완료');
+        Swal.fire({
+          text: '질문 등록 완료!',
+          icon: 'success',
+        });
         setTitle(null);
         setContent(null);
         navigate('/main');

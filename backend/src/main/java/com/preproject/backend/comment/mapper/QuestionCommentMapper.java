@@ -10,8 +10,22 @@ public interface QuestionCommentMapper {
     @Mapping(source = "memberId", target = "member.id")
     @Mapping(source = "questionId", target = "question.id")
     QuestionComment questionCommentPostDtoToQuestionComment(QuestionCommentDto.Post requestBody);
+
     QuestionComment questionCommentPatchDtoToQuestionComment(QuestionCommentDto.Patch requestBody);
+
     @Mapping(source = "member.id", target = "memberId")
     @Mapping(source = "question.id", target = "questionId")
-    QuestionCommentDto.Response questionCommentToQuestionCommentResponseDto(QuestionComment questioncomment);
+    default QuestionCommentDto.Response questionCommentToQuestionCommentResponseDto(QuestionComment questionComment){
+
+        QuestionCommentDto.Response questionCommentDto = new QuestionCommentDto.Response();
+        questionCommentDto.setId(questionComment.getId());
+        questionCommentDto.setQuestionId(questionComment.getQuestion().getId());
+        questionCommentDto.setMemberId(questionComment.getMember().getId());
+        questionCommentDto.setMemberName(questionComment.getMember().getName());
+        questionCommentDto.setContent(questionComment.getContent());
+        questionCommentDto.setCreatedAt(questionComment.getCreatedAt());
+        questionCommentDto.setModifiedAt(questionComment.getModifiedAt());
+
+        return questionCommentDto;
+    }
 }

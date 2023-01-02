@@ -10,6 +10,7 @@ import AddQuestionPage from './pages/AddQuestionPage';
 import QuestionDetail from './pages/QuestionDetail';
 import MypageEdit from './pages/MypageEdit';
 import ErrorPage from './pages/ErrorPage';
+import UsersPage from './pages/UsersPage';
 
 function App() {
   return (
@@ -21,9 +22,10 @@ function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/addquestion" element={<AddQuestionPage />} />
-          <Route path="/questions" element={<QuestionDetail />} />
+          <Route path="/questions/:id" element={<QuestionDetail />} />
           <Route path="/editmypage" element={<MypageEdit />} />
           <Route path="/error" element={<ErrorPage />} />
+          <Route path="/users" element={<UsersPage />} />
         </Routes>
       </BrowserRouter>
     </>
