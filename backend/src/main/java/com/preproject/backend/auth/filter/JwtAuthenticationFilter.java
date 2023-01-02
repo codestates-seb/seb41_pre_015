@@ -1,10 +1,12 @@
 package com.preproject.backend.auth.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.preproject.backend.auth.dto.LoginDto;
+import com.preproject.backend.auth.dto.AuthDto;
 import com.preproject.backend.auth.jwt.JwtTokenizer;
 import com.preproject.backend.member.entity.Member;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,20 +21,30 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenizer jwtTokenizer;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenizer jwtTokenizer) {
+    private final RedisTemplate<String, String> redisTemplate;
+
+    @Value("${REFRESH_TOKEN_EXPIRATION_HOUR}")
+    private long REFRESH_TOKEN_EXPIRATION_HOUR;
+
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager,
+                                   JwtTokenizer jwtTokenizer,
+                                   RedisTemplate<String, String> redisTemplate) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenizer = jwtTokenizer;
+        this.redisTemplate = redisTemplate;
     }
+
     @SneakyThrows
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         ObjectMapper objectMapper = new ObjectMapper();
-        LoginDto loginDto = objectMapper.readValue(request.getInputStream(), LoginDto.class);
+        AuthDto.Login loginDto = objectMapper.readValue(request.getInputStream(), AuthDto.Login.class);
         /*TODO UsernamePasswordAuthenticationFilter에 이미 AuthenticationManager가 있는 것 아닌가?
         *  this.getAuthenticationManager()로 예외처리 진행해보기 <- securityConfiguration에 있는 sharedObject쓰지 말고*/
 
@@ -53,6 +65,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String accessToken = delegateAccessToken(member);
         String refreshToken = delegateRefreshToken(member);
 
+        redisTemplate.opsForValue().set(
+                member.getEmail(),
+                refreshToken,
+                jwtTokenizer.getRefreshTokenExpirationMinute(),
+                TimeUnit.MINUTES
+        );
+
         response.setHeader("Authorization", "Bearer " + accessToken);
         response.setHeader("Refresh", refreshToken);
 
@@ -66,7 +85,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         String subject = member.getEmail();
         Date tokenExpiration =
-                jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationHour());
+                jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinute());
 
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
 
@@ -78,12 +97,21 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     private String delegateRefreshToken(Member member) {
         String subject = member.getEmail();
-        Date tokenExpiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationHour());
+        Date tokenExpiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinute());
         String base64EncodedSecretKey =
                 jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
 
         String refreshToken =
                 jwtTokenizer.generateRefreshToken(subject, tokenExpiration, base64EncodedSecretKey);
+
+        System.out.println("tokenExpiration.getTime() = " + tokenExpiration.getTime());
+
+        redisTemplate.opsForValue().set(
+                member.getEmail(),
+                refreshToken,
+                tokenExpiration.getTime(),
+                TimeUnit.MILLISECONDS
+        );
 
         return refreshToken;
     }
