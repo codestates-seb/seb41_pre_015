@@ -14,10 +14,6 @@ const MypageTitle = () => {
       .get(`http://43.201.119.99:8080/members/${Userdata.id}`, {
         headers: { authorization: localStorage.getItem('accessToken') },
       })
-      .then((response) => {
-        console.log(response);
-        console.log(1111);
-      })
       .catch((error) => {
         alert(error);
       });

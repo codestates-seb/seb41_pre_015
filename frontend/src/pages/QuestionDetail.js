@@ -324,22 +324,17 @@ function QuestionDetail() {
   const UserId = Number(Userdata.id);
 
   useEffect(() => {
-    console.log('data', data);
     // setPageData(data);
     init(questionId);
   }, []);
 
-  useEffect(() => {
-    console.log('pageData', pageData);
-    console.log('pageDataAnswer', pageDataAnswer);
-  }, [pageData, pageDataAnswer]);
+  useEffect(() => {}, [pageData, pageDataAnswer]);
 
   // 초기 데이터 통신 호출
   const init = async (questionId) => {
     const result = await axios.get(
       `http://43.201.119.99:8080/questions/${questionId}`
     );
-    console.log('init', result);
 
     // edit 상태 추가
     result.data.editState = false;
@@ -384,7 +379,6 @@ function QuestionDetail() {
           headers: { authorization: localStorage.getItem('accessToken') }, // headers에 headers 객체 전달
         }
       );
-      console.log('result', result);
       // 답변 등록후 초기화하여 화면 업데이트
       init(questionId);
       // 답변 내용 초기화
@@ -393,19 +387,16 @@ function QuestionDetail() {
   };
   // 추천순 필터
   const like_filter = () => {
-    console.log('추천순 필터');
     let temp = [...pageDataAnswer];
     let result = temp.sort((a, b) => {
       if (a.score > b.score) return 1;
       if (a.score === b.score) return 0;
       if (a.score < b.score) return -1;
     });
-    console.log('result', result);
     setPageDataAnswer(result);
   };
   // 최근순 필터
   const timeline_filter = () => {
-    console.log('최근순 필터');
     let temp = [...pageDataAnswer];
     let result = temp.sort((a, b) => {
       let timestamp_a = new Date(a.createdAt).getTime();
@@ -414,7 +405,6 @@ function QuestionDetail() {
       if (timestamp_a === timestamp_b) return 0;
       if (timestamp_a < timestamp_b) return -1;
     });
-    console.log('result', result);
     setPageDataAnswer(result);
   };
   // 질문 / 답변 추천 비추천
@@ -450,7 +440,6 @@ function QuestionDetail() {
     if (type == 'questions') {
       const temp = { ...pageData };
       temp.editState = !temp.editState;
-      console.log(temp);
       setPageData(temp);
     } else if (type == 'answers') {
       const temp = [...pageDataAnswer];
@@ -669,9 +658,7 @@ function QuestionDetail() {
                   <div style={{ margin: '10px' }}>{pageData.content}</div>
                   {/* 질문 태그 */}
                   <TagContainer>
-                    <Tag onClick={() => console.log(pageData, pageDataAnswer)}>
-                      Tag
-                    </Tag>
+                    <Tag>Tag</Tag>
                     <Tag>Tag</Tag>
                     <Tag>Tag</Tag>
                   </TagContainer>

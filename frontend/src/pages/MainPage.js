@@ -98,7 +98,6 @@ const MainPage = () => {
           headers: { authorization: localStorage.getItem('accessToken') }, // headers에 headers 객체 전달
         }
       );
-      console.log('결과값 : ', result);
       localStorage.setItem('TotalPage', result.data.pageInfo.totalPages);
       setList(result.data.data);
     };
@@ -114,13 +113,11 @@ const MainPage = () => {
       if (a.score === b.score) return 0;
       if (a.score < b.score) return 1;
     });
-    console.log('result', result);
     setList(result);
   };
   // 최근순 필터
   const timeline_filter = () => {
     // setList([]);
-    console.log('최근순 필터');
     let temp = [...list];
     let result = temp.sort((a, b) => {
       let timestamp_a = new Date(a.createdAt).getTime();
@@ -129,7 +126,6 @@ const MainPage = () => {
       if (timestamp_a === timestamp_b) return 0;
       if (timestamp_a < timestamp_b) return 1;
     });
-    console.log('result', result);
     setList(result);
   };
   return (

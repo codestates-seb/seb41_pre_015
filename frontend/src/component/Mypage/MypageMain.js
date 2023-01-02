@@ -25,7 +25,6 @@ const MypageMain = () => {
       )
       .then((response) => {
         setQuestionView(response.data.data);
-        console.log('questions', response);
       });
   }, []);
 
@@ -41,7 +40,6 @@ const MypageMain = () => {
       )
       .then((response) => {
         setAnswerView(response.data.data);
-        console.log('answers', response);
       });
   }, []);
 
