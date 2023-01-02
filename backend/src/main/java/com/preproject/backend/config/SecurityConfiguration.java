@@ -108,6 +108,7 @@ public class SecurityConfiguration {
         corsConfiguration.addExposedHeader("Authorization");
         corsConfiguration.addExposedHeader("Refresh");
 
+
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
         urlBasedCorsConfigurationSource
                 .registerCorsConfiguration("/**", corsConfiguration);
