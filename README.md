@@ -18,7 +18,8 @@
 
 ### 🖥 기능 구현 화면
 
-![ezgif-3-6da503c62f](https://user-images.githubusercontent.com/109756791/210229417-1f493222-518a-45b1-8f38-de8540a45ad9.gif)
+![ezgif com-gif-maker (13)](https://user-images.githubusercontent.com/109756791/210234585-abc6e203-9498-4e0c-a7e5-1becc76a3df9.gif)
+
 
 <br><br><br>
 
