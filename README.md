@@ -30,7 +30,7 @@
 <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"> <img src="https://img.shields.io/badge/AmazonAWS-232F3E?style=for-the-badge&logo=AmazonAWS&logoColor=white"> <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"> 
  
 #### Front-end 
-<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white"> <img src="https://img.shields.io/badge/styled_components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"> <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white"> 
+<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white"> <img src="https://img.shields.io/badge/styled_components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"> <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white"> <img src="https://img.shields.io/badge/React_Router-5A29E4?style=for-the-badge&logo=React Router&logoColor=white">
 
 
 
@@ -52,4 +52,11 @@
 ![image (1)](https://user-images.githubusercontent.com/109756791/210229900-3719db16-8b51-4714-8eee-890b1d8ac762.png)
 
 <br><br>
+
+*****
+
+### 🧬 테이블정의서 & ERD
+![image (2)](https://user-images.githubusercontent.com/109756791/210234125-2dfe1275-2974-4145-ab9b-13ef46648c98.png)
+
+
 
